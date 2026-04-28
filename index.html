@@ -14,13 +14,14 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #0F172A; color: #F8FAFC; min-height: 100vh; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
-        :root { --primary: #E74C3C; --primary-dark: #C0392B; --gold: #F39C12; --surface: #1E293B; --surface-light: #334155; --text: #F8FAFC; --text-secondary: #94A3B8; --border: #334155; --success: #10B981; --error: #EF4444; --warning: #F59E0B; --info: #3B82F6; --purple: #8B5CF6; }
+        :root { --primary: #E74C3C; --gold: #F39C12; --surface: #1E293B; --surface-light: #334155; --text: #F8FAFC; --text-secondary: #94A3B8; --border: #334155; --success: #10B981; --error: #EF4444; --warning: #F59E0B; --info: #3B82F6; --purple: #8B5CF6; }
+        
         .clickable, .btn, .task-btn, .ad-card, .nav-item, .method-card, .menu-item { cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; user-select: none; transition: all 0.1s ease !important; }
         .clickable:active, .btn:active, .task-btn:active, .ad-card:active, .nav-item:active, .method-card:active { transform: scale(0.97) !important; opacity: 0.9; }
         button:disabled { opacity: 0.5 !important; cursor: not-allowed !important; transform: none !important; pointer-events: none; }
-        
+
         /* Auth */
-        .auth-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%); }
+        .auth-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: linear-gradient(135deg, #0F172A, #1E293B); }
         .auth-container.hidden { display: none; }
         .auth-card { background: var(--surface); border-radius: 24px; padding: 32px 24px; width: 100%; max-width: 420px; border: 1px solid var(--border); box-shadow: 0 25px 50px rgba(0,0,0,0.5); animation: slideUp 0.4s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -37,20 +38,12 @@
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
         .form-input, .form-select, .form-textarea { width: 100%; padding: 14px 16px; background: #0F172A; border: 2px solid var(--border); border-radius: 14px; color: var(--text); font-size: 0.95rem; font-family: 'Inter', sans-serif; transition: all 0.2s; -webkit-appearance: none; }
-        .form-textarea { min-height: 100px; resize: vertical; }
         .form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394A3B8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; appearance: none; }
-        .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(231,76,60,0.15); }
-        .form-input::placeholder { color: #64748B; }
-        .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
-        .radio-option { flex: 1; min-width: 80px; }
-        .radio-option input { display: none; }
-        .radio-option label { display: flex; align-items: center; justify-content: center; padding: 12px; background: #0F172A; border: 2px solid var(--border); border-radius: 12px; cursor: pointer; text-align: center; font-size: 0.85rem; font-weight: 500; transition: all 0.2s; color: var(--text-secondary); }
-        .radio-option input:checked + label { border-color: var(--primary); background: rgba(231,76,60,0.1); color: var(--primary); }
+        .form-input:focus, .form-select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(231,76,60,0.15); }
         .btn { padding: 14px 20px; border-radius: 14px; border: none; font-weight: 600; cursor: pointer; transition: all 0.1s; font-size: 0.9rem; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Inter', sans-serif; min-height: 48px; }
         .btn-primary { background: linear-gradient(135deg, var(--primary), var(--gold)); color: white; box-shadow: 0 4px 15px rgba(231,76,60,0.3); width: 100%; }
         .btn-secondary { background: transparent; color: var(--text); border: 2px solid var(--border); }
         .btn-success { background: var(--success); color: white; }
-        .btn-danger { background: var(--error); color: white; }
         .btn-small { padding: 8px 14px; font-size: 0.75rem; min-height: 36px; }
         .btn-block { width: 100%; }
         .auth-link { text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--text-secondary); }
@@ -59,31 +52,88 @@
         .error-message.show { display: block; }
         .photo-preview { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); margin: 0 auto 16px; display: block; background: #0F172A; }
         .photo-upload-area { border: 2px dashed var(--border); border-radius: 16px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.2s; }
-        .photo-upload-area:hover { border-color: var(--primary); background: rgba(231,76,60,0.05); }
         .photo-upload-area i { font-size: 2.5rem; color: var(--primary); margin-bottom: 12px; }
 
-        /* Verification */
-        .verification-overlay { position: fixed; inset: 0; background: linear-gradient(135deg, rgba(15,23,42,0.97), rgba(30,41,59,0.97)); z-index: 1000; display: flex; align-items: center; justify-content: center; flex-direction: column; backdrop-filter: blur(20px); padding: 20px; }
-        .verification-overlay.hidden { display: none; }
-        .verification-card { background: linear-gradient(145deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95)); border-radius: 28px; padding: 36px 24px; width: 92%; max-width: 400px; text-align: center; border: 1.5px solid rgba(255,255,255,0.08); box-shadow: 0 30px 60px rgba(0,0,0,0.6); max-height: 85vh; overflow-y: auto; }
-        .verif-header-icon { width: 80px; height: 80px; background: linear-gradient(135deg, rgba(231,76,60,0.15), rgba(243,156,18,0.15)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 2px solid rgba(231,76,60,0.3); }
-        .verif-header-icon i { font-size: 2rem; color: var(--primary); }
-        .verif-progress-wrap { margin-bottom: 20px; background: rgba(255,255,255,0.03); border-radius: 20px; padding: 12px 16px; }
-        .verif-progress-bar { height: 5px; background: rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; margin-bottom: 6px; }
-        .verif-progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--gold), var(--success)); border-radius: 10px; transition: width 0.5s; width: 0%; }
-        .verif-progress-text { font-size: 0.7rem; color: var(--text-secondary); font-weight: 500; }
-        .check-list-wrapper { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
-        .check-item { display: flex; align-items: center; gap: 12px; padding: 13px 14px; background: rgba(255,255,255,0.015); border-radius: 14px; font-size: 0.82rem; transition: all 0.35s; border: 1px solid transparent; }
-        .check-item.checking { border-color: rgba(59,130,246,0.25); background: rgba(59,130,246,0.04); }
-        .check-item.passed { border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.05); }
-        .check-item.failed { border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.05); }
-        .check-icon-box { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
-        .check-item.checking .check-icon-box { background: rgba(59,130,246,0.15); color: var(--info); }
-        .check-item.passed .check-icon-box { background: rgba(16,185,129,0.15); color: var(--success); }
-        .check-item.failed .check-icon-box { background: rgba(239,68,68,0.15); color: var(--error); }
+        /* Telegram Verification Overlay */
+        .tg-verification-overlay {
+            position: fixed; inset: 0; background: linear-gradient(135deg, #0F172A, #1E293B);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+            flex-direction: column; padding: 20px;
+        }
+        .tg-verification-overlay.hidden { display: none; }
+        .tg-verify-card {
+            background: var(--surface); border-radius: 28px; padding: 32px 24px;
+            width: 92%; max-width: 380px; text-align: center;
+            border: 1.5px solid rgba(255,255,255,0.08);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .tg-verify-icon {
+            width: 80px; height: 80px; margin: 0 auto 20px;
+            background: linear-gradient(135deg, rgba(56,178,243,0.15), rgba(56,178,243,0.05));
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            border: 2px solid rgba(56,178,243,0.3); animation: tgPulse 2s infinite;
+        }
+        @keyframes tgPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(56,178,243,0.3); } 50% { box-shadow: 0 0 0 15px rgba(56,178,243,0); } }
+        .tg-verify-icon i { font-size: 2rem; color: #38B2F8; }
+        .tg-check-list { display: flex; flex-direction: column; gap: 8px; margin: 20px 0; }
+        .tg-check-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: rgba(255,255,255,0.02); border-radius: 14px; font-size: 0.85rem; border: 1px solid transparent; transition: all 0.3s; }
+        .tg-check-item.checking { border-color: rgba(56,178,243,0.3); background: rgba(56,178,243,0.05); }
+        .tg-check-item.passed { border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.05); }
+        .tg-check-item.failed { border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.05); }
+        .tg-check-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+        .tg-check-item.checking .tg-check-icon { background: rgba(56,178,243,0.15); color: #38B2F8; }
+        .tg-check-item.passed .tg-check-icon { background: rgba(16,185,129,0.15); color: var(--success); }
+        .tg-check-item.failed .tg-check-icon { background: rgba(239,68,68,0.15); color: var(--error); }
+        .tg-check-info { flex: 1; text-align: left; }
+        .tg-check-label { font-weight: 500; }
+        .tg-check-value { font-size: 0.7rem; opacity: 0.7; word-break: break-all; }
+
+        /* Duplicate Device Popup */
+        .duplicate-popup {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            z-index: 10000; display: flex; align-items: center; justify-content: center;
+            padding: 20px; backdrop-filter: blur(10px);
+        }
+        .duplicate-popup.hidden { display: none; }
+        .duplicate-card {
+            background: var(--surface); border-radius: 24px; padding: 24px;
+            width: 92%; max-width: 380px; text-align: center;
+            border: 2px solid var(--warning);
+        }
+        .duplicate-card .warning-icon {
+            font-size: 3rem; color: var(--warning); margin-bottom: 12px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .duplicate-user-info {
+            background: rgba(255,255,255,0.03); border-radius: 16px;
+            padding: 16px; margin: 16px 0; display: flex; align-items: center;
+            gap: 12px; text-align: left;
+        }
+        .duplicate-user-info img { width: 55px; height: 55px; border-radius: 14px; object-fit: cover; border: 2px solid var(--warning); }
+
+        /* Bottom Navigation Bar - Telegram Only */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--surface); border-top: 1px solid var(--border);
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 8px 4px; z-index: 500; height: 64px;
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+        }
+        .bottom-nav.hidden { display: none; }
+        .bottom-nav-item {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; gap: 4px; cursor: pointer;
+            padding: 6px 4px; border-radius: 12px; transition: all 0.2s;
+            min-width: 56px; color: var(--text-secondary); font-size: 0.65rem;
+        }
+        .bottom-nav-item i { font-size: 1.2rem; transition: all 0.2s; }
+        .bottom-nav-item.active { color: var(--primary); }
+        .bottom-nav-item.active i { color: var(--primary); }
+        .bottom-nav-item:active { transform: scale(0.92); opacity: 0.8; }
 
         /* Dashboard */
-        .dashboard-container { display: none; min-height: 100vh; background: #0F172A; }
+        .dashboard-container { display: none; min-height: 100vh; background: #0F172A; padding-bottom: 80px; }
         .dashboard-container.show { display: block; }
         .top-bar { position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, var(--primary), var(--gold)); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 20px rgba(0,0,0,0.3); color: white; }
         .top-bar .user-info { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
@@ -91,21 +141,8 @@
         .top-bar .user-details { min-width: 0; }
         .top-bar .user-name { font-weight: 700; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .top-bar .user-username { font-size: 0.7rem; opacity: 0.85; }
-        .top-balance { background: rgba(255,255,255,0.2); border-radius: 30px; padding: 6px 14px; font-weight: 700; font-size: 0.85rem; white-space: nowrap; display: flex; align-items: center; gap: 4px; margin-right: 8px; }
-        .menu-toggle { width: 44px; height: 44px; background: rgba(255,255,255,0.2); border: none; border-radius: 14px; color: white; font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; flex-shrink: 0; }
-        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: none; backdrop-filter: blur(2px); }
-        .sidebar-overlay.show { display: block; }
-        .sidebar { position: fixed; top: 0; left: 0; width: 80%; max-width: 300px; height: 100vh; background: var(--surface); z-index: 300; transform: translateX(-100%); transition: transform 0.3s; padding: 20px; border-right: 1px solid var(--border); overflow-y: auto; }
-        .sidebar.show { transform: translateX(0); }
-        .sidebar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-        .sidebar-header h2 { font-size: 1.3rem; background: linear-gradient(135deg, var(--primary), var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .sidebar-close { width: 40px; height: 40px; background: rgba(255,255,255,0.05); border: none; border-radius: 12px; color: var(--text); font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .nav-menu { list-style: none; }
-        .nav-menu li { padding: 14px 16px; margin-bottom: 4px; border-radius: 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 14px; font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); }
-        .nav-menu li.active { background: rgba(231,76,60,0.1); color: var(--primary); font-weight: 600; }
-        .nav-menu li i { width: 22px; text-align: center; }
-        .nav-menu li.logout-item { color: var(--error); margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px; }
-        .main-content { padding: 16px 12px; padding-bottom: 40px; }
+        .top-balance { background: rgba(255,255,255,0.2); border-radius: 30px; padding: 6px 14px; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 4px; }
+        .main-content { padding: 16px 12px; padding-bottom: 20px; }
         .page { display: none; animation: fadeIn 0.2s ease; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -171,7 +208,7 @@
         .leaderboard-list-info { flex: 1; }
         .leaderboard-list-name { font-weight: 600; font-size: 0.9rem; }
         .leaderboard-list-score { font-weight: 700; color: var(--primary); }
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 500; display: none; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px); }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 600; display: none; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px); }
         .modal-overlay.show { display: flex; }
         .modal-content { background: var(--surface); border-radius: 24px; width: 100%; max-width: 420px; max-height: 85vh; overflow-y: auto; padding: 20px; border: 1px solid var(--border); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 2px solid var(--border); }
@@ -188,13 +225,12 @@
         .settings-menu-item { display: flex; align-items: center; gap: 14px; padding: 16px; background: var(--surface); border-radius: 14px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; border: 1px solid var(--border); }
         .settings-menu-item:active { transform: scale(0.98); opacity: 0.8; }
         .settings-icon { width: 44px; height: 44px; background: rgba(231,76,60,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary); flex-shrink: 0; }
-        .settings-info { flex: 1; min-width: 0; }
+        .settings-info { flex: 1; }
         .settings-title { font-weight: 600; font-size: 0.9rem; color: var(--text); }
         .settings-desc { font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px; }
         .settings-arrow { color: var(--text-secondary); font-size: 0.9rem; }
         .settings-back-btn { display: flex; align-items: center; gap: 8px; padding: 10px 0; margin-bottom: 16px; cursor: pointer; color: var(--primary); font-weight: 600; font-size: 0.9rem; }
         .referral-card { background: linear-gradient(135deg, #6a11cb, #2575fc); border-radius: 24px; padding: 24px 20px; color: white; margin-bottom: 20px; }
-        .referral-card h3 { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
         .referral-code-box { background: rgba(255,255,255,0.15); border-radius: 16px; padding: 14px; display: flex; align-items: center; gap: 10px; margin-top: 12px; }
         .referral-code-box input { flex: 1; background: none; border: none; color: white; font-size: 0.9rem; font-family: monospace; outline: none; }
         .referral-code-box button { background: white; color: #2575fc; border: none; border-radius: 12px; padding: 10px 16px; font-weight: 700; cursor: pointer; font-size: 0.8rem; }
@@ -205,12 +241,13 @@
         .enter-referral-card { background: var(--surface); border-radius: 16px; padding: 16px; border: 1px dashed var(--border); margin-bottom: 16px; text-align: center; }
         .ref-input-group { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
         .ref-input-group input { width: 100%; padding: 18px 16px; font-size: 1rem; }
+        .tg-badge { background: rgba(56,178,243,0.15); color: #38B2F8; padding: 4px 10px; border-radius: 12px; font-size: 0.7rem; display: inline-block; }
     </style>
 </head>
 <body>
 
 <!-- WEB MODE LOGIN -->
-<div id="login-screen" class="auth-container">
+<div id="login-screen" class="auth-container hidden">
     <div class="auth-card">
         <div class="auth-logo"><div class="logo-icon"><i class="fas fa-crown"></i></div><h1>Earnify</h1><p>Earn Coins Online</p></div>
         <div id="login-error" class="error-message"></div>
@@ -222,53 +259,31 @@
 </div>
 
 <!-- WEB MODE REGISTER -->
-<div id="register-screen" class="auth-container hidden">
-    <div class="auth-card">
-        <div class="auth-logo"><div class="logo-icon"><i class="fas fa-user-plus"></i></div><h1>Create Account</h1><p>Set up your account credentials</p></div>
-        <div class="step-indicator" id="step-indicator"><div class="step-dot active" data-step="1"></div><div class="step-dot" data-step="2"></div><div class="step-dot" data-step="3"></div><div class="step-dot" data-step="4"></div></div>
-        <div id="reg-error" class="error-message"></div>
-        <div id="reg-step-1">
-            <div class="step-title">Basic Identity</div><div class="step-subtitle">Please provide your information</div>
-            <div class="form-group"><label>Full Name</label><input type="text" id="reg-fullname" class="form-input" placeholder="Ralph Edwards"></div>
-            <div class="form-group"><label>Username</label><input type="text" id="reg-username" class="form-input" placeholder="Choose a username"></div>
-            <div class="form-group"><label>Date of Birth</label><input type="date" id="reg-dob" class="form-input"></div>
-            <div class="form-group"><label>Gender</label><div class="radio-group"><div class="radio-option"><input type="radio" name="gender" id="gender-male" value="Male"><label for="gender-male">Male</label></div><div class="radio-option"><input type="radio" name="gender" id="gender-female" value="Female"><label for="gender-female">Female</label></div><div class="radio-option"><input type="radio" name="gender" id="gender-other" value="Other"><label for="gender-other">Other</label></div></div></div>
-            <div class="form-group"><label>Employment Status</label><select id="reg-employment" class="form-select"><option value="">Select</option><option>Student</option><option>Employed</option><option>Self-Employed</option><option>Freelancer</option><option>Unemployed</option><option>Other</option></select></div>
-            <button class="btn btn-primary" onclick="window.nextRegStep(2)">Next</button>
-        </div>
-        <div id="reg-step-2" class="hidden">
-            <div class="step-title">Contact</div><div class="step-subtitle">Contact details</div>
-            <div class="form-group"><label>Email</label><input type="email" id="reg-email" class="form-input" placeholder="Email"></div>
-            <div class="form-group"><label>Phone</label><input type="tel" id="reg-phone" class="form-input" placeholder="Phone"></div>
-            <div class="form-group"><label>Referral Code (Optional)</label><input type="text" id="reg-referral" class="form-input" placeholder="Code"></div>
-            <div style="display:flex;gap:10px;"><button class="btn btn-secondary" onclick="window.nextRegStep(1)" style="flex:1;">Back</button><button class="btn btn-primary" onclick="window.nextRegStep(3)" style="flex:1;">Next</button></div>
-        </div>
-        <div id="reg-step-3" class="hidden">
-            <div class="step-title">Security</div><div class="step-subtitle">Create password</div>
-            <div class="form-group"><label>Password</label><input type="password" id="reg-password" class="form-input" placeholder="Password"><small style="color:var(--text-secondary);font-size:0.7rem;">Min 8 chars, A-Z, a-z, 0-9, special</small></div>
-            <div class="form-group"><label>Confirm</label><input type="password" id="reg-confirm-password" class="form-input" placeholder="Confirm"></div>
-            <div style="display:flex;gap:10px;"><button class="btn btn-secondary" onclick="window.nextRegStep(2)" style="flex:1;">Back</button><button class="btn btn-primary" onclick="window.nextRegStep(4)" style="flex:1;">Next</button></div>
-        </div>
-        <div id="reg-step-4" class="hidden">
-            <div class="step-title">Photo</div><div class="step-subtitle">Upload photo</div>
-            <img id="reg-photo-preview" class="photo-preview" src="https://via.placeholder.com/120">
-            <div class="photo-upload-area" onclick="document.getElementById('reg-photo-input').click()"><i class="fas fa-camera"></i><p>Tap to select</p></div>
-            <input type="file" id="reg-photo-input" accept="image/*" style="display:none;" onchange="window.handlePhotoSelect(event)">
-            <div style="display:flex;gap:10px;margin-top:20px;"><button class="btn btn-secondary" onclick="window.nextRegStep(3)" style="flex:1;">Back</button><button class="btn btn-primary" onclick="window.startVerification()" style="flex:1;" id="reg-submit-btn">Create Account</button></div>
-        </div>
-        <p class="auth-link">Already have an account? <a href="#" onclick="window.showLogin()">Login</a></p>
+<div id="register-screen" class="auth-container hidden"></div>
+
+<!-- WEB VERIFICATION -->
+<div id="verification-overlay" class="tg-verification-overlay hidden"></div>
+
+<!-- TELEGRAM VERIFICATION OVERLAY -->
+<div id="tg-verify-overlay" class="tg-verification-overlay hidden">
+    <div class="tg-verify-card">
+        <div class="tg-verify-icon"><i class="fab fa-telegram-plane"></i></div>
+        <h3 style="margin-bottom:4px;">Telegram Verification</h3>
+        <p style="color:var(--text-secondary);font-size:0.8rem;margin-bottom:8px;">Verifying your identity...</p>
+        <div class="tg-check-list" id="tg-check-list"></div>
+        <div id="tg-verify-result"></div>
     </div>
 </div>
 
-<!-- VERIFICATION -->
-<div id="verification-overlay" class="verification-overlay hidden">
-    <div class="verification-card">
-        <div class="verif-header-icon"><i class="fas fa-shield-halved"></i></div>
-        <h3>Verifying Your Account</h3>
-        <p class="subtitle" style="color:var(--text-secondary);">Please wait</p>
-        <div class="verif-progress-wrap"><div class="verif-progress-bar"><div class="verif-progress-fill" id="verif-progress-fill"></div></div><div class="verif-progress-text" id="verif-progress-text">0/8 checks</div></div>
-        <div class="check-list-wrapper" id="check-list"></div>
-        <div id="verification-result"></div>
+<!-- DUPLICATE DEVICE POPUP -->
+<div id="duplicate-popup" class="duplicate-popup hidden">
+    <div class="duplicate-card">
+        <div class="warning-icon"><i class="fas fa-exclamation-triangle"></i></div>
+        <h3 style="color:var(--warning);margin-bottom:8px;">⚠️ Multiple Account Detected!</h3>
+        <p style="color:var(--text-secondary);font-size:0.85rem;">This device already has a registered account. Please use that account instead.</p>
+        <div class="duplicate-user-info" id="duplicate-user-info"></div>
+        <p style="font-size:0.8rem;color:var(--text-secondary);margin:12px 0;">Please login with the above account.</p>
+        <button class="btn btn-primary" onclick="window.closeDuplicatePopup()" style="margin-top:8px;">Understood</button>
     </div>
 </div>
 
@@ -277,22 +292,17 @@
     <div class="top-bar">
         <div class="user-info"><img id="dash-avatar" class="user-avatar" src="https://via.placeholder.com/44"><div class="user-details"><div class="user-name" id="dash-name">User</div><div class="user-username">@<span id="dash-username">username</span></div></div></div>
         <div class="top-balance"><i class="fas fa-coins"></i> <span id="top-balance-amount">0</span></div>
-        <button class="menu-toggle" onclick="window.toggleSidebar()"><i class="fas fa-bars"></i></button>
-    </div>
-    <div class="sidebar-overlay" id="sidebar-overlay" onclick="window.toggleSidebar()"></div>
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header"><h2><i class="fas fa-crown"></i> Earnify</h2><button class="sidebar-close" onclick="window.toggleSidebar()"><i class="fas fa-times"></i></button></div>
-        <ul class="nav-menu" id="nav-menu">
-            <li class="active" data-page="home"><i class="fas fa-home"></i> Home</li>
-            <li data-page="settings"><i class="fas fa-cog"></i> Settings</li>
-            <li data-page="register-task"><i class="fas fa-clipboard-list"></i> Register Tasks</li>
-            <li data-page="web"><i class="fas fa-globe"></i> Web Tasks</li>
-            <li data-page="rank"><i class="fas fa-trophy"></i> Leaderboard</li>
-            <li data-page="support"><i class="fas fa-headset"></i> Support</li>
-            <li class="logout-item" onclick="window.logout()"><i class="fas fa-sign-out-alt"></i> Logout</li>
-        </ul>
     </div>
     <div class="main-content" id="main-content"><div class="page active"><div class="spinner"></div><p class="text-center">Loading...</p></div></div>
+</div>
+
+<!-- BOTTOM NAVIGATION (TELEGRAM ONLY) -->
+<div id="bottom-nav" class="bottom-nav hidden">
+    <div class="bottom-nav-item active" data-page="web"><i class="fas fa-globe"></i><span>Web Tasks</span></div>
+    <div class="bottom-nav-item" data-page="register-task"><i class="fas fa-clipboard-list"></i><span>Register</span></div>
+    <div class="bottom-nav-item" data-page="home"><i class="fas fa-home"></i><span>Home</span></div>
+    <div class="bottom-nav-item" data-page="rank"><i class="fas fa-trophy"></i><span>Leaderboard</span></div>
+    <div class="bottom-nav-item" data-page="settings"><i class="fas fa-cog"></i><span>Settings</span></div>
 </div>
 
 <!-- MODALS -->
@@ -310,6 +320,11 @@ const db = firebase.database();
 // ==================== PLATFORM DETECTION ====================
 let platformMode = 'web';
 let telegramUser = null;
+let currentUser = null;
+let appConfig = {};
+let adLocks = { monetag: false, gigapub: false, adsgram: false, adexium: false };
+let settingsTempPhoto = null;
+let pendingReferralCode = null;
 
 function detectPlatform() {
     if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) {
@@ -323,20 +338,11 @@ function detectPlatform() {
     }
 }
 
-// ==================== GLOBAL STATE ====================
-let currentUser = null, appConfig = {};
-let regData = { fullName: '', username: '', dob: '', gender: '', employment: '', email: '', phone: '', referralCode: '', password: '', photoUrl: '' };
-let currentRegStep = 1;
-let adLocks = { monetag: false, gigapub: false, adsgram: false, adexium: false };
-let settingsTempPhoto = null, pendingReferralCode = null;
-
 // ==================== HELPERS ====================
 function $(id) { return document.getElementById(id); }
 function escapeHtml(s) { return String(s||'').replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]); }
 function formatNumber(num) { return Number(num || 0).toLocaleString(); }
-function formatDate(ts) { return ts ? new Date(ts).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}) : 'N/A'; }
 function formatDateTime(ts) { return ts ? new Date(ts).toLocaleString('en-US', {month:'short', day:'numeric', year:'numeric', hour:'2-digit', minute:'2-digit'}) : 'N/A'; }
-function showError(id, msg) { const el = $(id); if(!el)return; el.textContent=msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),5000); }
 window.showPopup = (t, m, i='fa-check-circle', c='var(--success)') => { $('popup-title').innerText=t; $('popup-message').innerText=m; const ic=$('popup-icon'); if(ic){ic.className=`fas ${i}`;ic.style.color=c;} $('popup-modal').classList.add('show'); };
 window.hidePopup = () => { $('popup-modal').classList.remove('show'); };
 
@@ -345,146 +351,617 @@ window.hidePopup = () => { $('popup-modal').classList.remove('show'); };
 
 // ==================== PLATFORM INIT ====================
 detectPlatform();
+
 if (platformMode === 'telegram' && telegramUser && telegramUser.id) {
-    autoLoginTelegram();
+    // টেলিগ্রাম মোড: ভেরিফিকেশন দেখান
+    $('tg-verify-overlay').classList.remove('hidden');
+    startTelegramVerification();
 } else {
+    // ওয়েব মোড
+    platformMode = 'web';
     $('login-screen').classList.remove('hidden');
 }
 
+// ==================== TELEGRAM VERIFICATION ====================
+async function startTelegramVerification() {
+    const tgId = telegramUser.id;
+    const checks = [
+        { id: 'tg_id', label: 'Checking ID Name', value: `@${telegramUser.username || tgId}`, fn: async () => !!telegramUser.id },
+        { id: 'username', label: 'Checking Username', value: telegramUser.username || 'N/A', fn: async () => true },
+        { id: 'user_id', label: 'Checking User ID', value: tgId, fn: async () => true },
+        { id: 'device', label: 'Checking Device', value: getDeviceFingerprint(), fn: async () => {
+            // Check device fingerprint
+            const fp = getDeviceFingerprint();
+            const snap = await db.ref('deviceFingerprints').orderByChild('fingerprint').equalTo(fp).once('value');
+            const data = snap.val();
+            if (data) {
+                const existingUid = Object.keys(data)[0];
+                if (existingUid !== tgId) {
+                    // ডুপ্লিকেট ডিভাইস!
+                    const userSnap = await db.ref(`users/${existingUid}`).once('value');
+                    const webSnap = await db.ref(`webUsers/${existingUid}`).once('value');
+                    const existingUser = userSnap.val() || webSnap.val();
+                    if (existingUser) {
+                        showDuplicateDevicePopup(existingUser, existingUid);
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }}
+    ];
+
+    let checkHtml = '';
+    checks.forEach(c => {
+        checkHtml += `<div class="tg-check-item pending" id="tgc-${c.id}">
+            <div class="tg-check-icon"><i class="fas fa-circle"></i></div>
+            <div class="tg-check-info"><div class="tg-check-label">${c.label}</div><div class="tg-check-value">${c.value}</div></div>
+        </div>`;
+    });
+    $('tg-check-list').innerHTML = checkHtml;
+    $('tg-verify-result').innerHTML = '';
+
+    let allPassed = true;
+
+    for (const c of checks) {
+        const item = document.getElementById(`tgc-${c.id}`);
+        item.className = 'tg-check-item checking';
+        item.querySelector('.tg-check-icon').innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        await new Promise(r => setTimeout(r, 800));
+
+        try {
+            const result = await c.fn();
+            if (result === true) {
+                item.className = 'tg-check-item passed';
+                item.querySelector('.tg-check-icon').innerHTML = '<i class="fas fa-check"></i>';
+            } else {
+                item.className = 'tg-check-item failed';
+                item.querySelector('.tg-check-icon').innerHTML = '<i class="fas fa-times"></i>';
+                allPassed = false;
+                break; // স্টপ চেকিং
+            }
+        } catch (e) {
+            item.className = 'tg-check-item failed';
+            allPassed = false;
+            break;
+        }
+    }
+
+    if (allPassed) {
+        $('tg-verify-result').innerHTML = '<div style="color:var(--success);font-weight:700;margin-top:12px;">✅ Verified! Entering...</div>';
+        // ডিভাইস ফিঙ্গারপ্রিন্ট সেভ
+        const fp = getDeviceFingerprint();
+        await db.ref(`deviceFingerprints/${tgId}`).set({ fingerprint: fp, updatedAt: Date.now() });
+        $('tg-verify-overlay').classList.add('hidden');
+        await autoLoginTelegram();
+    }
+}
+
+function getDeviceFingerprint() {
+    const nav = navigator;
+    return btoa(`${nav.userAgent}|${nav.language}|${screen.width}x${screen.height}|${nav.hardwareConcurrency||''}`).substring(0, 50);
+}
+
+function showDuplicateDevicePopup(existingUser, existingUid) {
+    const dupInfo = $('duplicate-user-info');
+    dupInfo.innerHTML = `
+        <img src="${existingUser.photoUrl || 'https://via.placeholder.com/55'}" onerror="this.src='https://via.placeholder.com/55'">
+        <div>
+            <h4 style="color:var(--text);">${escapeHtml(existingUser.fullName || existingUser.firstName || 'User')}</h4>
+            <p style="font-size:0.75rem;opacity:0.7;">@${escapeHtml(existingUser.username || 'N/A')}</p>
+            <p style="font-size:0.65rem;opacity:0.5;font-family:monospace;">ID: ${existingUid}</p>
+        </div>
+    `;
+    $('duplicate-popup').classList.remove('hidden');
+    $('tg-verify-overlay').classList.add('hidden');
+}
+
+window.closeDuplicatePopup = () => {
+    $('duplicate-popup').classList.add('hidden');
+    if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.close();
+    }
+};
+
 // ==================== TELEGRAM AUTO LOGIN ====================
 async function autoLoginTelegram() {
-    if (!telegramUser || !telegramUser.id) { platformMode = 'web'; $('login-screen').classList.remove('hidden'); return; }
+    if (!telegramUser || !telegramUser.id) return;
     const tgId = telegramUser.id;
+
     try {
         let snap = await db.ref(`users/${tgId}`).once('value');
         let userData = snap.val();
+
         if (!userData) {
             const webSnap = await db.ref(`webUsers/${tgId}`).once('value');
             userData = webSnap.val();
         }
+
         if (userData) {
-            if (userData.blocked) { window.showPopup('Blocked','Account blocked.','fa-ban','var(--error)'); return; }
+            if (userData.blocked) { window.showPopup('Blocked', 'Account blocked.', 'fa-ban', 'var(--error)'); return; }
             currentUser = { ...userData, uid: tgId };
-            localStorage.setItem('earnify_web_user', JSON.stringify({ uid: tgId, username: userData.username }));
         } else {
-            const refCode = 'EARN' + String(Math.floor(Math.random() * 10000)).padStart(4, '0') + Math.random().toString(36).substring(2, 5).toUpperCase();
-            const newUser = { uid: tgId, fullName: `${telegramUser.firstName} ${telegramUser.lastName}`.trim(), firstName: telegramUser.firstName, lastName: telegramUser.lastName, username: telegramUser.username || `tg_${tgId}`, photoUrl: telegramUser.photoUrl || '', email: '', phone: '', dob: '', gender: '', employment: '', password: '', referralCode: refCode, referredBy: null, balance: 0, earningWallet: 0, totalEarned: 0, referrals: 0, totalWithdrawn: 0, lifetimeAdCount: 0, dailyAdCount: 0, monetagAdCount: 0, gigapubAdCount: 0, adsgramAdCount: 0, adexiumAdCount: 0, lastAdWatchDate: new Date().toISOString().slice(0, 10), lastCheckInDate: '', checkInStreak: 0, blocked: false, withdrawPassword: '', referralBoxRewards: {}, registrationType: 'telegram', createdAt: firebase.database.ServerValue.TIMESTAMP };
+            const refCode = 'TG' + String(Math.floor(Math.random() * 100000)).padStart(5, '0') + Math.random().toString(36).substring(2, 4).toUpperCase();
+            const newUser = {
+                uid: tgId, fullName: `${telegramUser.firstName} ${telegramUser.lastName}`.trim(),
+                firstName: telegramUser.firstName, lastName: telegramUser.lastName,
+                username: telegramUser.username || `tg${tgId}`, photoUrl: telegramUser.photoUrl || '',
+                email: '', phone: '', referralCode: refCode, referredBy: null,
+                balance: 0, earningWallet: 0, totalEarned: 0, referrals: 0,
+                lifetimeAdCount: 0, dailyAdCount: 0, lastAdWatchDate: new Date().toISOString().slice(0, 10),
+                lastCheckInDate: '', checkInStreak: 0, blocked: false, withdrawPassword: '',
+                referralBoxRewards: {}, registrationType: 'telegram',
+                createdAt: firebase.database.ServerValue.TIMESTAMP
+            };
             await db.ref(`users/${tgId}`).set(newUser);
             currentUser = { ...newUser, uid: tgId };
-            localStorage.setItem('earnify_web_user', JSON.stringify({ uid: tgId, username: newUser.username }));
         }
-        $('login-screen').classList.add('hidden'); $('register-screen').classList.add('hidden'); $('dashboard-screen').classList.add('show');
-        await loadAppConfig(); await loadDashboard();
+
+        localStorage.setItem('earnify_web_user', JSON.stringify({ uid: tgId, username: currentUser.username }));
+        $('login-screen').classList.add('hidden');
+        $('register-screen').classList.add('hidden');
+        $('dashboard-screen').classList.add('show');
+        $('bottom-nav').classList.remove('hidden'); // বটম নেভ দেখান
+
+        await loadAppConfig();
+        await loadDashboard();
         window.showPopup('Welcome!', `Hello ${currentUser.fullName || 'User'}!`);
-    } catch (e) { platformMode = 'web'; $('login-screen').classList.remove('hidden'); }
+    } catch (e) {
+        console.error('Telegram auto-login error:', e);
+    }
 }
-
-// ==================== AUTH (WEB) ====================
-window.showRegister = () => { $('login-screen').classList.add('hidden'); $('register-screen').classList.remove('hidden'); currentRegStep=1; showRegStep(1); };
-window.showLogin = () => { $('register-screen').classList.add('hidden'); $('login-screen').classList.remove('hidden'); $('login-password').value=''; };
-window.handleLogin = async () => {
-    const identifier = ($('login-identifier')?.value || '').trim(), password = $('login-password')?.value || '';
-    if (!identifier || !password) { showError('login-error','⚠️ Fill all fields'); return; }
-    const btn = document.querySelector('#login-screen .btn-primary'); if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...'; }
-    try {
-        const snap = await db.ref('webUsers').once('value'), users = snap.val() || {}; let found = null, uid = null, err = '';
-        const identLower = identifier.toLowerCase();
-        for (let k in users) { const u = users[k]; if ((u.username||'').toLowerCase()===identLower || (u.email||'').toLowerCase()===identLower) { if (!u.password) { err='❌ Telegram account. Use Telegram.'; } else if ((u.password||'')===password) { found=u; uid=k; break; } else err='❌ Wrong password!'; } }
-        if (!found) { showError('login-error',err||'❌ Account not found!'); if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-sign-in-alt"></i> LOGIN';} return; }
-        if (found.blocked) { showError('login-error','⛔ Blocked!'); if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-sign-in-alt"></i> LOGIN';} return; }
-        currentUser = { ...found, uid }; localStorage.setItem('earnify_web_user', JSON.stringify({ uid, username: found.username }));
-        $('login-screen').classList.add('hidden'); $('dashboard-screen').classList.add('show'); await loadAppConfig(); await loadDashboard();
-        window.showPopup('✅ Welcome!','Login successful!');
-    } catch (e) { showError('login-error','⚠️ Failed!'); if(btn){btn.disabled=false;btn.innerHTML='<i class="fas fa-sign-in-alt"></i> LOGIN';} }
-};
-
-// ==================== REGISTRATION ====================
-window.nextRegStep = (step) => { if (step > currentRegStep && !validateRegStep(currentRegStep)) return; currentRegStep = step; showRegStep(step); };
-function validateRegStep(step) { switch(step) { case 1: const fn=$('reg-fullname')?.value.trim(),un=$('reg-username')?.value.trim(),dob=$('reg-dob')?.value,g=document.querySelector('input[name="gender"]:checked')?.value,e=$('reg-employment')?.value; if(!fn||!un||!dob||!g||!e){showError('reg-error','All fields required');return false;} regData.fullName=fn;regData.username=un;regData.dob=dob;regData.gender=g;regData.employment=e;return true; case 2: const em=$('reg-email')?.value.trim(),ph=$('reg-phone')?.value.trim(); if(!em||!ph){showError('reg-error','Email and phone required');return false;} regData.email=em;regData.phone=ph;regData.referralCode=$('reg-referral')?.value.trim()||'';return true; case 3: const pw=$('reg-password')?.value,cpw=$('reg-confirm-password')?.value; if(!pw||pw.length<8){showError('reg-error','Min 8 chars');return false;} if(pw!==cpw){showError('reg-error','Mismatch');return false;} if(!/[A-Z]/.test(pw)||!/[a-z]/.test(pw)||!/[0-9]/.test(pw)||!/[!@#$%^&*]/.test(pw)){showError('reg-error','Missing char types');return false;} regData.password=pw;return true; case 4: return true; } return true; }
-function showRegStep(step) { for(let i=1;i<=4;i++){const el=$(`reg-step-${i}`);if(el)el.classList.add('hidden');} const cur=$(`reg-step-${step}`);if(cur)cur.classList.remove('hidden'); document.querySelectorAll('#step-indicator .step-dot').forEach((d,i)=>{d.classList.remove('active','completed');if(i+1<step)d.classList.add('completed');if(i+1===step)d.classList.add('active');}); $('reg-error').classList.remove('show'); if (step === 2 && pendingReferralCode) { const ri=$('reg-referral'); if(ri&&!ri.value) ri.value=pendingReferralCode; } }
-window.handlePhotoSelect = (e) => { const f=e.target.files[0];if(!f)return;if(f.size>1*1024*1024){window.showPopup('⚠️ Too large','Max 1MB');e.target.value='';return;} const r=new FileReader();r.onload=function(ev){const img=new Image();img.onload=function(){const c=document.createElement('canvas');const mx=200;let w=img.width,h=img.height;if(w>h){if(w>mx){h=(h*mx)/w;w=mx;}}else{if(h>mx){w=(w*mx)/h;h=mx;}}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);const comp=c.toDataURL('image/jpeg',0.5);$('reg-photo-preview').src=comp;regData.photoUrl=comp;};img.src=ev.target.result;};r.readAsDataURL(f); };
-
-// ==================== VERIFICATION ====================
-window.startVerification = async () => { if(!validateRegStep(currentRegStep))return;$('verification-overlay').classList.remove('hidden');$('reg-submit-btn').disabled=true;$('verif-progress-fill').style.width='0%';$('verif-progress-text').textContent='0/8 checks';$('verification-result').innerHTML='';const checks=[{id:'username',label:'Username',fn:async()=>{const s1=await db.ref('webUsers').orderByChild('username').equalTo(regData.username).once('value');const s2=await db.ref('users').orderByChild('username').equalTo(regData.username).once('value');return(s1.val()||s2.val())?false:true;}},{id:'email',label:'Email',fn:async()=>{const s=await db.ref('webUsers').orderByChild('email').equalTo(regData.email).once('value');return s.val()?false:true;}},{id:'phone',label:'Phone',fn:async()=>{const s=await db.ref('webUsers').orderByChild('phone').equalTo(regData.phone).once('value');return s.val()?false:true;}},{id:'gender',label:'Gender',fn:()=>!!regData.gender},{id:'employment',label:'Employment',fn:()=>!!regData.employment},{id:'name',label:'Name',fn:()=>!!regData.fullName},{id:'password',label:'Password',fn:()=>regData.password&&regData.password.length>=8},{id:'photo',label:'Photo',fn:()=>!!regData.photoUrl}];let h='';checks.forEach(c=>{h+=`<div class="check-item pending" id="check-${c.id}"><div class="check-icon-box"><i class="fas fa-circle"></i></div>${c.label}</div>`;});$('check-list').innerHTML=h;let all=true,comp=0;for(const c of checks){const item=document.getElementById(`check-${c.id}`);item.className='check-item checking';item.querySelector('.check-icon-box').innerHTML='<i class="fas fa-spinner fa-spin"></i>';await new Promise(r=>setTimeout(r,300));try{const res=await c.fn();if(res===true){item.className='check-item passed';item.querySelector('.check-icon-box').innerHTML='<i class="fas fa-check"></i>';}else{item.className='check-item failed';all=false;}}catch(e){item.className='check-item failed';all=false;}comp++;$('verif-progress-fill').style.width=`${Math.round((comp/checks.length)*100)}%`;$('verif-progress-text').textContent=`${comp}/8 checks`;}if(all){$('verification-result').innerHTML='<div style="color:var(--success);font-weight:700;">✅ All Passed!</div>';await new Promise(r=>setTimeout(r,500));await completeRegistration();}else{$('verification-result').innerHTML='<div style="color:var(--error);">⚠️ Failed</div><button class="btn btn-primary btn-small" onclick="window.retryVerification()" style="margin-top:8px;">Retry</button>';}$('reg-submit-btn').disabled=false;};
-window.retryVerification = () => { $('verification-overlay').classList.add('hidden'); showRegStep(4); };
-async function completeRegistration() { try { let referredBy=null;if(regData.referralCode){const[rs1,rs2]=await Promise.all([db.ref('webUsers').orderByChild('referralCode').equalTo(regData.referralCode).once('value'),db.ref('users').orderByChild('referralCode').equalTo(regData.referralCode).once('value')]);let rd=rs1.val(),ri=rd?Object.keys(rd)[0]:null;if(!ri){rd=rs2.val();ri=rd?Object.keys(rd)[0]:null;}if(ri){referredBy=ri;const bonus=appConfig.referralBonus||100;const rn=rs1.val()?'webUsers':'users';await db.ref(`${rn}/${ri}/earningWallet`).transaction(v=>(v||0)+bonus);await db.ref(`${rn}/${ri}/referrals`).transaction(v=>(v||0)+1);}}const ref=db.ref('webUsers').push();const uid=ref.key;const data={uid,fullName:regData.fullName,username:regData.username,dob:regData.dob,gender:regData.gender,employment:regData.employment,email:regData.email,phone:regData.phone,password:regData.password,photoUrl:regData.photoUrl,referralCode:'EARN'+String(Math.floor(Math.random()*10000)).padStart(4,'0')+Math.random().toString(36).substring(2,5).toUpperCase(),referredBy,balance:0,earningWallet:0,totalEarned:0,referrals:0,totalWithdrawn:0,lifetimeAdCount:0,dailyAdCount:0,monetagAdCount:0,gigapubAdCount:0,adsgramAdCount:0,adexiumAdCount:0,lastAdWatchDate:new Date().toISOString().slice(0,10),lastCheckInDate:'',checkInStreak:0,blocked:false,withdrawPassword:'',referralBoxRewards:{},registrationType:'web',createdAt:firebase.database.ServerValue.TIMESTAMP};await ref.set(data);currentUser={...data,uid};localStorage.setItem('earnify_web_user',JSON.stringify({uid,username:regData.username}));regData={fullName:'',username:'',dob:'',gender:'',employment:'',email:'',phone:'',referralCode:'',password:'',photoUrl:''};$('verification-overlay').classList.add('hidden');$('register-screen').classList.add('hidden');$('dashboard-screen').classList.add('show');await loadAppConfig();await loadDashboard();window.showPopup('🎉 Welcome!','Account created!');}catch(e){console.error(e);$('verification-overlay').classList.add('hidden');showRegStep(4);} }
 
 // ==================== DASHBOARD ====================
 async function loadAppConfig() { const snap = await db.ref('config').once('value'); appConfig = snap.val() || {}; }
-async function loadDashboard() { const userNode = platformMode === 'telegram' ? 'users' : 'webUsers'; const userSnap = await db.ref(`${userNode}/${currentUser.uid}`).once('value'); currentUser = { ...userSnap.val(), uid: currentUser.uid }; if(!currentUser.referralBoxRewards)currentUser.referralBoxRewards={};if(currentUser.totalWithdrawn===undefined)currentUser.totalWithdrawn=0;$('dash-avatar').src=currentUser.photoUrl||'https://via.placeholder.com/44';$('dash-name').textContent=currentUser.fullName||currentUser.firstName||'User';$('dash-username').textContent=currentUser.username||'username';$('top-balance-amount').textContent=formatNumber(currentUser.balance||0);const today=new Date().toISOString().slice(0,10);if(currentUser.lastAdWatchDate!==today){await db.ref(`${userNode}/${currentUser.uid}`).update({dailyAdCount:0,monetagAdCount:0,gigapubAdCount:0,adsgramAdCount:0,adexiumAdCount:0,lastAdWatchDate:today});currentUser.dailyAdCount=0;currentUser.monetagAdCount=0;currentUser.gigapubAdCount=0;currentUser.adsgramAdCount=0;currentUser.adexiumAdCount=0;}setupNav();renderHomePage();}
-function setupNav() { document.querySelectorAll('#nav-menu li[data-page]').forEach(li => { li.addEventListener('click', function() { const p=this.dataset.page; document.querySelectorAll('#nav-menu li').forEach(l=>l.classList.remove('active')); this.classList.add('active'); closeSidebar(); switch(p){ case 'home': renderHomePage(); break; case 'settings': renderSettingsMain(); break; case 'web': renderWebTasks(); break; case 'register-task': renderRegistrationTasks(); break; case 'rank': renderLeaderboard(); break; case 'support': window.open(appConfig.supportLink||'https://t.me/','_blank'); break; } }); }); }
-window.toggleSidebar = () => { $('sidebar').classList.toggle('show'); $('sidebar-overlay').classList.toggle('show'); };
-function closeSidebar() { $('sidebar').classList.remove('show'); $('sidebar-overlay').classList.remove('show'); }
 
-// ==================== HOME ====================
-async function renderHomePage() { const today=new Date().toISOString().slice(0,10);const ads=appConfig.adSettings||{};let h=`<div class="page active"><div class="wallet-balance-card"><div class="balance-label"><i class="fas fa-coins"></i> Earning Wallet</div><div class="balance-amount">${formatNumber(currentUser.earningWallet||0)} Coins</div></div>${platformMode==='telegram'?'<div style="background:rgba(56,178,243,0.1);padding:8px 12px;border-radius:12px;margin-bottom:16px;text-align:center;font-size:0.75rem;color:#38B2F8;"><i class="fab fa-telegram-plane"></i> Telegram Mode</div>':''}<h4 style="margin:16px 0 12px;">Watch Ads & Earn</h4><div class="ad-grid">${adCard('monetag','Monetag','fa-play-circle',appConfig.monetagReward||10,appConfig.monetagDailyLimit||25,currentUser.monetagAdCount||0,ads.monetagEnabled!==false)}${adCard('gigapub','Gigapub','fa-gamepad',appConfig.gigapubReward||10,appConfig.gigapubDailyLimit||25,currentUser.gigapubAdCount||0,ads.gigapubEnabled!==false)}${adCard('adsgram','Adsgram','fa-ad',appConfig.adsgramReward||10,appConfig.adsgramDailyLimit||25,currentUser.adsgramAdCount||0,ads.adsgramEnabled!==false)}${adCard('adexium','Adexium','fa-chart-bar',appConfig.adexiumReward||10,appConfig.adexiumDailyLimit||25,currentUser.adexiumAdCount||0,ads.adexiumEnabled!==false)}</div>${currentUser.lastCheckInDate!==today?`<div class="daily-checkin-card"><div><h4 style="color:var(--success);">Daily Check-in</h4><p style="font-size:0.8rem;">Day ${(currentUser.checkInStreak||0)+1}</p></div><button class="btn btn-success btn-small" onclick="window.dailyCheckIn()">Claim ${appConfig.dailyCheckinReward||50} Coins</button></div>`:''}<div id="pending-banner-container"></div></div>`;$('main-content').innerHTML=h;loadPendingBanner();}
-function adCard(id,nm,ic,rw,lim,wat,en){if(!en)return'';const p=Math.min((wat/lim)*100,100);const can=wat<lim&&!adLocks[id];return`<div class="ad-card"><i class="fas ${ic}"></i><h4>${nm}</h4><div class="reward">+${rw} Coins</div><div class="limit-info">${wat}/${lim}</div><div class="progress-bar"><div class="progress-fill" style="width:${p}%;"></div></div><button class="watch-btn" onclick="window.watchAd('${id}',${rw})" ${!can?'disabled':''}>${can?'▶ Watch':'Limit'}</button></div>`;}
-async function loadPendingBanner(){const c=$('pending-banner-container');if(!c)return;const s=await db.ref('withdrawals/pending').orderByChild('userId').equalTo(currentUser.uid).once('value');const p=[];s.forEach(x=>p.push(x.val()));if(!p.length){c.innerHTML='';return;}const r=p[0];c.innerHTML=`<div class="pending-banner"><div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-hourglass-half" style="color:var(--warning);"></i><h4 style="color:var(--warning);">Withdrawal Pending</h4></div><div style="font-size:0.8rem;">Amount: ${r.amount} Coins | Value: ${(r.amount*(r.type==='bdt'?(appConfig.coinToBDT||0.5):(appConfig.coinToUSDT||0.004))).toFixed(2)} ${r.type==='bdt'?'BDT':'USDT'}</div></div>`;}
+async function loadDashboard() {
+    const userNode = platformMode === 'telegram' ? 'users' : 'webUsers';
+    const snap = await db.ref(`${userNode}/${currentUser.uid}`).once('value');
+    currentUser = { ...snap.val(), uid: currentUser.uid };
+    if (!currentUser.referralBoxRewards) currentUser.referralBoxRewards = {};
+    if (currentUser.totalWithdrawn === undefined) currentUser.totalWithdrawn = 0;
+
+    $('dash-avatar').src = currentUser.photoUrl || 'https://via.placeholder.com/44';
+    $('dash-name').textContent = currentUser.fullName || currentUser.firstName || 'User';
+    $('dash-username').textContent = currentUser.username || 'username';
+    $('top-balance-amount').textContent = formatNumber(currentUser.balance || 0);
+
+    const today = new Date().toISOString().slice(0, 10);
+    if (currentUser.lastAdWatchDate !== today) {
+        await db.ref(`${userNode}/${currentUser.uid}`).update({ dailyAdCount: 0, monetagAdCount: 0, gigapubAdCount: 0, adsgramAdCount: 0, adexiumAdCount: 0, lastAdWatchDate: today });
+        currentUser.dailyAdCount = 0;
+    }
+
+    setupBottomNav();
+    renderHomePage();
+}
+
+// ==================== BOTTOM NAVIGATION ====================
+function setupBottomNav() {
+    document.querySelectorAll('#bottom-nav .bottom-nav-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const page = this.dataset.page;
+            document.querySelectorAll('#bottom-nav .bottom-nav-item').forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+
+            switch(page) {
+                case 'home': renderHomePage(); break;
+                case 'web': renderWebTasks(); break;
+                case 'register-task': renderRegistrationTasks(); break;
+                case 'rank': renderLeaderboard(); break;
+                case 'settings': renderSettingsPage(); break;
+            }
+        });
+    });
+}
+
+function setActiveBottomNav(page) {
+    document.querySelectorAll('#bottom-nav .bottom-nav-item').forEach(i => {
+        i.classList.remove('active');
+        if (i.dataset.page === page) i.classList.add('active');
+    });
+}
+
+// ==================== HOME PAGE ====================
+async function renderHomePage() {
+    setActiveBottomNav('home');
+    const today = new Date().toISOString().slice(0, 10);
+    const ads = appConfig.adSettings || {};
+    let h = `<div class="page active">
+        <div class="wallet-balance-card">
+            <div class="balance-label"><i class="fas fa-coins"></i> Earning Wallet</div>
+            <div class="balance-amount">${formatNumber(currentUser.earningWallet || 0)} Coins</div>
+        </div>
+        ${platformMode === 'telegram' ? '<div style="text-align:center;margin-bottom:12px;"><span class="tg-badge"><i class="fab fa-telegram-plane"></i> Telegram Mode</span></div>' : ''}
+        <h4 style="margin:16px 0 12px;">Watch Ads & Earn</h4>
+        <div class="ad-grid">
+            ${adCard('monetag','Monetag','fa-play-circle',appConfig.monetagReward||10,appConfig.monetagDailyLimit||25,currentUser.monetagAdCount||0,ads.monetagEnabled!==false)}
+            ${adCard('gigapub','Gigapub','fa-gamepad',appConfig.gigapubReward||10,appConfig.gigapubDailyLimit||25,currentUser.gigapubAdCount||0,ads.gigapubEnabled!==false)}
+            ${adCard('adsgram','Adsgram','fa-ad',appConfig.adsgramReward||10,appConfig.adsgramDailyLimit||25,currentUser.adsgramAdCount||0,ads.adsgramEnabled!==false)}
+            ${adCard('adexium','Adexium','fa-chart-bar',appConfig.adexiumReward||10,appConfig.adexiumDailyLimit||25,currentUser.adexiumAdCount||0,ads.adexiumEnabled!==false)}
+        </div>
+        ${currentUser.lastCheckInDate !== today ? `<div class="daily-checkin-card"><div><h4 style="color:var(--success);">Daily Check-in</h4><p style="font-size:0.8rem;">Day ${(currentUser.checkInStreak||0)+1}</p></div><button class="btn btn-success btn-small" onclick="window.dailyCheckIn()">Claim ${appConfig.dailyCheckinReward||50} Coins</button></div>` : ''}
+        <div id="pending-banner-container"></div>
+    </div>`;
+    $('main-content').innerHTML = h;
+    loadPendingBanner();
+}
+
+function adCard(id, nm, ic, rw, lim, wat, en) {
+    if (!en) return '';
+    const p = Math.min((wat/lim)*100, 100);
+    const can = wat < lim && !adLocks[id];
+    return `<div class="ad-card"><i class="fas ${ic}"></i><h4>${nm}</h4><div class="reward">+${rw} Coins</div><div class="limit-info">${wat}/${lim}</div><div class="progress-bar"><div class="progress-fill" style="width:${p}%;"></div></div><button class="watch-btn" onclick="window.watchAd('${id}',${rw})" ${!can?'disabled':''}>${can?'▶ Watch':'Limit'}</button></div>`;
+}
+
+async function loadPendingBanner() {
+    const c = $('pending-banner-container'); if (!c) return;
+    const s = await db.ref('withdrawals/pending').orderByChild('userId').equalTo(currentUser.uid).once('value');
+    const p = []; s.forEach(x => p.push(x.val()));
+    if (!p.length) { c.innerHTML = ''; return; }
+    const r = p[0];
+    c.innerHTML = `<div class="pending-banner"><div><i class="fas fa-hourglass-half" style="color:var(--warning);"></i> <strong>Pending:</strong> ${r.amount} Coins</div></div>`;
+}
 
 // ==================== AD SYSTEM ====================
-window.watchAd = async (platform, reward) => { if(adLocks[platform])return;const watched=currentUser[`${platform}AdCount`]||0;const lim={monetag:parseInt(appConfig.monetagDailyLimit)||25,gigapub:parseInt(appConfig.gigapubDailyLimit)||25,adsgram:parseInt(appConfig.adsgramDailyLimit)||25,adexium:parseInt(appConfig.adexiumDailyLimit)||25}[platform]||25;if(watched>=lim){window.showPopup('Limit','Daily limit reached.');return;}adLocks[platform]=true;renderHomePage();$('ad-loading-modal').classList.add('show');const st=Date.now();const rt=15;const ti=setInterval(()=>{const r=Math.max(0,rt-Math.floor((Date.now()-st)/1000));$('ad-timer-text').innerText=`${r}s remaining`;if(r<=0)clearInterval(ti);},1000);await new Promise(r=>setTimeout(r,rt*1000));clearInterval(ti);$('ad-loading-modal').classList.remove('show');if((Date.now()-st)/1000>=rt*0.8){const userNode=platformMode==='telegram'?'users':'webUsers';const up={earningWallet:(currentUser.earningWallet||0)+reward,totalEarned:(currentUser.totalEarned||0)+reward,dailyAdCount:(currentUser.dailyAdCount||0)+1,lifetimeAdCount:(currentUser.lifetimeAdCount||0)+1,[`${platform}AdCount`]:(currentUser[`${platform}AdCount`]||0)+1};await db.ref(`${userNode}/${currentUser.uid}`).update(up);Object.keys(up).forEach(k=>{if(k in currentUser||k.startsWith(platform))currentUser[k]=up[k];});const earnNode=platformMode==='telegram'?'userEarnings':'webUserEarnings';await db.ref(`${earnNode}/${currentUser.uid}/${new Date().toISOString().slice(0,10)}`).transaction(v=>(v||0)+reward);await db.ref(`${userNode}/${currentUser.uid}/history`).push({type:'Watch Ad',name:`${platform}`,reward,status:'Completed',timestamp:Date.now()});window.showPopup('Success!',`+${reward} Coins!`);}adLocks[platform]=false;renderHomePage();};
+window.watchAd = async (platform, reward) => {
+    if (adLocks[platform]) return;
+    const watched = currentUser[`${platform}AdCount`] || 0;
+    const lim = { monetag: parseInt(appConfig.monetagDailyLimit) || 25, gigapub: parseInt(appConfig.gigapubDailyLimit) || 25, adsgram: parseInt(appConfig.adsgramDailyLimit) || 25, adexium: parseInt(appConfig.adexiumDailyLimit) || 25 }[platform] || 25;
+    if (watched >= lim) { window.showPopup('Limit', 'Daily limit reached.'); return; }
+
+    adLocks[platform] = true; renderHomePage();
+    $('ad-loading-modal').classList.add('show');
+    const st = Date.now(); const rt = 15;
+    const ti = setInterval(() => { const r = Math.max(0, rt - Math.floor((Date.now() - st) / 1000)); $('ad-timer-text').innerText = `${r}s remaining`; if (r <= 0) clearInterval(ti); }, 1000);
+    await new Promise(r => setTimeout(r, rt * 1000)); clearInterval(ti);
+    $('ad-loading-modal').classList.remove('show');
+
+    if ((Date.now() - st) / 1000 >= rt * 0.8) {
+        const userNode = platformMode === 'telegram' ? 'users' : 'webUsers';
+        const up = { earningWallet: (currentUser.earningWallet || 0) + reward, totalEarned: (currentUser.totalEarned || 0) + reward, dailyAdCount: (currentUser.dailyAdCount || 0) + 1, lifetimeAdCount: (currentUser.lifetimeAdCount || 0) + 1, [`${platform}AdCount`]: (currentUser[`${platform}AdCount`] || 0) + 1 };
+        await db.ref(`${userNode}/${currentUser.uid}`).update(up);
+        Object.keys(up).forEach(k => { if (k in currentUser || k.startsWith(platform)) currentUser[k] = up[k]; });
+        await db.ref(`${userNode}/${currentUser.uid}/history`).push({ type: 'Watch Ad', name: `${platform}`, reward, status: 'Completed', timestamp: Date.now() });
+        window.showPopup('Success!', `+${reward} Coins!`);
+    }
+    adLocks[platform] = false; renderHomePage();
+};
 
 // ==================== DAILY CHECKIN ====================
-window.dailyCheckIn=async()=>{const today=new Date().toISOString().slice(0,10);const streak=(currentUser.checkInStreak||0)+1;const reward=appConfig.dailyCheckinReward||50;const userNode=platformMode==='telegram'?'users':'webUsers';await db.ref(`${userNode}/${currentUser.uid}`).update({lastCheckInDate:today,checkInStreak:streak,earningWallet:(currentUser.earningWallet||0)+reward,totalEarned:(currentUser.totalEarned||0)+reward});currentUser.lastCheckInDate=today;currentUser.checkInStreak=streak;currentUser.earningWallet=(currentUser.earningWallet||0)+reward;window.showPopup('Check-in!',`+${reward} Coins! Day ${streak}`);renderHomePage();};
+window.dailyCheckIn = async () => {
+    const today = new Date().toISOString().slice(0, 10);
+    const streak = (currentUser.checkInStreak || 0) + 1;
+    const reward = appConfig.dailyCheckinReward || 50;
+    const userNode = platformMode === 'telegram' ? 'users' : 'webUsers';
+    await db.ref(`${userNode}/${currentUser.uid}`).update({ lastCheckInDate: today, checkInStreak: streak, earningWallet: (currentUser.earningWallet || 0) + reward, totalEarned: (currentUser.totalEarned || 0) + reward });
+    currentUser.lastCheckInDate = today; currentUser.checkInStreak = streak; currentUser.earningWallet = (currentUser.earningWallet || 0) + reward;
+    window.showPopup('Check-in!', `+${reward} Coins! Day ${streak}`);
+    renderHomePage();
+};
 
-// ==================== SETTINGS MAIN ====================
-function renderSettingsMain() { $('main-content').innerHTML=`<div class="page active"><h3 style="margin-bottom:20px;">Settings</h3><p style="color:var(--text-secondary);margin-bottom:20px;font-size:0.85rem;">Manage your account</p><div class="settings-menu-item" onclick="renderPasswordSecurity()"><div class="settings-icon"><i class="fas fa-shield-halved"></i></div><div class="settings-info"><div class="settings-title">Password and security</div><div class="settings-desc">Update password, photo, name</div></div><div class="settings-arrow"><i class="fas fa-chevron-right"></i></div></div><div class="settings-menu-item" onclick="showWalletPage()"><div class="settings-icon"><i class="fas fa-wallet"></i></div><div class="settings-info"><div class="settings-title">Wallet</div><div class="settings-desc">Withdraw & history</div></div><div class="settings-arrow"><i class="fas fa-chevron-right"></i></div></div><div class="settings-menu-item" onclick="renderReferEarnPage()"><div class="settings-icon"><i class="fas fa-users"></i></div><div class="settings-info"><div class="settings-title">Refer and earn</div><div class="settings-desc">Invite friends</div></div><div class="settings-arrow"><i class="fas fa-chevron-right"></i></div></div><div class="settings-menu-item" onclick="renderManageAccounts()"><div class="settings-icon"><i class="fas fa-id-card"></i></div><div class="settings-info"><div class="settings-title">Manage accounts</div><div class="settings-desc">Account details</div></div><div class="settings-arrow"><i class="fas fa-chevron-right"></i></div></div></div>`; }
+// ==================== SETTINGS PAGE ====================
+function renderSettingsPage() {
+    setActiveBottomNav('settings');
+    $('main-content').innerHTML = `<div class="page active">
+        <h3 style="margin-bottom:16px;"><i class="fas fa-cog" style="color:var(--primary);"></i> Settings</h3>
+        <div class="settings-menu-item" onclick="renderViewProfile()"><div class="settings-icon"><i class="fas fa-user-circle"></i></div><div class="settings-info"><div class="settings-title">View Profile</div><div class="settings-desc">Your account details</div></div><div class="settings-arrow"><i class="fas fa-chevron-right"></i></div></div>
+        <div class="settings-menu-item" onclick="showWalletPage()"><div class="settings-icon"><i class="fas fa-wallet"></i></div><div class="settings-info"><div class="settings-title">Wallet</div><div class="settings-desc">Balance & withdraw</div></div><div class="settings-arrow"><i class="fas fa-chevron-right"></i></div></div>
+        <div class="settings-menu-item" onclick="showMovingCoinPage()"><div class="settings-icon"><i class="fas fa-arrow-right-arrow-left"></i></div><div class="settings-info"><div class="settings-title">Moving Coin</div><div class="settings-desc">Move earning to balance</div></div><div class="settings-arrow"><i class="fas fa-chevron-right"></i></div></div>
+        <div class="settings-menu-item" onclick="renderReferEarnPage()"><div class="settings-icon"><i class="fas fa-users"></i></div><div class="settings-info"><div class="settings-title">Refer and earn</div><div class="settings-desc">Invite friends</div></div><div class="settings-arrow"><i class="fas fa-chevron-right"></i></div></div>
+        <div class="settings-menu-item" onclick="openSupport()"><div class="settings-icon"><i class="fas fa-headset"></i></div><div class="settings-info"><div class="settings-title">Support</div><div class="settings-desc">Get help</div></div><div class="settings-arrow"><i class="fas fa-chevron-right"></i></div></div>
+        <div class="settings-menu-item" onclick="window.logout()" style="border-color:var(--error);"><div class="settings-icon" style="background:rgba(239,68,68,0.1);"><i class="fas fa-sign-out-alt" style="color:var(--error);"></i></div><div class="settings-info"><div class="settings-title" style="color:var(--error);">Logout</div></div></div>
+    </div>`;
+}
 
-function renderPasswordSecurity() { $('main-content').innerHTML=`<div class="page active"><div class="settings-back-btn" onclick="renderSettingsMain()"><i class="fas fa-arrow-left"></i> Back</div><h3>Password & Security</h3><div class="settings-menu-item" onclick="openChangePhoto()"><div class="settings-icon"><i class="fas fa-camera"></i></div><div class="settings-info"><div class="settings-title">Change Photo</div></div></div><div class="settings-menu-item" onclick="openChangeName()"><div class="settings-icon"><i class="fas fa-user-edit"></i></div><div class="settings-info"><div class="settings-title">Change Name</div></div></div><div class="settings-menu-item" onclick="openChangePassword()"><div class="settings-icon"><i class="fas fa-key"></i></div><div class="settings-info"><div class="settings-title">Change Password</div></div></div><div class="settings-menu-item" onclick="openChangeEmail()"><div class="settings-icon"><i class="fas fa-envelope"></i></div><div class="settings-info"><div class="settings-title">Change Email</div></div></div><div class="settings-menu-item" onclick="openChangeWithdrawPassword()"><div class="settings-icon"><i class="fas fa-lock"></i></div><div class="settings-info"><div class="settings-title">${currentUser.withdrawPassword?'Change':'Set'} Withdraw Password</div></div></div></div>`; }
-
-// ==================== SETTINGS MODALS ====================
-function openChangePhoto() { $('settings-modal-body').innerHTML=`<div class="modal-header"><h3>Change Photo</h3><span class="close-modal" onclick="closeSettingsModal()">&times;</span></div><img id="settings-photo-preview" src="${currentUser.photoUrl||'https://via.placeholder.com/80'}" style="width:80px;height:80px;border-radius:50%;display:block;margin:0 auto 12px;"><div class="photo-upload-area" onclick="document.getElementById('settings-photo-input').click()"><i class="fas fa-camera"></i></div><input type="file" id="settings-photo-input" accept="image/*" style="display:none;" onchange="handleSettingsPhoto(event)"><button class="btn btn-primary btn-small btn-block" onclick="savePhoto()" style="margin-top:8px;">Save</button>`; $('settings-modal').classList.add('show');settingsTempPhoto=null; }
-window.handleSettingsPhoto=(e)=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=function(ev){const img=new Image();img.onload=function(){const c=document.createElement('canvas');const mx=200;let w=img.width,h=img.height;if(w>h){if(w>mx){h=(h*mx)/w;w=mx;}}else{if(h>mx){w=(w*mx)/h;h=mx;}}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);const comp=c.toDataURL('image/jpeg',0.5);$('settings-photo-preview').src=comp;settingsTempPhoto=comp;};img.src=ev.target.result;};r.readAsDataURL(f);};
-window.savePhoto=async()=>{if(!settingsTempPhoto)return;const userNode=platformMode==='telegram'?'users':'webUsers';await db.ref(`${userNode}/${currentUser.uid}/photoUrl`).set(settingsTempPhoto);currentUser.photoUrl=settingsTempPhoto;$('dash-avatar').src=settingsTempPhoto;window.showPopup('Updated!','Photo saved.');closeSettingsModal();};
-function openChangeName() { $('settings-modal-body').innerHTML=`<div class="modal-header"><h3>Change Name</h3><span class="close-modal" onclick="closeSettingsModal()">&times;</span></div><input id="settings-name-input" class="form-input" value="${escapeHtml(currentUser.fullName||'')}"><button class="btn btn-primary btn-block" onclick="saveName()" style="margin-top:12px;">Save</button>`; $('settings-modal').classList.add('show'); }
-window.saveName=async()=>{const n=$('settings-name-input')?.value.trim();if(!n)return;const userNode=platformMode==='telegram'?'users':'webUsers';await db.ref(`${userNode}/${currentUser.uid}/fullName`).set(n);currentUser.fullName=n;$('dash-name').textContent=n;window.showPopup('Updated!','Name saved.');closeSettingsModal();};
-function openChangePassword() { $('settings-modal-body').innerHTML=`<div class="modal-header"><h3>Change Password</h3><span class="close-modal" onclick="closeSettingsModal()">&times;</span></div><input type="password" id="settings-current-pw" class="form-input" placeholder="Current password"><input type="password" id="settings-new-pw" class="form-input" placeholder="New password" style="margin-top:8px;"><button class="btn btn-primary btn-block" onclick="savePassword()" style="margin-top:12px;">Save</button>`; $('settings-modal').classList.add('show'); }
-window.savePassword=async()=>{const cp=$('settings-current-pw')?.value,np=$('settings-new-pw')?.value;if(!cp||!np)return;if(cp!==currentUser.password){window.showPopup('Error','Wrong password.');return;}if(np.length<8)return;const userNode=platformMode==='telegram'?'users':'webUsers';await db.ref(`${userNode}/${currentUser.uid}/password`).set(np);currentUser.password=np;window.showPopup('Updated!','Password changed.');closeSettingsModal();};
-function openChangeEmail() { $('settings-modal-body').innerHTML=`<div class="modal-header"><h3>Change Email</h3><span class="close-modal" onclick="closeSettingsModal()">&times;</span></div><input type="email" id="settings-email-input" class="form-input" value="${escapeHtml(currentUser.email||'')}"><button class="btn btn-primary btn-block" onclick="saveEmail()" style="margin-top:12px;">Save</button>`; $('settings-modal').classList.add('show'); }
-window.saveEmail=async()=>{const e=$('settings-email-input')?.value.trim();if(!e)return;const userNode=platformMode==='telegram'?'users':'webUsers';await db.ref(`${userNode}/${currentUser.uid}/email`).set(e);currentUser.email=e;window.showPopup('Updated!','Email saved.');closeSettingsModal();};
-function openChangeWithdrawPassword() { $('settings-modal-body').innerHTML=`<div class="modal-header"><h3>${currentUser.withdrawPassword?'Change':'Set'} Withdraw Password</h3><span class="close-modal" onclick="closeSettingsModal()">&times;</span></div>${currentUser.withdrawPassword?'<input type="password" id="settings-current-wpw" class="form-input" placeholder="Current withdraw password">':''}<input type="password" id="settings-new-wpw" class="form-input" placeholder="New withdraw password" style="margin-top:8px;"><button class="btn btn-primary btn-block" onclick="saveWpw()" style="margin-top:12px;">${currentUser.withdrawPassword?'Change':'Set'}</button>`; $('settings-modal').classList.add('show'); }
-window.saveWpw=async()=>{const cwp=$('settings-current-wpw')?.value,nwp=$('settings-new-wpw')?.value;if(!nwp||nwp.length<4)return;if(currentUser.withdrawPassword&&cwp!==currentUser.withdrawPassword){window.showPopup('Error','Wrong password.');return;}const userNode=platformMode==='telegram'?'users':'webUsers';await db.ref(`${userNode}/${currentUser.uid}/withdrawPassword`).set(nwp);currentUser.withdrawPassword=nwp;window.showPopup('Updated!','Withdraw password saved.');closeSettingsModal();};
-function closeSettingsModal() { $('settings-modal').classList.remove('show');settingsTempPhoto=null; }
+// ==================== VIEW PROFILE ====================
+function renderViewProfile() {
+    $('main-content').innerHTML = `<div class="page active">
+        <div class="settings-back-btn" onclick="renderSettingsPage()"><i class="fas fa-arrow-left"></i> Back</div>
+        <div class="card text-center">
+            <img src="${currentUser.photoUrl || 'https://via.placeholder.com/100'}" style="width:80px;height:80px;border-radius:50%;border:3px solid var(--primary);margin-bottom:12px;">
+            <h3>${escapeHtml(currentUser.fullName || 'User')}</h3>
+            <p style="opacity:0.7;">@${escapeHtml(currentUser.username || 'N/A')}</p>
+            <p style="font-size:0.7rem;opacity:0.5;font-family:monospace;">ID: ${(currentUser.uid||'').substring(0,15)}...</p>
+            ${platformMode === 'telegram' ? '<span class="tg-badge"><i class="fab fa-telegram-plane"></i> Telegram</span>' : ''}
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-value">${formatNumber(currentUser.balance||0)}</div><div class="stat-label">Balance</div></div>
+            <div class="stat-card"><div class="stat-value">${formatNumber(currentUser.earningWallet||0)}</div><div class="stat-label">Earning</div></div>
+            <div class="stat-card"><div class="stat-value">${formatNumber(currentUser.totalEarned||0)}</div><div class="stat-label">Total Earned</div></div>
+            <div class="stat-card"><div class="stat-value">${currentUser.referrals||0}</div><div class="stat-label">Referrals</div></div>
+            <div class="stat-card"><div class="stat-value">${currentUser.lifetimeAdCount||0}</div><div class="stat-label">Ads Watched</div></div>
+            <div class="stat-card"><div class="stat-value">${formatNumber(currentUser.totalWithdrawn||0)}</div><div class="stat-label">Withdrawn</div></div>
+        </div>
+    </div>`;
+}
 
 // ==================== WALLET ====================
-function showWalletPage() { $('main-content').innerHTML=`<div class="page active"><div class="settings-back-btn" onclick="renderSettingsMain()"><i class="fas fa-arrow-left"></i> Back</div><div style="text-align:center;margin-bottom:24px;"><div style="font-size:0.85rem;">Main Balance</div><div style="font-size:2.5rem;font-weight:800;color:var(--primary);">${formatNumber(currentUser.balance||0)} Coins</div></div><div class="method-grid"><div class="method-card" onclick="initiateWithdraw('bdt')"><i class="fas fa-money-bill-wave" style="font-size:2.5rem;color:var(--primary);"></i><p>BDT Withdraw</p></div><div class="method-card" onclick="initiateWithdraw('usdt')"><i class="fas fa-dollar-sign" style="font-size:2.5rem;color:var(--primary);"></i><p>USDT Withdraw</p></div></div><div class="settings-menu-item" onclick="showWithdrawHistory()"><div class="settings-icon"><i class="fas fa-history"></i></div><div class="settings-info"><div class="settings-title">Withdraw History</div></div></div></div>`; }
+function showWalletPage() {
+    $('main-content').innerHTML = `<div class="page active">
+        <div class="settings-back-btn" onclick="renderSettingsPage()"><i class="fas fa-arrow-left"></i> Back</div>
+        <div style="text-align:center;margin-bottom:24px;">
+            <div style="font-size:0.85rem;">Main Balance</div>
+            <div style="font-size:2.5rem;font-weight:800;color:var(--primary);">${formatNumber(currentUser.balance||0)} Coins</div>
+        </div>
+        <div class="method-grid">
+            <div class="method-card" onclick="initiateWithdraw('bdt')"><i class="fas fa-money-bill-wave" style="font-size:2.5rem;color:var(--primary);"></i><p>BDT Withdraw</p></div>
+            <div class="method-card" onclick="initiateWithdraw('usdt')"><i class="fas fa-dollar-sign" style="font-size:2.5rem;color:var(--primary);"></i><p>USDT Withdraw</p></div>
+        </div>
+    </div>`;
+}
 
-function initiateWithdraw(type) { if(!currentUser.withdrawPassword){window.showPopup('Required','Set Withdraw Password first.');return;} $('withdraw-password-modal-body').innerHTML=`<div class="modal-header"><h3>Enter Withdraw Password</h3><span class="close-modal" onclick="$('withdraw-password-modal').classList.remove('show')">&times;</span></div><input type="password" id="wd-pw-input" class="form-input" placeholder="Withdraw password"><button class="btn btn-primary btn-block" onclick="verifyAndWithdraw('${type}')" style="margin-top:12px;">Verify</button>`; $('withdraw-password-modal').classList.add('show'); setTimeout(()=>$('wd-pw-input')?.focus(),300); }
-window.verifyAndWithdraw=(type)=>{if($('wd-pw-input')?.value!==currentUser.withdrawPassword){window.showPopup('Wrong','Incorrect password.');return;}$('withdraw-password-modal').classList.remove('show');startWithdraw(type);};
+function showMovingCoinPage() {
+    const amt = currentUser.earningWallet || 0;
+    $('main-content').innerHTML = `<div class="page active">
+        <div class="settings-back-btn" onclick="renderSettingsPage()"><i class="fas fa-arrow-left"></i> Back</div>
+        <div style="text-align:center;padding:24px 0;">
+            <div style="font-size:0.8rem;opacity:0.7;">Earning Wallet</div>
+            <div style="font-size:2.5rem;font-weight:800;color:var(--primary);">${formatNumber(amt)} Coins</div>
+            <button class="btn btn-primary" onclick="moveToBalance()" style="margin-top:20px;" ${amt < (appConfig.minWithdrawBalance || 100) ? 'disabled' : ''}>Move to Balance</button>
+        </div>
+    </div>`;
+}
 
-function startWithdraw(type){if((currentUser.referrals||0)<(appConfig.withdrawReferralLimit||0)){window.showPopup('Insufficient',`Min ${appConfig.withdrawReferralLimit||0} referrals.`);return;}const methods=type==='bdt'?(appConfig.withdrawBDTMethods||[]):(appConfig.withdrawUSDTMethods||[]);if(!methods.length){window.showPopup('No Methods','No methods available.');return;}const rate=type==='bdt'?(appConfig.coinToBDT||0.5):(appConfig.coinToUSDT||0.004);const m=document.createElement('div');m.className='modal-overlay show';m.innerHTML=`<div class="modal-content"><div class="modal-header"><h3>Select ${type.toUpperCase()} Method</h3><span class="close-modal" onclick="this.closest('.modal-overlay').remove()">&times;</span></div><div class="method-grid">${methods.map((mt,i)=>`<div class="method-card" onclick="selectMethod('${type}',${i},this)"><img src="${mt.photo}" onerror="this.src='https://via.placeholder.com/60'"><p>${escapeHtml(mt.name)}</p><small>Min: ${mt.min} Coins</small></div>`).join('')}</div></div>`;document.body.appendChild(m);m.addEventListener('click',e=>{if(e.target===m)m.remove();});
-window.selectMethod=(type,idx,el)=>{const mt=methods[idx];const modal=el.closest('.modal-overlay');modal.querySelector('.modal-content').innerHTML=`<div class="modal-header"><h3>${escapeHtml(mt.name)}</h3><span class="close-modal" onclick="this.closest('.modal-overlay').remove()">&times;</span></div><div class="form-group"><label>Account</label><input id="wd-account" class="form-input" placeholder="${type==='bdt'?'Number':'Address'}"></div><div class="form-group"><label>Amount (Min: ${mt.min})</label><input type="number" id="wd-amount" class="form-input" min="${mt.min}"></div><div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:12px;margin-bottom:16px;"><p>You'll receive: <strong id="wd-fiat" style="color:var(--primary);">0 ${type.toUpperCase()}</strong></p></div><button class="btn btn-primary btn-block" onclick="confirmWithdraw('${type}','${escapeHtml(mt.name).replace(/'/g,"\\'")}',${mt.min})">Submit</button>`;document.getElementById('wd-amount').addEventListener('input',(e)=>{document.getElementById('wd-fiat').innerText=((parseFloat(e.target.value)||0)*rate).toFixed(type==='bdt'?2:4)+' '+type.toUpperCase();});};
-window.confirmWithdraw=async(type,method,min)=>{const acc=$('wd-account')?.value.trim();const amt=parseFloat($('wd-amount')?.value);if(!acc)return window.showPopup('Error','Account required.');if(isNaN(amt)||amt<min)return window.showPopup('Error',`Min ${min} coins.`);if(amt>currentUser.balance)return window.showPopup('Error','Insufficient balance.');const userNode=platformMode==='telegram'?'users':'webUsers';await db.ref(`${userNode}/${currentUser.uid}/balance`).set(currentUser.balance-amt);currentUser.balance-=amt;currentUser.totalWithdrawn=(currentUser.totalWithdrawn||0)+amt;await db.ref(`${userNode}/${currentUser.uid}/totalWithdrawn`).set(currentUser.totalWithdrawn);const ref=db.ref('withdrawals/pending').push();const txId='TX-'+Math.random().toString(36).substring(2,10).toUpperCase();await ref.set({id:ref.key,userId:currentUser.uid,userName:currentUser.fullName,userPhoto:currentUser.photoUrl,method,account:acc,amount:amt,status:'pending',type,txId,timestamp:Date.now()});document.querySelectorAll('.modal-overlay.show').forEach(x=>x.remove());window.showPopup('Submitted!','Withdrawal pending.');showWalletPage();};}
-
-function showWithdrawHistory(){$('main-content').innerHTML=`<div class="page active"><div class="settings-back-btn" onclick="showWalletPage()"><i class="fas fa-arrow-left"></i> Back</div><h3>Withdraw History</h3><div id="wd-history-list"><div class="spinner"></div></div></div>`;db.ref('withdrawals').on('value',(snap)=>{const data=snap.val()||{};let items=[];['pending','completed','rejected'].forEach(s=>{const d=data[s]||{};Object.keys(d).forEach(k=>{if(d[k].userId===currentUser.uid)items.push({...d[k],id:k,status:s.charAt(0).toUpperCase()+s.slice(1)});});});items.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));const list=$('wd-history-list');if(!list)return;if(!items.length){list.innerHTML='<p class="text-center">No history</p>';return;}let h='';items.forEach(r=>{const rate=r.type==='bdt'?(appConfig.coinToBDT||0.5):(appConfig.coinToUSDT||0.004);const statusClass=r.status.toLowerCase();const statusIcon=statusClass==='completed'?'✅':statusClass==='pending'?'⏳':'❌';h+=`<div class="card"><div class="task-header"><img src="${r.userPhoto||'https://via.placeholder.com/55'}"><div class="task-info"><h4>${escapeHtml(r.method)}</h4><p>${r.amount} Coins = ${(r.amount*rate).toFixed(2)} ${(r.type||'bdt').toUpperCase()}</p></div></div><div class="task-stats"><span>${formatDateTime(r.timestamp)}</span><span style="color:${statusClass==='completed'?'var(--success)':statusClass==='pending'?'var(--warning)':'var(--error)'};">${statusIcon} ${r.status}</span></div></div>`;});list.innerHTML=h;});}
+window.moveToBalance = async () => {
+    const amt = currentUser.earningWallet || 0;
+    if (amt < (appConfig.minWithdrawBalance || 100)) { window.showPopup('Insufficient', `Min ${appConfig.minWithdrawBalance || 100} coins.`); return; }
+    const userNode = platformMode === 'telegram' ? 'users' : 'webUsers';
+    await db.ref(`${userNode}/${currentUser.uid}`).update({ balance: (currentUser.balance || 0) + amt, earningWallet: 0 });
+    currentUser.balance = (currentUser.balance || 0) + amt; currentUser.earningWallet = 0;
+    $('top-balance-amount').textContent = formatNumber(currentUser.balance || 0);
+    window.showPopup('Done!', `${amt} Coins moved!`); showMovingCoinPage();
+};
 
 // ==================== REFER & EARN ====================
-async function renderReferEarnPage() { const refCount = currentUser.referrals || 0; const shareLink = window.location.origin + '/?ref=' + (currentUser.referralCode || ''); $('main-content').innerHTML = `<div class="page active"><div class="settings-back-btn" onclick="renderSettingsMain()"><i class="fas fa-arrow-left"></i> Back</div><h3>Refer & Earn</h3><div class="enter-referral-card"><h5>Enter Referral Code</h5><div class="ref-input-group"><input id="enter-ref-code" class="form-input" placeholder="Enter code"><button class="btn btn-primary" onclick="submitReferral()">Submit</button></div></div><div class="referral-card"><h3>Your Referral Code</h3><p>Share & earn ${appConfig.referralPercent||7}%</p><div class="referral-code-box"><input value="${currentUser.referralCode||'EARN0000XXX'}" readonly><button onclick="shareRefLink()">Share</button></div><div class="referral-stats"><div class="referral-stat"><div class="value">${refCount}</div><div class="label">Referrals</div></div><div class="referral-stat"><div class="value">${appConfig.referralPercent||7}%</div><div class="label">Commission</div></div><div class="referral-stat"><div class="value">${appConfig.referralBonus||1000}</div><div class="label">Bonus</div></div></div></div></div>`; }
-window.shareRefLink = () => { const link = window.location.origin + '/?ref=' + (currentUser.referralCode || ''); if (navigator.share) { navigator.share({ title: 'Join Earnify', text: 'Earn coins!', url: link }).catch(() => {}); } else { navigator.clipboard.writeText(link).then(() => window.showPopup('Copied!', 'Link copied.')); } };
-window.submitReferral = async () => { const code = ($('enter-ref-code')?.value || '').trim(); if(!code)return; if(code===currentUser.referralCode){window.showPopup('Error','Cannot use own code.');return;} if(currentUser.referredBy){window.showPopup('Error','Already used.');return;} try { const [snap1,snap2]=await Promise.all([db.ref('webUsers').orderByChild('referralCode').equalTo(code).once('value'),db.ref('users').orderByChild('referralCode').equalTo(code).once('value')]); let data=snap1.val(),refId=data?Object.keys(data)[0]:null,refNode='webUsers'; if(!refId){data=snap2.val();refId=data?Object.keys(data)[0]:null;refNode='users';} if(!refId){window.showPopup('Invalid','Invalid code.');return;} const bonus=appConfig.referralBonus||1000;const userNode=platformMode==='telegram'?'users':'webUsers'; await db.ref(`${userNode}/${currentUser.uid}`).update({referredBy:refId}); await db.ref(`${refNode}/${refId}/earningWallet`).transaction(v=>(v||0)+bonus); await db.ref(`${refNode}/${refId}/referrals`).transaction(v=>(v||0)+1); await db.ref(`${userNode}/${currentUser.uid}/earningWallet`).transaction(v=>(v||0)+bonus); currentUser.referredBy=refId;currentUser.earningWallet=(currentUser.earningWallet||0)+bonus; window.showPopup('Success!',`+${bonus} Coins!`);renderReferEarnPage(); } catch(e) { window.showPopup('Error','Failed.'); } };
+async function renderReferEarnPage() {
+    const refCount = currentUser.referrals || 0;
+    $('main-content').innerHTML = `<div class="page active">
+        <div class="settings-back-btn" onclick="renderSettingsPage()"><i class="fas fa-arrow-left"></i> Back</div>
+        <h3>Refer & Earn</h3>
+        <div class="enter-referral-card"><h5>Enter Referral Code</h5><div class="ref-input-group"><input id="enter-ref-code" class="form-input" placeholder="Enter code"><button class="btn btn-primary" onclick="window.submitReferral()">Submit</button></div></div>
+        <div class="referral-card">
+            <h3>Your Code</h3>
+            <div class="referral-code-box"><input value="${currentUser.referralCode || 'EARN0000XXX'}" readonly><button onclick="window.shareRefLink()">Share</button></div>
+            <div class="referral-stats">
+                <div class="referral-stat"><div class="value">${refCount}</div><div class="label">Referrals</div></div>
+                <div class="referral-stat"><div class="value">${appConfig.referralPercent||7}%</div><div class="label">Commission</div></div>
+                <div class="referral-stat"><div class="value">${appConfig.referralBonus||1000}</div><div class="label">Bonus</div></div>
+            </div>
+        </div>
+    </div>`;
+}
 
-// ==================== MANAGE ACCOUNTS ====================
-function renderManageAccounts() { $('main-content').innerHTML = `<div class="page active"><div class="settings-back-btn" onclick="renderSettingsMain()"><i class="fas fa-arrow-left"></i> Back</div><div class="card text-center"><img src="${currentUser.photoUrl||'https://via.placeholder.com/100'}" style="width:80px;height:80px;border-radius:50%;border:3px solid var(--primary);"><h3>${escapeHtml(currentUser.fullName||'User')}</h3><p>@${escapeHtml(currentUser.username||'N/A')}</p></div><h4>Stats</h4><div class="stats-grid"><div class="stat-card"><div class="stat-value">${formatNumber(currentUser.balance||0)}</div><div class="stat-label">Balance</div></div><div class="stat-card"><div class="stat-value">${formatNumber(currentUser.totalEarned||0)}</div><div class="stat-label">Earned</div></div><div class="stat-card"><div class="stat-value">${currentUser.referrals||0}</div><div class="stat-label">Referrals</div></div><div class="stat-card"><div class="stat-value">${currentUser.lifetimeAdCount||0}</div><div class="stat-label">Ads</div></div><div class="stat-card"><div class="stat-value">${formatNumber(currentUser.totalWithdrawn||0)}</div><div class="stat-label">Withdrawn</div></div><div class="stat-card"><div class="stat-value">${platformMode}</div><div class="stat-label">Platform</div></div></div></div>`; }
+window.shareRefLink = () => {
+    const link = window.location.origin + '/?ref=' + (currentUser.referralCode || '');
+    if (navigator.share) { navigator.share({ title: 'Join Earnify', url: link }).catch(() => {}); }
+    else { navigator.clipboard.writeText(link).then(() => window.showPopup('Copied!', 'Link copied.')); }
+};
+
+window.submitReferral = async () => {
+    const code = ($('enter-ref-code')?.value || '').trim();
+    if (!code) return;
+    if (code === currentUser.referralCode) { window.showPopup('Error', 'Cannot use own code.'); return; }
+    if (currentUser.referredBy) { window.showPopup('Error', 'Already used.'); return; }
+    try {
+        const [snap1, snap2] = await Promise.all([db.ref('webUsers').orderByChild('referralCode').equalTo(code).once('value'), db.ref('users').orderByChild('referralCode').equalTo(code).once('value')]);
+        let data = snap1.val(), refId = data ? Object.keys(data)[0] : null, refNode = 'webUsers';
+        if (!refId) { data = snap2.val(); refId = data ? Object.keys(data)[0] : null; refNode = 'users'; }
+        if (!refId) { window.showPopup('Invalid', 'Invalid code.'); return; }
+        const bonus = appConfig.referralBonus || 1000;
+        const userNode = platformMode === 'telegram' ? 'users' : 'webUsers';
+        await db.ref(`${userNode}/${currentUser.uid}`).update({ referredBy: refId });
+        await db.ref(`${refNode}/${refId}/earningWallet`).transaction(v => (v || 0) + bonus);
+        await db.ref(`${refNode}/${refId}/referrals`).transaction(v => (v || 0) + 1);
+        await db.ref(`${userNode}/${currentUser.uid}/earningWallet`).transaction(v => (v || 0) + bonus);
+        currentUser.referredBy = refId; currentUser.earningWallet = (currentUser.earningWallet || 0) + bonus;
+        window.showPopup('Success!', `+${bonus} Coins!`); renderReferEarnPage();
+    } catch (e) { window.showPopup('Error', 'Failed.'); }
+};
+
+// ==================== SUPPORT ====================
+function openSupport() {
+    window.open(appConfig.supportLink || 'https://t.me/', '_blank');
+}
+
+// ==================== WITHDRAW ====================
+function initiateWithdraw(type) {
+    if (!currentUser.withdrawPassword) { window.showPopup('Required', 'Set Withdraw Password first.'); return; }
+    $('withdraw-password-modal-body').innerHTML = `<div class="modal-header"><h3>Enter Withdraw Password</h3><span class="close-modal" onclick="$('withdraw-password-modal').classList.remove('show')">&times;</span></div><input type="password" id="wd-pw-input" class="form-input" placeholder="Withdraw password"><button class="btn btn-primary btn-block" onclick="window.verifyAndWithdraw('${type}')" style="margin-top:12px;">Verify</button>`;
+    $('withdraw-password-modal').classList.add('show');
+    setTimeout(() => $('wd-pw-input')?.focus(), 300);
+}
+
+window.verifyAndWithdraw = (type) => {
+    if ($('wd-pw-input')?.value !== currentUser.withdrawPassword) { window.showPopup('Wrong', 'Incorrect password.'); return; }
+    $('withdraw-password-modal').classList.remove('show');
+    startWithdraw(type);
+};
+
+function startWithdraw(type) {
+    if ((currentUser.referrals || 0) < (appConfig.withdrawReferralLimit || 0)) { window.showPopup('Insufficient', `Min ${appConfig.withdrawReferralLimit || 0} referrals.`); return; }
+    const methods = type === 'bdt' ? (appConfig.withdrawBDTMethods || []) : (appConfig.withdrawUSDTMethods || []);
+    if (!methods.length) { window.showPopup('No Methods', 'No methods available.'); return; }
+    const rate = type === 'bdt' ? (appConfig.coinToBDT || 0.5) : (appConfig.coinToUSDT || 0.004);
+    const m = document.createElement('div'); m.className = 'modal-overlay show';
+    m.innerHTML = `<div class="modal-content"><div class="modal-header"><h3>Select ${type.toUpperCase()} Method</h3><span class="close-modal" onclick="this.closest('.modal-overlay').remove()">&times;</span></div><div class="method-grid">${methods.map((mt, i) => `<div class="method-card" onclick="window.selectMethod('${type}',${i},this)"><img src="${mt.photo}" onerror="this.src='https://via.placeholder.com/60'"><p>${escapeHtml(mt.name)}</p><small>Min: ${mt.min} Coins</small></div>`).join('')}</div></div>`;
+    document.body.appendChild(m);
+    m.addEventListener('click', e => { if (e.target === m) m.remove(); });
+
+    window.selectMethod = (type, idx, el) => {
+        const mt = methods[idx];
+        const modal = el.closest('.modal-overlay');
+        modal.querySelector('.modal-content').innerHTML = `<div class="modal-header"><h3>${escapeHtml(mt.name)}</h3><span class="close-modal" onclick="this.closest('.modal-overlay').remove()">&times;</span></div><div class="form-group"><label>Account</label><input id="wd-account" class="form-input" placeholder="${type==='bdt'?'Number':'Address'}"></div><div class="form-group"><label>Amount (Min: ${mt.min})</label><input type="number" id="wd-amount" class="form-input" min="${mt.min}"></div><div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:12px;margin-bottom:16px;"><p>You'll receive: <strong id="wd-fiat" style="color:var(--primary);">0 ${type.toUpperCase()}</strong></p></div><button class="btn btn-primary btn-block" onclick="window.confirmWithdraw('${type}','${escapeHtml(mt.name).replace(/'/g,"\\'")}',${mt.min})">Submit</button>`;
+        document.getElementById('wd-amount').addEventListener('input', (e) => { document.getElementById('wd-fiat').innerText = ((parseFloat(e.target.value) || 0) * rate).toFixed(type === 'bdt' ? 2 : 4) + ' ' + type.toUpperCase(); });
+    };
+
+    window.confirmWithdraw = async (type, method, min) => {
+        const acc = $('wd-account')?.value.trim();
+        const amt = parseFloat($('wd-amount')?.value);
+        if (!acc) return window.showPopup('Error', 'Account required.');
+        if (isNaN(amt) || amt < min) return window.showPopup('Error', `Min ${min} coins.`);
+        if (amt > currentUser.balance) return window.showPopup('Error', 'Insufficient balance.');
+        const userNode = platformMode === 'telegram' ? 'users' : 'webUsers';
+        await db.ref(`${userNode}/${currentUser.uid}/balance`).set(currentUser.balance - amt);
+        currentUser.balance -= amt; currentUser.totalWithdrawn = (currentUser.totalWithdrawn || 0) + amt;
+        await db.ref(`${userNode}/${currentUser.uid}/totalWithdrawn`).set(currentUser.totalWithdrawn);
+        const ref = db.ref('withdrawals/pending').push();
+        const txId = 'TX-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+        await ref.set({ id: ref.key, userId: currentUser.uid, userName: currentUser.fullName, userPhoto: currentUser.photoUrl, method, account: acc, amount: amt, status: 'pending', type, txId, timestamp: Date.now() });
+        document.querySelectorAll('.modal-overlay.show').forEach(x => x.remove());
+        window.showPopup('Submitted!', 'Withdrawal pending.');
+        showWalletPage();
+    };
+}
 
 // ==================== WEB TASKS ====================
-async function renderWebTasks(){$('main-content').innerHTML=`<div class="page active"><h3>Web Tasks</h3><div id="web-tasks-container"><div class="spinner"></div></div></div>`;const userNode=platformMode==='telegram'?'users':'webUsers';const[tS,cS,tiS]=await Promise.all([db.ref('config/bonusTasks').once('value'),db.ref(`${userNode}/${currentUser.uid}/bonusTaskCompletions`).once('value'),db.ref(`${userNode}/${currentUser.uid}/bonusTaskTimers`).once('value')]);const tasks=[];Object.keys(tS.val()||{}).forEach(k=>tasks.push({key:k,...tS.val()[k]}));tasks.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));const comps=cS.val()||{},timers=tiS.val()||{};if(!tasks.length){$('web-tasks-container').innerHTML='<p class="text-center">No tasks</p>';return;}let h='';tasks.forEach(t=>{let cnt=0;for(let k in comps){if(comps[k]&&comps[k].taskId===t.key)cnt++;}const isGlobal=t.globalLimit>0&&(t.completions||0)>=t.globalLimit,isUser=t.userLimit>0&&cnt>=t.userLimit;const timer=timers[t.key];let btn='Start Task',dis=false;if(isGlobal){btn='Global Limit';dis=true;}else if(isUser){btn='Limit Reached';dis=true;}else if(timer?.startTime){const el=Date.now()-timer.startTime;if(el>=(t.taskTime||30)*1000)btn='Claim '+t.reward+' Coins';else{btn=Math.floor(el/1000)+'/'+(t.taskTime||30)+'s';dis=true;}}h+=`<div class="task-card"><div class="task-header"><img src="${t.photoUrl||'https://via.placeholder.com/55'}"><div class="task-info"><h4>${escapeHtml(t.name)}</h4><p>${escapeHtml(t.description||t.title||'')}</p></div></div><div class="task-reward-badge">+${t.reward} Coins</div><div class="task-stats"><span><i class="fas fa-user"></i> ${cnt}/${t.userLimit||1}</span><span><i class="fas fa-globe"></i> ${t.completions||0}/${t.globalLimit||'∞'}</span></div><button class="task-btn" ${dis?'disabled':''} onclick="window.startWebTask('${t.key}','${escapeHtml(t.name).replace(/'/g,"\\'")}',${t.reward},${t.taskTime||30},'${(t.link||'').replace(/'/g,"\\'")}')">${btn}</button></div>`;});$('web-tasks-container').innerHTML=h;}
-window.startWebTask=async(key,name,reward,time,link)=>{const userNode=platformMode==='telegram'?'users':'webUsers';await db.ref(`${userNode}/${currentUser.uid}/bonusTaskTimers/${key}`).set({startTime:Date.now()});if(link)window.open(link,'_blank');window.showPopup('Started','Wait '+time+'s.');setTimeout(async()=>{const s=await db.ref(`${userNode}/${currentUser.uid}/bonusTaskCompletions`).once('value');const c=s.val()||{};for(let k in c){if(c[k]&&c[k].taskId===key){window.showPopup('Done','Already completed.');return;}}await db.ref(`${userNode}/${currentUser.uid}/bonusTaskCompletions`).push({taskId:key,taskName:name,reward,timestamp:Date.now()});await db.ref(`${userNode}/${currentUser.uid}`).update({earningWallet:(currentUser.earningWallet||0)+reward,totalEarned:(currentUser.totalEarned||0)+reward});currentUser.earningWallet=(currentUser.earningWallet||0)+reward;await db.ref(`config/bonusTasks/${key}/completions`).transaction(v=>(v||0)+1);await db.ref(`${userNode}/${currentUser.uid}/bonusTaskTimers/${key}`).remove();window.showPopup('Done!','+'+reward+' Coins!');renderWebTasks();},time*1000);};
+async function renderWebTasks() {
+    setActiveBottomNav('web');
+    $('main-content').innerHTML = `<div class="page active"><h3>Web Tasks</h3><div id="web-tasks-container"><div class="spinner"></div></div></div>`;
+    const userNode = platformMode === 'telegram' ? 'users' : 'webUsers';
+    const [tS, cS, tiS] = await Promise.all([db.ref('config/bonusTasks').once('value'), db.ref(`${userNode}/${currentUser.uid}/bonusTaskCompletions`).once('value'), db.ref(`${userNode}/${currentUser.uid}/bonusTaskTimers`).once('value')]);
+    const tasks = []; Object.keys(tS.val() || {}).forEach(k => tasks.push({ key: k, ...tS.val()[k] }));
+    tasks.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    const comps = cS.val() || {}, timers = tiS.val() || {};
+    if (!tasks.length) { $('web-tasks-container').innerHTML = '<p class="text-center">No tasks</p>'; return; }
+    let h = '';
+    tasks.forEach(t => {
+        let cnt = 0; for (let k in comps) { if (comps[k] && comps[k].taskId === t.key) cnt++; }
+        const isGlobal = t.globalLimit > 0 && (t.completions || 0) >= t.globalLimit;
+        const isUser = t.userLimit > 0 && cnt >= t.userLimit;
+        const timer = timers[t.key];
+        let btn = 'Start Task', dis = false;
+        if (isGlobal) { btn = 'Global Limit'; dis = true; }
+        else if (isUser) { btn = 'Limit Reached'; dis = true; }
+        else if (timer?.startTime) { const el = Date.now() - timer.startTime; if (el >= (t.taskTime || 30) * 1000) btn = 'Claim ' + t.reward + ' Coins'; else { btn = Math.floor(el / 1000) + '/' + (t.taskTime || 30) + 's'; dis = true; } }
+        h += `<div class="task-card"><div class="task-header"><img src="${t.photoUrl || 'https://via.placeholder.com/55'}"><div class="task-info"><h4>${escapeHtml(t.name)}</h4><p>${escapeHtml(t.description || t.title || '')}</p></div></div><div class="task-reward-badge">+${t.reward} Coins</div><div class="task-stats"><span><i class="fas fa-user"></i> ${cnt}/${t.userLimit || 1}</span><span><i class="fas fa-globe"></i> ${t.completions || 0}/${t.globalLimit || '∞'}</span></div><button class="task-btn" ${dis ? 'disabled' : ''} onclick="window.startWebTask('${t.key}','${escapeHtml(t.name).replace(/'/g,"\\'")}',${t.reward},${t.taskTime || 30},'${(t.link || '').replace(/'/g,"\\'")}')">${btn}</button></div>`;
+    });
+    $('web-tasks-container').innerHTML = h;
+}
+
+window.startWebTask = async (key, name, reward, time, link) => {
+    const userNode = platformMode === 'telegram' ? 'users' : 'webUsers';
+    await db.ref(`${userNode}/${currentUser.uid}/bonusTaskTimers/${key}`).set({ startTime: Date.now() });
+    if (link) window.open(link, '_blank');
+    window.showPopup('Started', 'Wait ' + time + 's.');
+    setTimeout(async () => {
+        const s = await db.ref(`${userNode}/${currentUser.uid}/bonusTaskCompletions`).once('value');
+        const c = s.val() || {};
+        for (let k in c) { if (c[k] && c[k].taskId === key) { window.showPopup('Done', 'Already completed.'); return; } }
+        await db.ref(`${userNode}/${currentUser.uid}/bonusTaskCompletions`).push({ taskId: key, taskName: name, reward, timestamp: Date.now() });
+        await db.ref(`${userNode}/${currentUser.uid}`).update({ earningWallet: (currentUser.earningWallet || 0) + reward, totalEarned: (currentUser.totalEarned || 0) + reward });
+        currentUser.earningWallet = (currentUser.earningWallet || 0) + reward;
+        await db.ref(`config/bonusTasks/${key}/completions`).transaction(v => (v || 0) + 1);
+        await db.ref(`${userNode}/${currentUser.uid}/bonusTaskTimers/${key}`).remove();
+        window.showPopup('Done!', '+' + reward + ' Coins!');
+        renderWebTasks();
+    }, time * 1000);
+};
 
 // ==================== REG TASKS ====================
-async function renderRegistrationTasks(){$('main-content').innerHTML=`<div class="page active"><h3>Register Tasks</h3><div id="reg-tasks-container"><div class="spinner"></div></div></div>`;const userNode=platformMode==='telegram'?'users':'webUsers';const[tS,sS]=await Promise.all([db.ref('config/registrationTasks').once('value'),db.ref(`${userNode}/${currentUser.uid}/registrationTaskStatus`).once('value')]);const tasks=[];Object.keys(tS.val()||{}).forEach(k=>tasks.push({key:k,...tS.val()[k]}));tasks.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));const st=sS.val()||{};if(!tasks.length){$('reg-tasks-container').innerHTML='<p class="text-center">No tasks</p>';return;}let h='';tasks.forEach(t=>{const stat=st[t.key];const ad=st[t.key+'_approvalData'];const claimed=st[t.key+'_claimed'];if(claimed){h+=`<div class="reg-task-card"><div class="reg-task-header"><img src="${t.photoUrl||'https://via.placeholder.com/55'}"><div><h4>${escapeHtml(t.name)}</h4></div></div><div class="reg-task-status approved">✅ Claimed</div></div>`;}else if(stat==='approved'&&ad&&ad.countdownEnd>Date.now()){h+=`<div class="reg-task-card"><div class="reg-task-header"><img src="${t.photoUrl||'https://via.placeholder.com/55'}"><div><h4>${escapeHtml(t.name)}</h4></div></div><div class="reg-task-status approved"><div class="countdown" id="cd-${t.key}"></div></div></div>`;setTimeout(()=>{const iv=setInterval(()=>{const r=ad.countdownEnd-Date.now();const el=$('cd-'+t.key);if(r<=0){clearInterval(iv);if(el)el.innerHTML='<button class="btn btn-success btn-small" onclick="window.claimRegReward(\''+t.key+'\','+t.reward+')">Claim '+t.reward+' Coins</button>';}else{if(el)el.innerText=Math.floor(r/60000)+':'+String(Math.floor((r%60000)/1000)).padStart(2,'0');}},1000);},100);}else if(stat==='approved'&&ad&&ad.countdownEnd<=Date.now()){h+=`<div class="reg-task-card"><div class="reg-task-header"><img src="${t.photoUrl||'https://via.placeholder.com/55'}"><div><h4>${escapeHtml(t.name)}</h4></div></div><div class="reg-task-status approved"><button class="btn btn-success btn-small" onclick="window.claimRegReward('${t.key}',${t.reward})">Claim ${t.reward} Coins</button></div></div>`;}else if(stat==='pending_review'){h+=`<div class="reg-task-card"><div class="reg-task-header"><img src="${t.photoUrl||'https://via.placeholder.com/55'}"><div><h4>${escapeHtml(t.name)}</h4></div></div><div class="reg-task-status pending">⏳ Pending</div></div>`;}else if(stat==='rejected'){h+=`<div class="reg-task-card"><div class="reg-task-header"><img src="${t.photoUrl||'https://via.placeholder.com/55'}"><div><h4>${escapeHtml(t.name)}</h4></div></div><div class="reg-task-status rejected">❌ Rejected</div></div>`;}else{h+=`<div class="reg-task-card"><div class="reg-task-header"><img src="${t.photoUrl||'https://via.placeholder.com/55'}"><div><h4>${escapeHtml(t.name)}</h4></div></div><div class="reg-task-actions"><button class="btn btn-primary btn-small" onclick="window.open('${(t.link||'#').replace(/'/g,"\\'")}','_blank')">Open</button><button class="btn btn-secondary btn-small" onclick="window.submitRegTask('${t.key}','${escapeHtml(t.name).replace(/'/g,"\\'")}',${t.reward})">Submit</button></div></div>`;}});$('reg-tasks-container').innerHTML=h;}
-window.submitRegTask=(key,name,reward)=>{const note=prompt('Add note:');if(note===null)return;(async()=>{await db.ref('registrationRequests').push({userId:currentUser.uid,userName:currentUser.fullName,userPhoto:currentUser.photoUrl,taskId:key,taskName:name,taskReward:reward,note,status:'pending',timestamp:firebase.database.ServerValue.TIMESTAMP});const userNode=platformMode==='telegram'?'users':'webUsers';await db.ref(`${userNode}/${currentUser.uid}/registrationTaskStatus/${key}`).set('pending_review');window.showPopup('Submitted!','Under review.');renderRegistrationTasks();})();};
-window.claimRegReward=async(key,reward)=>{const userNode=platformMode==='telegram'?'users':'webUsers';const s=await db.ref(`${userNode}/${currentUser.uid}/registrationTaskStatus/${key}_claimed`).once('value');if(s.val()){window.showPopup('Claimed','Already claimed.');return;}await db.ref(`${userNode}/${currentUser.uid}`).update({earningWallet:(currentUser.earningWallet||0)+reward,totalEarned:(currentUser.totalEarned||0)+reward});await db.ref(`${userNode}/${currentUser.uid}/registrationTaskStatus/${key}_claimed`).set(true);currentUser.earningWallet=(currentUser.earningWallet||0)+reward;window.showPopup('Success!','+'+reward+' Coins!');renderRegistrationTasks();};
+async function renderRegistrationTasks() {
+    setActiveBottomNav('register-task');
+    $('main-content').innerHTML = `<div class="page active"><h3>Register Tasks</h3><div id="reg-tasks-container"><div class="spinner"></div></div></div>`;
+    const userNode = platformMode === 'telegram' ? 'users' : 'webUsers';
+    const [tS, sS] = await Promise.all([db.ref('config/registrationTasks').once('value'), db.ref(`${userNode}/${currentUser.uid}/registrationTaskStatus`).once('value')]);
+    const tasks = []; Object.keys(tS.val() || {}).forEach(k => tasks.push({ key: k, ...tS.val()[k] }));
+    tasks.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    const st = sS.val() || {};
+    if (!tasks.length) { $('reg-tasks-container').innerHTML = '<p class="text-center">No tasks</p>'; return; }
+    let h = '';
+    tasks.forEach(t => {
+        const stat = st[t.key]; const ad = st[t.key + '_approvalData']; const claimed = st[t.key + '_claimed'];
+        if (claimed) { h += `<div class="reg-task-card"><div class="reg-task-header"><img src="${t.photoUrl || 'https://via.placeholder.com/55'}"><div><h4>${escapeHtml(t.name)}</h4></div></div><div class="reg-task-status approved">✅ Claimed</div></div>`; }
+        else if (stat === 'approved' && ad && ad.countdownEnd > Date.now()) { h += `<div class="reg-task-card"><div class="reg-task-header"><img src="${t.photoUrl || 'https://via.placeholder.com/55'}"><div><h4>${escapeHtml(t.name)}</h4></div></div><div class="reg-task-status approved"><div class="countdown" id="cd-${t.key}"></div></div></div>`; setTimeout(() => { const iv = setInterval(() => { const r = ad.countdownEnd - Date.now(); const el = $('cd-' + t.key); if (r <= 0) { clearInterval(iv); if (el) el.innerHTML = '<button class="btn btn-success btn-small" onclick="window.claimRegReward(\'' + t.key + '\',' + t.reward + ')">Claim ' + t.reward + ' Coins</button>'; } else { if (el) el.innerText = Math.floor(r / 60000) + ':' + String(Math.floor((r % 60000) / 1000)).padStart(2, '0'); } }, 1000); }, 100); }
+        else if (stat === 'approved' && ad && ad.countdownEnd <= Date.now()) { h += `<div class="reg-task-card"><div class="reg-task-header"><img src="${t.photoUrl || 'https://via.placeholder.com/55'}"><div><h4>${escapeHtml(t.name)}</h4></div></div><div class="reg-task-status approved"><button class="btn btn-success btn-small" onclick="window.claimRegReward('${t.key}',${t.reward})">Claim ${t.reward} Coins</button></div></div>`; }
+        else if (stat === 'pending_review') { h += `<div class="reg-task-card"><div class="reg-task-header"><img src="${t.photoUrl || 'https://via.placeholder.com/55'}"><div><h4>${escapeHtml(t.name)}</h4></div></div><div class="reg-task-status pending">⏳ Pending</div></div>`; }
+        else if (stat === 'rejected') { h += `<div class="reg-task-card"><div class="reg-task-header"><img src="${t.photoUrl || 'https://via.placeholder.com/55'}"><div><h4>${escapeHtml(t.name)}</h4></div></div><div class="reg-task-status rejected">❌ Rejected</div></div>`; }
+        else { h += `<div class="reg-task-card"><div class="reg-task-header"><img src="${t.photoUrl || 'https://via.placeholder.com/55'}"><div><h4>${escapeHtml(t.name)}</h4></div></div><div class="reg-task-actions"><button class="btn btn-primary btn-small" onclick="window.open('${(t.link || '#').replace(/'/g,"\\'")}','_blank')">Open</button><button class="btn btn-secondary btn-small" onclick="window.submitRegTask('${t.key}','${escapeHtml(t.name).replace(/'/g,"\\'")}',${t.reward})">Submit</button></div></div>`; }
+    });
+    $('reg-tasks-container').innerHTML = h;
+}
+
+window.submitRegTask = (key, name, reward) => {
+    const note = prompt('Add note:'); if (note === null) return;
+    (async () => {
+        await db.ref('registrationRequests').push({ userId: currentUser.uid, userName: currentUser.fullName, userPhoto: currentUser.photoUrl, taskId: key, taskName: name, taskReward: reward, note, status: 'pending', timestamp: firebase.database.ServerValue.TIMESTAMP });
+        const userNode = platformMode === 'telegram' ? 'users' : 'webUsers';
+        await db.ref(`${userNode}/${currentUser.uid}/registrationTaskStatus/${key}`).set('pending_review');
+        window.showPopup('Submitted!', 'Under review.'); renderRegistrationTasks();
+    })();
+};
+
+window.claimRegReward = async (key, reward) => {
+    const userNode = platformMode === 'telegram' ? 'users' : 'webUsers';
+    const s = await db.ref(`${userNode}/${currentUser.uid}/registrationTaskStatus/${key}_claimed`).once('value');
+    if (s.val()) { window.showPopup('Claimed', 'Already claimed.'); return; }
+    await db.ref(`${userNode}/${currentUser.uid}`).update({ earningWallet: (currentUser.earningWallet || 0) + reward, totalEarned: (currentUser.totalEarned || 0) + reward });
+    await db.ref(`${userNode}/${currentUser.uid}/registrationTaskStatus/${key}_claimed`).set(true);
+    currentUser.earningWallet = (currentUser.earningWallet || 0) + reward;
+    window.showPopup('Success!', '+' + reward + ' Coins!'); renderRegistrationTasks();
+};
 
 // ==================== LEADERBOARD ====================
-async function renderLeaderboard(){$('main-content').innerHTML='<div class="page active"><h3>Leaderboard</h3><div id="lb-container"><div class="spinner"></div></div></div>';const[s1,s2]=await Promise.all([db.ref('webUsers').orderByChild('referrals').limitToLast(20).once('value'),db.ref('users').orderByChild('referrals').limitToLast(20).once('value')]);const u=[];s1.forEach(x=>{const d=x.val();if(!d.blocked)u.push({name:d.fullName||'?',photo:d.photoUrl,ref:d.referrals||0});});s2.forEach(x=>{const d=x.val();if(!d.blocked)u.push({name:d.fullName||d.firstName||'?',photo:d.photoUrl,ref:d.referrals||0});});u.sort((a,b)=>b.ref-a.ref);const top20=u.slice(0,20);if(!top20.length){$('lb-container').innerHTML='<p class="text-center">No users</p>';return;}let h=top20.length>=3?`<div class="leaderboard-top3"><div class="leaderboard-item leaderboard-rank-2"><img src="${top20[1].photo||'https://via.placeholder.com/60'}" class="leaderboard-avatar"><div class="leaderboard-name">${escapeHtml(top20[1].name)}</div><div class="leaderboard-score">${top20[1].ref}</div></div><div class="leaderboard-item leaderboard-rank-1"><img src="${top20[0].photo||'https://via.placeholder.com/60'}" class="leaderboard-avatar"><div class="leaderboard-name">${escapeHtml(top20[0].name)} <i class="fas fa-crown" style="color:#FFD700;"></i></div><div class="leaderboard-score">${top20[0].ref}</div></div><div class="leaderboard-item leaderboard-rank-3"><img src="${top20[2].photo||'https://via.placeholder.com/60'}" class="leaderboard-avatar"><div class="leaderboard-name">${escapeHtml(top20[2].name)}</div><div class="leaderboard-score">${top20[2].ref}</div></div></div>`:'';h+='<div class="leaderboard-list">';top20.forEach((x,i)=>{h+=`<div class="leaderboard-list-item"><div class="leaderboard-list-rank">#${i+1}</div><img src="${x.photo||'https://via.placeholder.com/40'}" class="leaderboard-list-avatar"><div class="leaderboard-list-info"><div class="leaderboard-list-name">${escapeHtml(x.name)}</div></div><div class="leaderboard-list-score">${x.ref}</div></div>`;});h+='</div>';$('lb-container').innerHTML=h;}
+async function renderLeaderboard() {
+    setActiveBottomNav('rank');
+    $('main-content').innerHTML = '<div class="page active"><h3>Leaderboard</h3><div id="lb-container"><div class="spinner"></div></div></div>';
+    const [s1, s2] = await Promise.all([db.ref('webUsers').orderByChild('referrals').limitToLast(20).once('value'), db.ref('users').orderByChild('referrals').limitToLast(20).once('value')]);
+    const u = [];
+    s1.forEach(x => { const d = x.val(); if (!d.blocked) u.push({ name: d.fullName || '?', photo: d.photoUrl, ref: d.referrals || 0 }); });
+    s2.forEach(x => { const d = x.val(); if (!d.blocked) u.push({ name: d.fullName || d.firstName || '?', photo: d.photoUrl, ref: d.referrals || 0 }); });
+    u.sort((a, b) => b.ref - a.ref);
+    const top20 = u.slice(0, 20);
+    if (!top20.length) { $('lb-container').innerHTML = '<p class="text-center">No users</p>'; return; }
+    let h = top20.length >= 3 ? `<div class="leaderboard-top3"><div class="leaderboard-item leaderboard-rank-2"><img src="${top20[1].photo || 'https://via.placeholder.com/60'}" class="leaderboard-avatar"><div class="leaderboard-name">${escapeHtml(top20[1].name)}</div><div class="leaderboard-score">${top20[1].ref}</div></div><div class="leaderboard-item leaderboard-rank-1"><img src="${top20[0].photo || 'https://via.placeholder.com/60'}" class="leaderboard-avatar"><div class="leaderboard-name">${escapeHtml(top20[0].name)} <i class="fas fa-crown" style="color:#FFD700;"></i></div><div class="leaderboard-score">${top20[0].ref}</div></div><div class="leaderboard-item leaderboard-rank-3"><img src="${top20[2].photo || 'https://via.placeholder.com/60'}" class="leaderboard-avatar"><div class="leaderboard-name">${escapeHtml(top20[2].name)}</div><div class="leaderboard-score">${top20[2].ref}</div></div></div>` : '';
+    h += '<div class="leaderboard-list">';
+    top20.forEach((x, i) => { h += `<div class="leaderboard-list-item"><div class="leaderboard-list-rank">#${i + 1}</div><img src="${x.photo || 'https://via.placeholder.com/40'}" class="leaderboard-list-avatar"><div class="leaderboard-list-info"><div class="leaderboard-list-name">${escapeHtml(x.name)}</div></div><div class="leaderboard-list-score">${x.ref}</div></div>`; });
+    h += '</div>'; $('lb-container').innerHTML = h;
+}
 
 // ==================== LOGOUT ====================
-window.logout = () => { if(!confirm('Logout?'))return; localStorage.removeItem('earnify_web_user'); currentUser=null; $('dashboard-screen').classList.remove('show'); if (platformMode === 'telegram') { if (window.Telegram && window.Telegram.WebApp) { window.Telegram.WebApp.close(); } } else { $('login-screen').classList.remove('hidden'); } closeSidebar(); };
+window.logout = () => {
+    if (!confirm('Logout?')) return;
+    localStorage.removeItem('earnify_web_user');
+    currentUser = null;
+    $('dashboard-screen').classList.remove('show');
+    $('bottom-nav').classList.add('hidden');
+    if (platformMode === 'telegram') {
+        if (window.Telegram && window.Telegram.WebApp) { window.Telegram.WebApp.close(); }
+    } else {
+        $('login-screen').classList.remove('hidden');
+    }
+};
 
 // ==================== SESSION CHECK ====================
-async function checkSession(){ const saved=localStorage.getItem('earnify_web_user'); if(saved){ try{ const data=JSON.parse(saved); let snap=await db.ref(`webUsers/${data.uid}`).once('value'); let user=snap.val(); if(!user){ snap=await db.ref(`users/${data.uid}`).once('value'); user=snap.val(); platformMode='telegram'; } if(user&&!user.blocked){ currentUser={...user,uid:data.uid}; if(!currentUser.referralBoxRewards)currentUser.referralBoxRewards={}; if(currentUser.totalWithdrawn===undefined)currentUser.totalWithdrawn=0; $('login-screen').classList.add('hidden'); $('register-screen').classList.add('hidden'); $('dashboard-screen').classList.add('show'); await loadAppConfig();await loadDashboard(); return; } }catch(e){localStorage.removeItem('earnify_web_user');} } if (platformMode==='telegram'&&telegramUser&&telegramUser.id) { autoLoginTelegram(); } else if (platformMode!=='telegram') { $('login-screen').classList.remove('hidden'); } }
-document.addEventListener('click',(e)=>{if(e.target.classList.contains('modal-overlay')&&e.target.id!=='popup-modal'&&e.target.id!=='ad-loading-modal')e.target.classList.remove('show');});
-document.addEventListener('keydown',(e)=>{if(e.key==='Enter'&&!$('login-screen').classList.contains('hidden')&&document.activeElement===$('login-password'))window.handleLogin();});
+async function checkSession() {
+    const saved = localStorage.getItem('earnify_web_user');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            let snap = await db.ref(`webUsers/${data.uid}`).once('value');
+            let user = snap.val();
+            if (!user) { snap = await db.ref(`users/${data.uid}`).once('value'); user = snap.val(); platformMode = 'telegram'; }
+            if (user && !user.blocked) {
+                currentUser = { ...user, uid: data.uid };
+                $('login-screen').classList.add('hidden');
+                $('register-screen').classList.add('hidden');
+                $('dashboard-screen').classList.add('show');
+                if (platformMode === 'telegram') $('bottom-nav').classList.remove('hidden');
+                await loadAppConfig(); await loadDashboard();
+                return;
+            }
+        } catch (e) { localStorage.removeItem('earnify_web_user'); }
+    }
+
+    if (platformMode === 'telegram' && telegramUser && telegramUser.id) {
+        $('tg-verify-overlay').classList.remove('hidden');
+        startTelegramVerification();
+    } else if (platformMode !== 'telegram') {
+        $('login-screen').classList.remove('hidden');
+    }
+}
+
+document.addEventListener('click', (e) => { if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('show'); });
 checkSession();
 </script>
 </body>
