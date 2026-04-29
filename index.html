@@ -14,7 +14,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #0F172A; color: #F8FAFC; min-height: 100vh; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
-        :root { --primary: #E74C3C; --primary-dark: #C0392B; --gold: #F39C12; --surface: #1E293B; --surface-light: #334155; --text: #F8FAFC; --text-secondary: #94A3B8; --border: #334155; --success: #10B981; --error: #EF4444; --warning: #F59E0B; --info: #3B82F6; --purple: #8B5CF6; }
+        :root { --primary: #E74C3C; --gold: #F39C12; --surface: #1E293B; --surface-light: #334155; --text: #F8FAFC; --text-secondary: #94A3B8; --border: #334155; --success: #10B981; --error: #EF4444; --warning: #F59E0B; --info: #3B82F6; --purple: #8B5CF6; }
         .clickable, .btn, .task-btn, .ad-card, .nav-item, .method-card, .menu-item { cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; user-select: none; transition: all 0.1s ease !important; }
         .clickable:active, .btn:active, .task-btn:active, .ad-card:active, .nav-item:active, .method-card:active { transform: scale(0.97) !important; opacity: 0.9; }
         button:disabled { opacity: 0.5 !important; cursor: not-allowed !important; transform: none !important; pointer-events: none; }
@@ -34,7 +34,7 @@
         .step-subtitle { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 24px; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
-        .form-input, .form-select, .form-textarea { width: 100%; padding: 14px 16px; background: #0F172A; border: 2px solid var(--border); border-radius: 14px; color: var(--text); font-size: 0.95rem; font-family: 'Inter', sans-serif; transition: all 0.2s; -webkit-appearance: none; }
+        .form-input, .form-select { width: 100%; padding: 14px 16px; background: #0F172A; border: 2px solid var(--border); border-radius: 14px; color: var(--text); font-size: 0.95rem; font-family: 'Inter', sans-serif; transition: all 0.2s; -webkit-appearance: none; }
         .form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394A3B8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; appearance: none; }
         .form-input:focus, .form-select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(231,76,60,0.15); }
         .btn { padding: 14px 20px; border-radius: 14px; border: none; font-weight: 600; cursor: pointer; transition: all 0.1s; font-size: 0.9rem; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Inter', sans-serif; min-height: 48px; }
@@ -152,6 +152,8 @@
         .ad-card i { font-size: 1.8rem; margin-bottom: 8px; color: var(--primary); }
         .ad-card h4 { font-size: 0.9rem; margin-bottom: 4px; }
         .ad-card .limit-info { font-size: 0.7rem; opacity: 0.7; }
+        .ad-card .watch-btn { margin-top: 10px; padding: 10px 20px; background: linear-gradient(135deg, var(--primary), var(--gold)); color: white; border: none; border-radius: 30px; font-weight: 600; font-size: 0.8rem; cursor: pointer; }
+        .ad-card .watch-btn:disabled { background: var(--surface-light); color: var(--text-secondary); cursor: not-allowed; }
         .daily-checkin-card { background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(5,150,105,0.1)); border: 1px solid rgba(16,185,129,0.3); border-radius: 20px; padding: 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
         .pending-banner { background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(217,119,6,0.1)); border: 2px solid rgba(245,158,11,0.4); border-radius: 20px; padding: 16px; margin: 16px 0; }
         .task-card { background: var(--surface); border-radius: 20px; padding: 18px; border: 1px solid var(--border); margin-bottom: 14px; position: relative; overflow: hidden; }
@@ -214,6 +216,7 @@
         .settings-info { flex: 1; }
         .settings-title { font-weight: 600; font-size: 0.9rem; color: var(--text); }
         .settings-desc { font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px; }
+        .settings-arrow { color: var(--text-secondary); font-size: 0.9rem; }
         .settings-back-btn { display: flex; align-items: center; gap: 8px; padding: 10px 0; margin-bottom: 16px; cursor: pointer; color: var(--primary); font-weight: 600; font-size: 0.9rem; }
         .referral-card { background: linear-gradient(135deg, #6a11cb, #2575fc); border-radius: 24px; padding: 24px 20px; color: white; margin-bottom: 20px; }
         .referral-code-box { background: rgba(255,255,255,0.15); border-radius: 16px; padding: 14px; display: flex; align-items: center; gap: 10px; margin-top: 12px; }
@@ -244,10 +247,9 @@
 </head>
 <body>
 
-<!-- WEB MODE LOGIN -->
+<!-- WEB LOGIN -->
 <div id="login-screen" class="auth-container">
-    <div class="auth-card">
-        <div class="auth-logo"><div class="logo-icon"><i class="fas fa-crown"></i></div><h1>Earnify</h1><p>Earn Coins Online</p></div>
+    <div class="auth-card"><div class="auth-logo"><div class="logo-icon"><i class="fas fa-crown"></i></div><h1>Earnify</h1><p>Earn Coins Online</p></div>
         <div id="login-error" class="error-message"></div>
         <div class="form-group"><label>Username or Email</label><input type="text" id="login-identifier" class="form-input" placeholder="Enter username or email" autocomplete="username"></div>
         <div class="form-group"><label>Password</label><input type="password" id="login-password" class="form-input" placeholder="Enter password" autocomplete="current-password"></div>
@@ -256,101 +258,43 @@
     </div>
 </div>
 
-<!-- WEB MODE REGISTER -->
+<!-- WEB REGISTER -->
 <div id="register-screen" class="auth-container hidden">
-    <div class="auth-card">
-        <div class="auth-logo"><div class="logo-icon"><i class="fas fa-user-plus"></i></div><h1>Create Account</h1><p>Set up your account credentials</p></div>
+    <div class="auth-card"><div class="auth-logo"><div class="logo-icon"><i class="fas fa-user-plus"></i></div><h1>Create Account</h1><p>Set up your account credentials</p></div>
         <div class="step-indicator" id="step-indicator"><div class="step-dot active" data-step="1"></div><div class="step-dot" data-step="2"></div><div class="step-dot" data-step="3"></div><div class="step-dot" data-step="4"></div></div>
         <div id="reg-error" class="error-message"></div>
-        <div id="reg-step-1">
-            <div class="step-title">Basic Identity</div><div class="step-subtitle">Please provide your information</div>
-            <div class="form-group"><label>Full Name</label><input type="text" id="reg-fullname" class="form-input" placeholder="Full name"></div>
-            <div class="form-group"><label>Username</label><input type="text" id="reg-username" class="form-input" placeholder="Choose username"></div>
-            <div class="form-group"><label>Date of Birth</label><input type="date" id="reg-dob" class="form-input"></div>
-            <div class="form-group"><label>Gender</label><div class="radio-group"><div class="radio-option"><input type="radio" name="gender" id="gender-male" value="Male"><label for="gender-male">Male</label></div><div class="radio-option"><input type="radio" name="gender" id="gender-female" value="Female"><label for="gender-female">Female</label></div><div class="radio-option"><input type="radio" name="gender" id="gender-other" value="Other"><label for="gender-other">Other</label></div></div></div>
-            <div class="form-group"><label>Employment</label><select id="reg-employment" class="form-select"><option value="">Select</option><option>Student</option><option>Employed</option><option>Self-Employed</option><option>Freelancer</option><option>Unemployed</option><option>Other</option></select></div>
-            <button class="btn btn-primary" onclick="window.nextRegStep(2)">Next</button>
-        </div>
-        <div id="reg-step-2" class="hidden">
-            <div class="step-title">Contact</div><div class="step-subtitle">Contact details</div>
-            <div class="form-group"><label>Email</label><input type="email" id="reg-email" class="form-input" placeholder="Email"></div>
-            <div class="form-group"><label>Phone</label><input type="tel" id="reg-phone" class="form-input" placeholder="Phone"></div>
-            <div class="form-group"><label>Referral Code (Optional)</label><input type="text" id="reg-referral" class="form-input" placeholder="Code"></div>
-            <div style="display:flex;gap:10px;"><button class="btn btn-secondary" onclick="window.nextRegStep(1)" style="flex:1;">Back</button><button class="btn btn-primary" onclick="window.nextRegStep(3)" style="flex:1;">Next</button></div>
-        </div>
-        <div id="reg-step-3" class="hidden">
-            <div class="step-title">Security</div><div class="step-subtitle">Create password</div>
-            <div class="form-group"><label>Password</label><input type="password" id="reg-password" class="form-input" placeholder="Password"><small style="color:var(--text-secondary);font-size:0.7rem;">Min 8 chars, A-Z, a-z, 0-9, special</small></div>
-            <div class="form-group"><label>Confirm</label><input type="password" id="reg-confirm-password" class="form-input" placeholder="Confirm"></div>
-            <div style="display:flex;gap:10px;"><button class="btn btn-secondary" onclick="window.nextRegStep(2)" style="flex:1;">Back</button><button class="btn btn-primary" onclick="window.nextRegStep(4)" style="flex:1;">Next</button></div>
-        </div>
-        <div id="reg-step-4" class="hidden">
-            <div class="step-title">Photo</div><div class="step-subtitle">Upload photo</div>
-            <img id="reg-photo-preview" class="photo-preview" src="https://via.placeholder.com/120">
-            <div class="photo-upload-area" onclick="document.getElementById('reg-photo-input').click()"><i class="fas fa-camera"></i><p>Tap to select</p></div>
-            <input type="file" id="reg-photo-input" accept="image/*" style="display:none;" onchange="window.handlePhotoSelect(event)">
-            <div style="display:flex;gap:10px;margin-top:20px;"><button class="btn btn-secondary" onclick="window.nextRegStep(3)" style="flex:1;">Back</button><button class="btn btn-primary" onclick="window.startVerification()" style="flex:1;" id="reg-submit-btn">Create Account</button></div>
-        </div>
+        <div id="reg-step-1"><div class="step-title">Basic Identity</div><div class="step-subtitle">Please provide your information</div><div class="form-group"><label>Full Name</label><input type="text" id="reg-fullname" class="form-input" placeholder="Full name"></div><div class="form-group"><label>Username</label><input type="text" id="reg-username" class="form-input" placeholder="Choose username"></div><div class="form-group"><label>Date of Birth</label><input type="date" id="reg-dob" class="form-input"></div><div class="form-group"><label>Gender</label><div class="radio-group"><div class="radio-option"><input type="radio" name="gender" id="gender-male" value="Male"><label for="gender-male">Male</label></div><div class="radio-option"><input type="radio" name="gender" id="gender-female" value="Female"><label for="gender-female">Female</label></div><div class="radio-option"><input type="radio" name="gender" id="gender-other" value="Other"><label for="gender-other">Other</label></div></div></div><div class="form-group"><label>Employment</label><select id="reg-employment" class="form-select"><option value="">Select</option><option>Student</option><option>Employed</option><option>Self-Employed</option><option>Freelancer</option><option>Unemployed</option><option>Other</option></select></div><button class="btn btn-primary" onclick="window.nextRegStep(2)">Next</button></div>
+        <div id="reg-step-2" class="hidden"><div class="step-title">Contact</div><div class="step-subtitle">Contact details</div><div class="form-group"><label>Email</label><input type="email" id="reg-email" class="form-input" placeholder="Email"></div><div class="form-group"><label>Phone</label><input type="tel" id="reg-phone" class="form-input" placeholder="Phone"></div><div class="form-group"><label>Referral Code (Optional)</label><input type="text" id="reg-referral" class="form-input" placeholder="Code"></div><div style="display:flex;gap:10px;"><button class="btn btn-secondary" onclick="window.nextRegStep(1)" style="flex:1;">Back</button><button class="btn btn-primary" onclick="window.nextRegStep(3)" style="flex:1;">Next</button></div></div>
+        <div id="reg-step-3" class="hidden"><div class="step-title">Security</div><div class="step-subtitle">Create password</div><div class="form-group"><label>Password</label><input type="password" id="reg-password" class="form-input" placeholder="Password"><small style="color:var(--text-secondary);font-size:0.7rem;">Min 8 chars, A-Z, a-z, 0-9, special</small></div><div class="form-group"><label>Confirm</label><input type="password" id="reg-confirm-password" class="form-input" placeholder="Confirm"></div><div style="display:flex;gap:10px;"><button class="btn btn-secondary" onclick="window.nextRegStep(2)" style="flex:1;">Back</button><button class="btn btn-primary" onclick="window.nextRegStep(4)" style="flex:1;">Next</button></div></div>
+        <div id="reg-step-4" class="hidden"><div class="step-title">Photo</div><div class="step-subtitle">Upload photo</div><img id="reg-photo-preview" class="photo-preview" src="https://via.placeholder.com/120"><div class="photo-upload-area" onclick="document.getElementById('reg-photo-input').click()"><i class="fas fa-camera"></i><p>Tap to select</p></div><input type="file" id="reg-photo-input" accept="image/*" style="display:none;" onchange="window.handlePhotoSelect(event)"><div style="display:flex;gap:10px;margin-top:20px;"><button class="btn btn-secondary" onclick="window.nextRegStep(3)" style="flex:1;">Back</button><button class="btn btn-primary" onclick="window.startVerification()" style="flex:1;" id="reg-submit-btn">Create Account</button></div></div>
         <p class="auth-link">Already have an account? <a href="#" onclick="window.showLogin()">Login</a></p>
     </div>
 </div>
 
 <!-- WEB VERIFICATION -->
 <div id="verification-overlay" class="verification-overlay hidden">
-    <div class="verification-card">
-        <div class="verif-header-icon"><i class="fas fa-shield-halved"></i></div>
-        <h3>Verifying Your Account</h3><p class="subtitle" style="color:var(--text-secondary);">Please wait</p>
-        <div class="verif-progress-wrap"><div class="verif-progress-bar"><div class="verif-progress-fill" id="verif-progress-fill"></div></div><div class="verif-progress-text" id="verif-progress-text">0/8 checks</div></div>
-        <div class="check-list-wrapper" id="check-list"></div>
-        <div id="verification-result"></div>
-    </div>
+    <div class="verification-card"><div class="verif-header-icon"><i class="fas fa-shield-halved"></i></div><h3>Verifying Your Account</h3><p class="subtitle" style="color:var(--text-secondary);">Please wait</p><div class="verif-progress-wrap"><div class="verif-progress-bar"><div class="verif-progress-fill" id="verif-progress-fill"></div></div><div class="verif-progress-text" id="verif-progress-text">0/8 checks</div></div><div class="check-list-wrapper" id="check-list"></div><div id="verification-result"></div></div>
 </div>
 
 <!-- TELEGRAM VERIFICATION -->
 <div id="tg-verify-overlay" class="tg-verification-overlay hidden">
-    <div class="tg-verify-card">
-        <div class="tg-verify-icon"><i class="fab fa-telegram-plane"></i></div>
-        <h3>Telegram Verification</h3><p style="color:var(--text-secondary);font-size:0.8rem;">Verifying your identity...</p>
-        <div class="tg-check-list" id="tg-check-list"></div>
-        <div id="tg-verify-result"></div>
-    </div>
+    <div class="tg-verify-card"><div class="tg-verify-icon"><i class="fab fa-telegram-plane"></i></div><h3>Telegram Verification</h3><p style="color:var(--text-secondary);font-size:0.8rem;">Verifying your identity...</p><div class="tg-check-list" id="tg-check-list"></div><div id="tg-verify-result"></div></div>
 </div>
 
-<!-- DUPLICATE DEVICE POPUP -->
+<!-- DUPLICATE POPUP -->
 <div id="duplicate-popup" class="duplicate-popup hidden">
-    <div class="duplicate-card">
-        <div class="warning-icon"><i class="fas fa-exclamation-triangle"></i></div>
-        <h3 style="color:var(--warning);">⚠️ Multiple Account Detected!</h3>
-        <p style="color:var(--text-secondary);font-size:0.85rem;">This device already has a registered account.</p>
-        <div class="duplicate-user-info" id="duplicate-user-info"></div>
-        <button class="btn btn-primary" onclick="window.closeDuplicatePopup()">Understood</button>
-    </div>
+    <div class="duplicate-card"><div class="warning-icon"><i class="fas fa-exclamation-triangle"></i></div><h3 style="color:var(--warning);">⚠️ Multiple Account Detected!</h3><p style="color:var(--text-secondary);font-size:0.85rem;">This device already has a registered account.</p><div class="duplicate-user-info" id="duplicate-user-info"></div><button class="btn btn-primary" onclick="window.closeDuplicatePopup()">Understood</button></div>
 </div>
 
 <!-- DASHBOARD -->
 <div id="dashboard-screen" class="dashboard-container">
-    <div class="top-bar">
-        <div class="user-info"><img id="dash-avatar" class="user-avatar" src="https://via.placeholder.com/44"><div class="user-details"><div class="user-name" id="dash-name">User</div><div class="user-username">@<span id="dash-username">username</span></div></div></div>
-        <div class="top-balance"><i class="fas fa-coins"></i> <span id="top-balance-amount">0</span></div>
-        <button class="menu-toggle" id="menu-toggle" onclick="window.toggleSidebar()"><i class="fas fa-bars"></i></button>
-    </div>
+    <div class="top-bar"><div class="user-info"><img id="dash-avatar" class="user-avatar" src="https://via.placeholder.com/44"><div class="user-details"><div class="user-name" id="dash-name">User</div><div class="user-username">@<span id="dash-username">username</span></div></div></div><div class="top-balance"><i class="fas fa-coins"></i> <span id="top-balance-amount">0</span></div><button class="menu-toggle" id="menu-toggle" onclick="window.toggleSidebar()"><i class="fas fa-bars"></i></button></div>
     <div class="sidebar-overlay" id="sidebar-overlay" onclick="window.toggleSidebar()"></div>
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header"><h2>Earnify</h2><button class="sidebar-close" onclick="window.toggleSidebar()">&times;</button></div>
-        <ul class="nav-menu" id="nav-menu">
-            <li class="active" data-page="home"><i class="fas fa-home"></i> Home</li>
-            <li data-page="settings"><i class="fas fa-cog"></i> Settings</li>
-            <li data-page="register-task"><i class="fas fa-clipboard-list"></i> Register Tasks</li>
-            <li data-page="web"><i class="fas fa-globe"></i> Web Tasks</li>
-            <li data-page="rank"><i class="fas fa-trophy"></i> Leaderboard</li>
-            <li data-page="support"><i class="fas fa-headset"></i> Support</li>
-            <li class="logout-item" onclick="window.logout()"><i class="fas fa-sign-out-alt"></i> Logout</li>
-        </ul>
-    </div>
+    <div class="sidebar" id="sidebar"><div class="sidebar-header"><h2>Earnify</h2><button class="sidebar-close" onclick="window.toggleSidebar()">&times;</button></div><ul class="nav-menu" id="nav-menu"><li class="active" data-page="home"><i class="fas fa-home"></i> Home</li><li data-page="settings"><i class="fas fa-cog"></i> Settings</li><li data-page="register-task"><i class="fas fa-clipboard-list"></i> Register Tasks</li><li data-page="web"><i class="fas fa-globe"></i> Web Tasks</li><li data-page="rank"><i class="fas fa-trophy"></i> Leaderboard</li><li data-page="support"><i class="fas fa-headset"></i> Support</li><li class="logout-item" onclick="window.logout()"><i class="fas fa-sign-out-alt"></i> Logout</li></ul></div>
     <div class="main-content" id="main-content"><div class="page active"><div class="spinner"></div><p class="text-center">Loading...</p></div></div>
 </div>
 
-<!-- BOTTOM NAVIGATION (TELEGRAM ONLY) -->
+<!-- BOTTOM NAV (TELEGRAM ONLY) -->
 <div id="bottom-nav" class="bottom-nav hidden">
     <div class="bottom-nav-item active" data-page="web"><i class="fas fa-globe"></i><span>Web Tasks</span></div>
     <div class="bottom-nav-item" data-page="register-task"><i class="fas fa-clipboard-list"></i><span>Register</span></div>
@@ -361,7 +305,6 @@
 
 <!-- MODALS -->
 <div class="modal-overlay" id="popup-modal"><div class="modal-content text-center"><i id="popup-icon" class="fas fa-check-circle" style="font-size:3rem;color:var(--success);"></i><h3 id="popup-title">Success</h3><p id="popup-message">Done</p><button class="btn btn-primary" onclick="window.hidePopup()">OK</button></div></div>
-<div class="modal-overlay" id="ad-loading-modal"><div class="modal-content text-center" style="padding:40px 20px;"><div class="spinner"></div><h4>Loading Ad...</h4></div></div>
 <div class="modal-overlay" id="settings-modal"><div class="modal-content" id="settings-modal-body"></div></div>
 <div class="modal-overlay" id="withdraw-password-modal"><div class="modal-content" id="withdraw-password-modal-body"></div></div>
 
@@ -376,9 +319,16 @@ const firebaseConfig = { apiKey: "AIzaSyB03K2JAA4iyBLgAX6Nv9Z0VMGX3qMGqBc", auth
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ==================== PLATFORM DETECTION ====================
+// ==================== PLATFORM ====================
 let platformMode = 'web';
 let telegramUser = null;
+let currentUser = null;
+let appConfig = {};
+let regData = { fullName: '', username: '', dob: '', gender: '', employment: '', email: '', phone: '', referralCode: '', password: '', photoUrl: '' };
+let currentRegStep = 1;
+let adLocks = { monetag: false, gigapub: false };
+let settingsTempPhoto = null;
+let pendingReferralCode = null;
 
 function detectPlatform() {
     if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) {
@@ -391,12 +341,6 @@ function detectPlatform() {
     }
 }
 
-// ==================== GLOBAL STATE ====================
-let currentUser = null, appConfig = {};
-let regData = { fullName: '', username: '', dob: '', gender: '', employment: '', email: '', phone: '', referralCode: '', password: '', photoUrl: '' };
-let currentRegStep = 1;
-let settingsTempPhoto = null, pendingReferralCode = null;
-
 // ==================== HELPERS ====================
 function $(id) { return document.getElementById(id); }
 function escapeHtml(s) { return String(s||'').replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]); }
@@ -406,12 +350,9 @@ function showError(id, msg) { const el = $(id); if(!el)return; el.textContent=ms
 window.showPopup = (t, m, i='fa-check-circle', c='var(--success)') => { $('popup-title').innerText=t; $('popup-message').innerText=m; const ic=$('popup-icon'); if(ic){ic.className=`fas ${i}`;ic.style.color=c;} $('popup-modal').classList.add('show'); };
 window.hidePopup = () => { $('popup-modal').classList.remove('show'); };
 
-// ==================== REF CHECK ====================
 (function() { const params = new URLSearchParams(window.location.search); if (params.has('ref')) pendingReferralCode = params.get('ref').trim(); })();
 
-// ==================== PLATFORM INIT ====================
 detectPlatform();
-
 if (platformMode === 'telegram' && telegramUser && telegramUser.id) {
     $('tg-verify-overlay').classList.remove('hidden');
     startTelegramVerification();
@@ -443,12 +384,10 @@ async function startTelegramVerification() {
             return true;
         }}
     ];
-
     let checkHtml = '';
     checks.forEach(c => { checkHtml += `<div class="tg-check-item pending" id="tgc-${c.id}"><div class="tg-check-icon"><i class="fas fa-circle"></i></div><div class="tg-check-info"><div class="tg-check-label">${c.label}</div><div class="tg-check-value">${c.value||''}</div></div></div>`; });
     $('tg-check-list').innerHTML = checkHtml; $('tg-verify-result').innerHTML = '';
     let allPassed = true;
-
     for (const c of checks) {
         const item = document.getElementById(`tgc-${c.id}`); item.className = 'tg-check-item checking'; item.querySelector('.tg-check-icon').innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
         await new Promise(r => setTimeout(r, 800));
@@ -458,7 +397,6 @@ async function startTelegramVerification() {
             else { item.className = 'tg-check-item failed'; allPassed = false; break; }
         } catch (e) { item.className = 'tg-check-item failed'; allPassed = false; break; }
     }
-
     if (allPassed) {
         $('tg-verify-result').innerHTML = '<div style="color:var(--success);font-weight:700;margin-top:12px;">✅ Verified!</div>';
         await db.ref(`deviceFingerprints/${tgId}`).set({ fingerprint: getDeviceFingerprint(), updatedAt: Date.now() });
@@ -466,9 +404,7 @@ async function startTelegramVerification() {
         await autoLoginTelegram();
     }
 }
-
 function getDeviceFingerprint() { return btoa(`${navigator.userAgent}|${screen.width}x${screen.height}`).substring(0, 50); }
-
 function showDuplicateDevicePopup(existingUser, existingUid) {
     $('duplicate-user-info').innerHTML = `<img src="${existingUser.photoUrl||'https://via.placeholder.com/55'}"><div><h4>${escapeHtml(existingUser.fullName||existingUser.firstName||'User')}</h4><p>@${escapeHtml(existingUser.username||'N/A')}</p><p style="font-family:monospace;font-size:0.65rem;">ID: ${existingUid}</p></div>`;
     $('duplicate-popup').classList.remove('hidden'); $('tg-verify-overlay').classList.add('hidden');
@@ -544,13 +480,38 @@ async function loadDashboard() {
 function setupNav(){document.querySelectorAll('#nav-menu li[data-page]').forEach(li=>{li.addEventListener('click',function(){const p=this.dataset.page;document.querySelectorAll('#nav-menu li').forEach(l=>l.classList.remove('active'));this.classList.add('active');closeSidebar();switch(p){case'home':renderHomePage();break;case'settings':renderSettingsMain();break;case'web':renderWebTasks();break;case'register-task':renderRegistrationTasks();break;case'rank':renderLeaderboard();break;case'support':window.open(appConfig.supportLink||'https://t.me/','_blank');break;}});});}
 window.toggleSidebar=()=>{$('sidebar').classList.toggle('show');$('sidebar-overlay').classList.toggle('show');};
 function closeSidebar(){$('sidebar').classList.remove('show');$('sidebar-overlay').classList.remove('show');}
-
 function setupBottomNav(){document.querySelectorAll('#bottom-nav .bottom-nav-item').forEach(item=>{item.addEventListener('click',function(){const page=this.dataset.page;document.querySelectorAll('#bottom-nav .bottom-nav-item').forEach(i=>i.classList.remove('active'));this.classList.add('active');switch(page){case'home':renderHomePage();break;case'web':renderWebTasks();break;case'register-task':renderRegistrationTasks();break;case'rank':renderLeaderboard();break;case'settings':renderSettingsPage();break;}});});}
 function setActiveBottomNav(page){document.querySelectorAll('#bottom-nav .bottom-nav-item').forEach(i=>{i.classList.remove('active');if(i.dataset.page===page)i.classList.add('active');});}
 
 // ==================== HOME PAGE ====================
-async function renderHomePage(){if(platformMode==='telegram')setActiveBottomNav('home');const today=new Date().toISOString().slice(0,10);let h=`<div class="page active"><div class="wallet-balance-card"><div class="balance-label"><i class="fas fa-coins"></i> Earning Wallet</div><div class="balance-amount">${formatNumber(currentUser.earningWallet||0)} Coins</div></div>${platformMode==='telegram'?'<div class="text-center" style="margin-bottom:12px;"><span class="tg-badge"><i class="fab fa-telegram-plane"></i> Telegram Mode</span></div>':''}<h4 style="margin:16px 0 12px;"><i class="fas fa-play-circle" style="color:var(--primary);"></i> Watch Ads & Earn</h4><div class="ad-grid"><div class="ad-card" id="monetag-ad-container"><i class="fas fa-play-circle"></i><h4>Monetag</h4><div class="limit-info">Watch & Earn</div></div><div class="ad-card" id="gigapub-ad-container"><i class="fas fa-gamepad"></i><h4>Gigapub</h4><div class="limit-info">Watch & Earn</div></div><div class="ad-card"><i class="fas fa-ad"></i><h4>Adsgram</h4><div class="limit-info">Coming Soon</div></div><div class="ad-card"><i class="fas fa-chart-bar"></i><h4>Adexium</h4><div class="limit-info">Coming Soon</div></div></div>${currentUser.lastCheckInDate!==today?`<div class="daily-checkin-card"><div><h4 style="color:var(--success);">Daily Check-in</h4><p style="font-size:0.8rem;">Day ${(currentUser.checkInStreak||0)+1}</p></div><button class="btn btn-success btn-small" onclick="window.dailyCheckIn()">Claim ${appConfig.dailyCheckinReward||50} Coins</button></div>`:''}<div id="pending-banner-container"></div></div>`;$('main-content').innerHTML=h;loadPendingBanner();}
+async function renderHomePage(){if(platformMode==='telegram')setActiveBottomNav('home');const today=new Date().toISOString().slice(0,10);let h=`<div class="page active"><div class="wallet-balance-card"><div class="balance-label"><i class="fas fa-coins"></i> Earning Wallet</div><div class="balance-amount">${formatNumber(currentUser.earningWallet||0)} Coins</div></div>${platformMode==='telegram'?'<div class="text-center" style="margin-bottom:12px;"><span class="tg-badge"><i class="fab fa-telegram-plane"></i> Telegram Mode</span></div>':''}<h4 style="margin:16px 0 12px;"><i class="fas fa-play-circle" style="color:var(--primary);"></i> Watch Ads & Earn</h4><div class="ad-grid"><div class="ad-card" id="monetag-ad"><i class="fas fa-play-circle"></i><h4>Monetag</h4><div class="limit-info">Watch & Earn Rewards</div><button class="watch-btn" onclick="window.watchAd('monetag',${appConfig.monetagReward||10})">▶ Watch Ad</button></div><div class="ad-card" id="gigapub-ad"><i class="fas fa-gamepad"></i><h4>Gigapub</h4><div class="limit-info">Watch & Earn Rewards</div><button class="watch-btn" onclick="window.watchAd('gigapub',${appConfig.gigapubReward||10})">▶ Watch Ad</button></div><div class="ad-card"><i class="fas fa-ad"></i><h4>Adsgram</h4><div class="limit-info">Coming Soon</div><button class="watch-btn" disabled>Soon</button></div><div class="ad-card"><i class="fas fa-chart-bar"></i><h4>Adexium</h4><div class="limit-info">Coming Soon</div><button class="watch-btn" disabled>Soon</button></div></div>${currentUser.lastCheckInDate!==today?`<div class="daily-checkin-card"><div><h4 style="color:var(--success);">Daily Check-in</h4><p style="font-size:0.8rem;">Day ${(currentUser.checkInStreak||0)+1}</p></div><button class="btn btn-success btn-small" onclick="window.dailyCheckIn()">Claim ${appConfig.dailyCheckinReward||50} Coins</button></div>`:''}<div id="pending-banner-container"></div></div>`;$('main-content').innerHTML=h;loadPendingBanner();}
 async function loadPendingBanner(){const c=$('pending-banner-container');if(!c)return;const s=await db.ref('withdrawals/pending').orderByChild('userId').equalTo(currentUser.uid).once('value');const p=[];s.forEach(x=>p.push(x.val()));if(!p.length){c.innerHTML='';return;}const r=p[0];c.innerHTML=`<div class="pending-banner"><div><i class="fas fa-hourglass-half" style="color:var(--warning);"></i> <strong>Pending:</strong> ${r.amount} Coins</div></div>`;}
+
+// ==================== AD SYSTEM (REAL ADS) ====================
+window.watchAd = async (platform, reward) => {
+    if(adLocks[platform]) return;
+    adLocks[platform] = true;
+    
+    // আসল অ্যাড ট্রিগার
+    if (platform === 'monetag') { if (window.show_9955574) { window.show_9955574(); } }
+    if (platform === 'gigapub') { if (window.Gigapub && window.Gigapub.show) { window.Gigapub.show(); } }
+    
+    window.showPopup('Ad Started','Watch the ad to earn coins.','fa-hourglass-half','var(--warning)');
+    
+    // ২০ সেকেন্ড অপেক্ষা (অ্যাড শেষ হওয়ার সময়)
+    await new Promise(r => setTimeout(r, 20000));
+    
+    // কয়েন যোগ
+    const userNode = platformMode === 'telegram' ? 'users' : 'webUsers';
+    const up = { earningWallet: (currentUser.earningWallet||0) + reward, totalEarned: (currentUser.totalEarned||0) + reward, dailyAdCount: (currentUser.dailyAdCount||0) + 1, lifetimeAdCount: (currentUser.lifetimeAdCount||0) + 1 };
+    await db.ref(`${userNode}/${currentUser.uid}`).update(up);
+    Object.keys(up).forEach(k => { if(k in currentUser) currentUser[k] = up[k]; });
+    await db.ref(`${userNode}/${currentUser.uid}/history`).push({ type: 'Watch Ad', name: `Watched ${platform} Ad`, reward, status: 'Completed', timestamp: Date.now() });
+    
+    window.showPopup('Success!', `+${reward} Coins earned!`);
+    adLocks[platform] = false;
+    renderHomePage();
+};
 
 // ==================== DAILY CHECKIN ====================
 window.dailyCheckIn=async()=>{const today=new Date().toISOString().slice(0,10);const streak=(currentUser.checkInStreak||0)+1;const reward=appConfig.dailyCheckinReward||50;const userNode=platformMode==='telegram'?'users':'webUsers';await db.ref(`${userNode}/${currentUser.uid}`).update({lastCheckInDate:today,checkInStreak:streak,earningWallet:(currentUser.earningWallet||0)+reward,totalEarned:(currentUser.totalEarned||0)+reward});currentUser.lastCheckInDate=today;currentUser.checkInStreak=streak;currentUser.earningWallet=(currentUser.earningWallet||0)+reward;window.showPopup('Check-in!',`+${reward} Coins! Day ${streak}`);renderHomePage();};
@@ -561,7 +522,7 @@ function renderSettingsMain(){$('main-content').innerHTML=`<div class="page acti
 // ==================== SETTINGS (TELEGRAM) ====================
 function renderSettingsPage(){setActiveBottomNav('settings');$('main-content').innerHTML=`<div class="page active"><h3><i class="fas fa-cog" style="color:var(--primary);"></i> Settings</h3><div class="settings-menu-item" onclick="renderViewProfile()"><div class="settings-icon"><i class="fas fa-user-circle"></i></div><div class="settings-info"><div class="settings-title">View Profile</div><div class="settings-desc">Your account details</div></div></div><div class="settings-menu-item" onclick="showWalletPage()"><div class="settings-icon"><i class="fas fa-wallet"></i></div><div class="settings-info"><div class="settings-title">Wallet</div><div class="settings-desc">Balance & withdraw</div></div></div><div class="settings-menu-item" onclick="showMovingCoinPage()"><div class="settings-icon"><i class="fas fa-arrow-right-arrow-left"></i></div><div class="settings-info"><div class="settings-title">Moving Coin</div><div class="settings-desc">Move earning to balance</div></div></div><div class="settings-menu-item" onclick="renderReferEarnPage()"><div class="settings-icon"><i class="fas fa-users"></i></div><div class="settings-info"><div class="settings-title">Refer and earn</div><div class="settings-desc">Share link & earn</div></div></div><div class="settings-menu-item" onclick="renderPasswordSecurity()"><div class="settings-icon"><i class="fas fa-shield-halved"></i></div><div class="settings-info"><div class="settings-title">Password and security</div><div class="settings-desc">Withdraw password & security</div></div></div><div class="settings-menu-item" onclick="window.open('${appConfig.websiteUrl||'https://earnify-f3ac8.web.app'}','_blank')"><div class="settings-icon" style="background:rgba(59,130,246,0.1);"><i class="fas fa-globe" style="color:#3B82F6;"></i></div><div class="settings-info"><div class="settings-title">Website</div><div class="settings-desc">Visit our website</div></div></div><div class="settings-menu-item" onclick="openSupport()"><div class="settings-icon"><i class="fas fa-headset"></i></div><div class="settings-info"><div class="settings-title">Support</div><div class="settings-desc">Get help</div></div></div><div class="settings-menu-item" onclick="window.logout()" style="border-color:var(--error);"><div class="settings-icon" style="background:rgba(239,68,68,0.1);"><i class="fas fa-sign-out-alt" style="color:var(--error);"></i></div><div class="settings-info"><div class="settings-title" style="color:var(--error);">Logout</div></div></div></div>`;}
 
-function renderViewProfile(){$('main-content').innerHTML=`<div class="page active"><div class="settings-back-btn" onclick="renderSettingsPage()"><i class="fas fa-arrow-left"></i> Back</div><div class="card text-center"><img src="${currentUser.photoUrl||'https://via.placeholder.com/100'}" style="width:80px;height:80px;border-radius:50%;border:3px solid var(--primary);margin-bottom:12px;"><h3>${escapeHtml(currentUser.fullName||'User')}</h3><p>@${escapeHtml(currentUser.username||'N/A')}</p>${platformMode==='telegram'?'<span class="tg-badge"><i class="fab fa-telegram-plane"></i> Telegram</span>':''}</div><div class="stats-grid"><div class="stat-card"><div class="stat-value">${formatNumber(currentUser.balance||0)}</div><div class="stat-label">Balance</div></div><div class="stat-card"><div class="stat-value">${formatNumber(currentUser.earningWallet||0)}</div><div class="stat-label">Earning</div></div><div class="stat-card"><div class="stat-value">${formatNumber(currentUser.totalEarned||0)}</div><div class="stat-label">Total Earned</div></div><div class="stat-card"><div class="stat-value">${currentUser.referrals||0}</div><div class="stat-label">Referrals</div></div></div></div>`;}
+function renderViewProfile(){$('main-content').innerHTML=`<div class="page active"><div class="settings-back-btn" onclick="renderSettingsPage()"><i class="fas fa-arrow-left"></i> Back</div><div class="card text-center"><img src="${currentUser.photoUrl||'https://via.placeholder.com/100'}" style="width:80px;height:80px;border-radius:50%;border:3px solid var(--primary);"><h3>${escapeHtml(currentUser.fullName||'User')}</h3><p>@${escapeHtml(currentUser.username||'N/A')}</p>${platformMode==='telegram'?'<span class="tg-badge"><i class="fab fa-telegram-plane"></i> Telegram</span>':''}</div><div class="stats-grid"><div class="stat-card"><div class="stat-value">${formatNumber(currentUser.balance||0)}</div><div class="stat-label">Balance</div></div><div class="stat-card"><div class="stat-value">${formatNumber(currentUser.earningWallet||0)}</div><div class="stat-label">Earning</div></div><div class="stat-card"><div class="stat-value">${formatNumber(currentUser.totalEarned||0)}</div><div class="stat-label">Total Earned</div></div><div class="stat-card"><div class="stat-value">${currentUser.referrals||0}</div><div class="stat-label">Referrals</div></div></div></div>`;}
 
 function renderPasswordSecurity(){$('main-content').innerHTML=`<div class="page active"><div class="settings-back-btn" onclick="${platformMode==='telegram'?'renderSettingsPage':'renderSettingsMain'}()"><i class="fas fa-arrow-left"></i> Back</div><h3>Password & Security</h3><div class="settings-menu-item" onclick="openChangePhoto()"><div class="settings-icon"><i class="fas fa-camera"></i></div><div class="settings-info"><div class="settings-title">Change Photo</div></div></div><div class="settings-menu-item" onclick="openChangeName()"><div class="settings-icon"><i class="fas fa-user-edit"></i></div><div class="settings-info"><div class="settings-title">Change Name</div></div></div><div class="settings-menu-item" onclick="openChangePassword()"><div class="settings-icon"><i class="fas fa-key"></i></div><div class="settings-info"><div class="settings-title">Change Password</div></div></div><div class="settings-menu-item" onclick="openChangeEmail()"><div class="settings-icon"><i class="fas fa-envelope"></i></div><div class="settings-info"><div class="settings-title">Change Email</div></div></div><div class="settings-menu-item" onclick="openChangeWithdrawPassword()"><div class="settings-icon"><i class="fas fa-lock"></i></div><div class="settings-info"><div class="settings-title">${currentUser.withdrawPassword?'Change':'Set'} Withdraw Password</div></div></div></div>`;}
 
@@ -579,7 +540,7 @@ function openChangeWithdrawPassword(){$('settings-modal-body').innerHTML=`<div c
 window.saveWpw=async()=>{const cwp=$('settings-current-wpw')?.value,nwp=$('settings-new-wpw')?.value;if(!nwp||nwp.length<4)return;if(currentUser.withdrawPassword&&cwp!==currentUser.withdrawPassword){window.showPopup('Error','Wrong password.');return;}const userNode=platformMode==='telegram'?'users':'webUsers';await db.ref(`${userNode}/${currentUser.uid}/withdrawPassword`).set(nwp);currentUser.withdrawPassword=nwp;window.showPopup('Updated!','Withdraw password saved.');closeSettingsModal();};
 function closeSettingsModal(){$('settings-modal').classList.remove('show');settingsTempPhoto=null;}
 
-// ==================== WALLET (BOTH MODES) ====================
+// ==================== WALLET ====================
 function showWalletPage(){$('main-content').innerHTML=`<div class="page active"><div class="settings-back-btn" onclick="${platformMode==='telegram'?'renderSettingsPage':'renderSettingsMain'}()"><i class="fas fa-arrow-left"></i> Back</div><div style="text-align:center;margin-bottom:24px;"><div style="font-size:0.85rem;">Main Balance</div><div style="font-size:2.5rem;font-weight:800;color:var(--primary);">${formatNumber(currentUser.balance||0)} Coins</div></div><div class="method-grid"><div class="method-card" onclick="initiateWithdraw('bdt')"><i class="fas fa-money-bill-wave" style="font-size:2.5rem;color:var(--primary);"></i><p>BDT Withdraw</p></div><div class="method-card" onclick="initiateWithdraw('usdt')"><i class="fas fa-dollar-sign" style="font-size:2.5rem;color:var(--primary);"></i><p>USDT Withdraw</p></div></div><div class="settings-menu-item" onclick="showWithdrawHistory()"><div class="settings-icon"><i class="fas fa-history"></i></div><div class="settings-info"><div class="settings-title">Withdraw History</div></div></div></div>`;}
 
 function showMovingCoinPage(){const amt=currentUser.earningWallet||0;$('main-content').innerHTML=`<div class="page active"><div class="settings-back-btn" onclick="${platformMode==='telegram'?'renderSettingsPage':'renderSettingsMain'}()"><i class="fas fa-arrow-left"></i> Back</div><div style="text-align:center;padding:24px 0;"><div style="font-size:0.8rem;">Earning Wallet</div><div style="font-size:2.5rem;font-weight:800;color:var(--primary);">${formatNumber(amt)} Coins</div><button class="btn btn-primary" onclick="moveToBalance()" style="margin-top:20px;" ${amt<(appConfig.minWithdrawBalance||100)?'disabled':''}>Move to Balance</button></div></div>`;}
@@ -591,11 +552,11 @@ function startWithdraw(type){if((currentUser.referrals||0)<(appConfig.withdrawRe
 window.selectMethod=(type,idx,el)=>{const mt=methods[idx];const modal=el.closest('.modal-overlay');modal.querySelector('.modal-content').innerHTML=`<div class="modal-header"><h3>${escapeHtml(mt.name)}</h3><span class="close-modal" onclick="this.closest('.modal-overlay').remove()">&times;</span></div><div class="form-group"><label>Account</label><input id="wd-account" class="form-input" placeholder="${type==='bdt'?'Number':'Address'}"></div><div class="form-group"><label>Amount (Min: ${mt.min})</label><input type="number" id="wd-amount" class="form-input" min="${mt.min}"></div><div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:12px;margin-bottom:16px;"><p>You'll receive: <strong id="wd-fiat" style="color:var(--primary);">0 ${type.toUpperCase()}</strong></p></div><button class="btn btn-primary btn-block" onclick="window.confirmWithdraw('${type}','${escapeHtml(mt.name).replace(/'/g,"\\'")}',${mt.min})">Submit</button>`;document.getElementById('wd-amount').addEventListener('input',(e)=>{document.getElementById('wd-fiat').innerText=((parseFloat(e.target.value)||0)*rate).toFixed(type==='bdt'?2:4)+' '+type.toUpperCase();});};
 window.confirmWithdraw=async(type,method,min)=>{const acc=$('wd-account')?.value.trim();const amt=parseFloat($('wd-amount')?.value);if(!acc)return window.showPopup('Error','Account required.');if(isNaN(amt)||amt<min)return window.showPopup('Error',`Min ${min} coins.`);if(amt>currentUser.balance)return window.showPopup('Error','Insufficient balance.');const userNode=platformMode==='telegram'?'users':'webUsers';await db.ref(`${userNode}/${currentUser.uid}/balance`).set(currentUser.balance-amt);currentUser.balance-=amt;currentUser.totalWithdrawn=(currentUser.totalWithdrawn||0)+amt;await db.ref(`${userNode}/${currentUser.uid}/totalWithdrawn`).set(currentUser.totalWithdrawn);const ref=db.ref('withdrawals/pending').push();const txId='TX-'+Math.random().toString(36).substring(2,10).toUpperCase();await ref.set({id:ref.key,userId:currentUser.uid,userName:currentUser.fullName,userPhoto:currentUser.photoUrl,method,account:acc,amount:amt,status:'pending',type,txId,timestamp:Date.now()});document.querySelectorAll('.modal-overlay.show').forEach(x=>x.remove());window.showPopup('Submitted!','Withdrawal pending.');showWalletPage();};}
 
-// ==================== WITHDRAW HISTORY (PREMIUM DESIGN) ====================
+// ==================== WITHDRAW HISTORY ====================
 function showWithdrawHistory(){$('main-content').innerHTML=`<div class="page active"><div class="settings-back-btn" onclick="showWalletPage()"><i class="fas fa-arrow-left"></i> Back</div><h3>Withdraw History</h3><div id="wd-history-list"><div class="spinner"></div></div></div>`;db.ref('withdrawals').on('value',(snap)=>{const data=snap.val()||{};let items=[];['pending','completed','rejected'].forEach(s=>{const d=data[s]||{};Object.keys(d).forEach(k=>{if(d[k].userId===currentUser.uid)items.push({...d[k],id:k,status:s.charAt(0).toUpperCase()+s.slice(1)});});});items.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));const list=$('wd-history-list');if(!list)return;if(!items.length){list.innerHTML='<p class="text-center">No history</p>';return;}let h='';items.forEach(r=>{const rate=r.type==='bdt'?(appConfig.coinToBDT||0.5):(appConfig.coinToUSDT||0.004);const statusClass=r.status.toLowerCase();const statusIcon=statusClass==='completed'?'✅':statusClass==='pending'?'⏳':'❌';h+=`<div class="history-card-premium"><div class="history-card-header"><img src="${r.userPhoto||'https://via.placeholder.com/52'}"><div><h4>${escapeHtml(r.userName||'User')}</h4><span style="font-size:0.65rem;opacity:0.6;">ID: ${(r.userId||'').substring(0,12)}...</span></div></div><div class="history-detail-row"><span class="history-detail-label">Amount</span><span class="history-detail-value amount">${r.amount} Coins</span></div><div class="history-detail-row"><span class="history-detail-label">Method</span><span class="history-detail-value">${escapeHtml(r.method)}</span></div><div class="history-detail-row"><span class="history-detail-label">Type</span><span class="history-detail-value">${(r.type||'BDT').toUpperCase()}</span></div><div class="history-detail-row"><span class="history-detail-label">Value</span><span class="history-detail-value amount">${(r.amount*rate).toFixed(2)} ${(r.type||'BDT').toUpperCase()}</span></div><div class="history-detail-row"><span class="history-detail-label">Account</span><span class="history-detail-value">${escapeHtml(r.account||'N/A')}</span></div><div class="history-detail-row"><span class="history-detail-label">Transaction ID</span><span class="history-detail-value" style="font-family:monospace;font-size:0.7rem;">${escapeHtml(r.txId||r.id||'N/A')}</span></div><div class="history-detail-row"><span class="history-detail-label">Date</span><span class="history-detail-value">${formatDateTime(r.timestamp)}</span></div><div class="history-status-badge ${statusClass}">${statusIcon} ${r.status}</div></div>`;});list.innerHTML=h;});}
 
-// ==================== REFER & EARN (DIFFERENT PER MODE) ====================
-function renderReferEarnPage(){const refCount=currentUser.referrals||0;const refLink=window.location.origin+'/?ref='+(currentUser.referralCode||'');if(platformMode==='telegram'){$('main-content').innerHTML=`<div class="page active"><div class="settings-back-btn" onclick="renderSettingsPage()"><i class="fas fa-arrow-left"></i> Back</div><h3>Refer & Earn</h3><div class="referral-card" style="text-align:center;"><h3><i class="fas fa-share-alt"></i> Share & Earn</h3><p style="font-size:0.85rem;opacity:0.9;">Share your link to earn ${appConfig.referralPercent||7}% commission</p><div class="ref-input-group" style="margin-top:16px;"><input value="${refLink}" readonly class="form-input" style="text-align:center;font-size:0.8rem;"><button class="btn btn-primary" onclick="shareRefLink()"><i class="fas fa-share"></i> Share</button></div><div class="referral-stats"><div class="referral-stat"><div class="value">${refCount}</div><div class="label">Referrals</div></div><div class="referral-stat"><div class="value">${appConfig.referralPercent||7}%</div><div class="label">Commission</div></div><div class="referral-stat"><div class="value">${appConfig.referralBonus||1000}</div><div class="label">Bonus</div></div></div></div></div>`;}else{$('main-content').innerHTML=`<div class="page active"><div class="settings-back-btn" onclick="renderSettingsMain()"><i class="fas fa-arrow-left"></i> Back</div><h3>Refer & Earn</h3><div class="enter-referral-card"><h5>Enter Referral Code</h5><div class="ref-input-group"><input id="enter-ref-code" class="form-input" placeholder="Enter code"><button class="btn btn-primary" onclick="window.submitReferral()">Submit</button></div></div><div class="referral-card"><h3>Your Referral Code</h3><div class="referral-code-box"><input value="${currentUser.referralCode||'EARN0000XXX'}" readonly><button onclick="shareRefLink()">Share</button></div><div class="referral-stats"><div class="referral-stat"><div class="value">${refCount}</div><div class="label">Referrals</div></div><div class="referral-stat"><div class="value">${appConfig.referralPercent||7}%</div><div class="label">Commission</div></div><div class="referral-stat"><div class="value">${appConfig.referralBonus||1000}</div><div class="label">Bonus</div></div></div></div><div class="card" style="margin-top:16px;"><h4>Share Link</h4><div class="ref-input-group"><input value="${refLink}" readonly class="form-input" style="font-size:0.8rem;"><button class="btn btn-primary btn-small" onclick="shareRefLink()"><i class="fas fa-share"></i> Share</button></div></div></div>`;}}
+// ==================== REFER & EARN ====================
+function renderReferEarnPage(){const refCount=currentUser.referrals||0;const refLink=window.location.origin+'/?ref='+(currentUser.referralCode||'');if(platformMode==='telegram'){$('main-content').innerHTML=`<div class="page active"><div class="settings-back-btn" onclick="renderSettingsPage()"><i class="fas fa-arrow-left"></i> Back</div><h3>Refer & Earn</h3><div class="referral-card" style="text-align:center;"><h3><i class="fas fa-share-alt"></i> Share & Earn</h3><p style="font-size:0.85rem;opacity:0.9;">Share your link to earn ${appConfig.referralPercent||7}%</p><div class="ref-input-group" style="margin-top:16px;"><input value="${refLink}" readonly class="form-input" style="text-align:center;font-size:0.8rem;"><button class="btn btn-primary" onclick="shareRefLink()"><i class="fas fa-share"></i> Share</button></div><div class="referral-stats"><div class="referral-stat"><div class="value">${refCount}</div><div class="label">Referrals</div></div><div class="referral-stat"><div class="value">${appConfig.referralPercent||7}%</div><div class="label">Commission</div></div><div class="referral-stat"><div class="value">${appConfig.referralBonus||1000}</div><div class="label">Bonus</div></div></div></div></div>`;}else{$('main-content').innerHTML=`<div class="page active"><div class="settings-back-btn" onclick="renderSettingsMain()"><i class="fas fa-arrow-left"></i> Back</div><h3>Refer & Earn</h3><div class="enter-referral-card"><h5>Enter Referral Code</h5><div class="ref-input-group"><input id="enter-ref-code" class="form-input" placeholder="Enter code"><button class="btn btn-primary" onclick="window.submitReferral()">Submit</button></div></div><div class="referral-card"><h3>Your Referral Code</h3><div class="referral-code-box"><input value="${currentUser.referralCode||'EARN0000XXX'}" readonly><button onclick="shareRefLink()">Share</button></div><div class="referral-stats"><div class="referral-stat"><div class="value">${refCount}</div><div class="label">Referrals</div></div><div class="referral-stat"><div class="value">${appConfig.referralPercent||7}%</div><div class="label">Commission</div></div><div class="referral-stat"><div class="value">${appConfig.referralBonus||1000}</div><div class="label">Bonus</div></div></div></div><div class="card" style="margin-top:16px;"><h4>Share Link</h4><div class="ref-input-group"><input value="${refLink}" readonly class="form-input" style="font-size:0.8rem;"><button class="btn btn-primary btn-small" onclick="shareRefLink()"><i class="fas fa-share"></i> Share</button></div></div></div>`;}}
 window.shareRefLink=()=>{const link=window.location.origin+'/?ref='+(currentUser.referralCode||'');if(navigator.share){navigator.share({title:'Join Earnify',url:link}).catch(()=>{});}else{navigator.clipboard.writeText(link).then(()=>window.showPopup('Copied!','Link copied.'));}};
 window.submitReferral=async()=>{const code=($('enter-ref-code')?.value||'').trim();if(!code)return;if(code===currentUser.referralCode){window.showPopup('Error','Cannot use own code.');return;}if(currentUser.referredBy){window.showPopup('Error','Already used.');return;}try{const[snap1,snap2]=await Promise.all([db.ref('webUsers').orderByChild('referralCode').equalTo(code).once('value'),db.ref('users').orderByChild('referralCode').equalTo(code).once('value')]);let data=snap1.val(),refId=data?Object.keys(data)[0]:null,refNode='webUsers';if(!refId){data=snap2.val();refId=data?Object.keys(data)[0]:null;refNode='users';}if(!refId){window.showPopup('Invalid','Invalid code.');return;}const bonus=appConfig.referralBonus||1000;const userNode=platformMode==='telegram'?'users':'webUsers';await db.ref(`${userNode}/${currentUser.uid}`).update({referredBy:refId});await db.ref(`${refNode}/${refId}/earningWallet`).transaction(v=>(v||0)+bonus);await db.ref(`${refNode}/${refId}/referrals`).transaction(v=>(v||0)+1);await db.ref(`${userNode}/${currentUser.uid}/earningWallet`).transaction(v=>(v||0)+bonus);currentUser.referredBy=refId;currentUser.earningWallet=(currentUser.earningWallet||0)+bonus;window.showPopup('Success!',`+${bonus} Coins!`);renderReferEarnPage();}catch(e){window.showPopup('Error','Failed.');}};
 
