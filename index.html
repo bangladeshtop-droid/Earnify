@@ -132,8 +132,6 @@
         .voucher-input { flex: 1; padding: 12px 14px; border-radius: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12); color: white; font-size: 14px; font-family: inherit; }
         .voucher-btn { padding: 12px 20px; border-radius: 12px; border: none; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000; font-weight: 700; font-size: 14px; cursor: pointer; white-space: nowrap; }
         .voucher-list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-bottom: 8px; }
-        .voucher-code-text { font-weight: 700; color: var(--gold); font-family: monospace; }
-        .voucher-used { color: var(--success); font-size: 12px; font-weight: 600; }
         .ref-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
         .ref-stat { background: var(--card); border-radius: 14px; padding: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.04); }
         .ref-stat-value { font-size: 24px; font-weight: 800; color: var(--gold); }
@@ -197,11 +195,10 @@
         .popup-msg { font-size:13px; color:var(--text2); line-height:1.5; margin-bottom:14px; }
         .btn-pop { width:100%; background:linear-gradient(135deg,#fbbf24,#f59e0b); color:#000; border:none; padding:14px; border-radius:14px; font-size:15px; font-weight:800; cursor:pointer; margin-top:6px; }
         .btn-pop.sec { background:rgba(255,255,255,0.06); color:var(--text2); margin-top:8px; }
-        .withdraw-methods { display: flex; flex-direction: column; gap: 10px; margin: 10px 0; }
-        .withdraw-method-card { background: rgba(255,255,255,0.05); border-radius: 14px; padding: 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; }
-        .withdraw-method-card:hover, .withdraw-method-card.selected { border-color: var(--gold); background: rgba(251,191,36,0.1); }
-        .withdraw-method-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .wallet-connected-badge { background: var(--success); color: white; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; display: inline-block; margin-top: 4px; }
+        .swap-direction { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0; }
+        .swap-arrow { font-size: 24px; color: var(--gold); cursor: pointer; }
+        .swap-input { width: 100%; padding: 12px; border-radius: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12); color: white; font-size: 16px; text-align: center; }
+        .swap-rate { font-size: 11px; color: var(--text2); margin: 6px 0; }
         @media(max-width:375px){ .earn-coin-inner{width:170px;height:170px;} .earn-coin-outer{width:200px;height:200px;} .daily-grid{grid-template-columns:repeat(5,1fr);gap:4px;} .daily-box{padding:8px 2px;} }
     </style>
 </head>
@@ -218,7 +215,7 @@
     <div class="popup-overlay" id="adOverlay"><div class="popup"><div style="color:white;margin-bottom:8px;font-weight:600;">⏱️ বাকি: <span id="adTimer">১৫</span> সেকেন্ড</div><div id="adUnit"></div><button class="btn-pop" id="btnAdClose" onclick="closeAd()" style="display:none;">✅ অ্যাড দেখা শেষ - ক্লেইম</button></div></div>
     <div class="popup-overlay" id="visitWarn"><div class="popup"><div class="popup-icon">📢</div><div class="popup-title">গুরুত্বপূর্ণ নোটিশ</div><div class="popup-msg">সাইটে <b>৩০ সেকেন্ড</b> থাকতে হবে।<br>না থাকলে কয়েন পাবেন না!</div><button class="btn-pop" id="btnVisitGo">ঠিক আছে, যান</button></div></div>
     <div class="popup-overlay" id="visitFail"><div class="popup"><div class="popup-icon">❌</div><div class="popup-title">কয়েন পাবেন না</div><div class="popup-msg"><b>৩০ সেকেন্ড</b> আগে বের হয়েছেন</div><button class="btn-pop" onclick="retryVisit()">🔄 আবার করুন</button><button class="btn-pop sec" onclick="exitVisit()">🚪 বের হন</button></div></div>
-    <div class="popup-overlay" id="withdrawPopup"><div class="popup"><div class="popup-icon">💸</div><div class="popup-title">Withdraw EARNIFY</div><div class="popup-msg" id="withdrawPopupMsg">Select withdrawal method</div><div class="withdraw-methods" id="withdrawMethodsList"></div><button class="btn-pop sec" onclick="closeWithdrawPopup()">Cancel</button></div></div>
+    <div class="popup-overlay" id="swapPopup"><div class="popup"><div class="popup-icon">🔄</div><div class="popup-title">Swap Tokens</div><div class="swap-direction"><span id="swapFromLabel">EARNIFY</span><span class="swap-arrow" onclick="toggleSwapDirection()">⇄</span><span id="swapToLabel">TON</span></div><input type="number" class="swap-input" id="swapAmountInput" placeholder="0" value="0"><div class="swap-rate" id="swapRateDisplay">Rate: 1 EARNIFY = 0.00000368 TON</div><div class="popup-msg" id="swapResultMsg">You will receive: 0 TON</div><button class="btn-pop" onclick="executeSwap()">🔄 Swap Now</button><button class="btn-pop sec" onclick="closeSwapPopup()">Cancel</button></div></div>
     <div class="popup-overlay" id="walletConnectPopup"><div class="popup"><div class="popup-icon">🔗</div><div class="popup-title">Connect Wallet</div><div class="popup-msg">Connect your Telegram wallet to withdraw</div><button class="btn-pop" onclick="connectTelegramWallet()">🔵 Connect Telegram Wallet</button><button class="btn-pop sec" onclick="closeWalletConnectPopup()">Cancel</button></div></div>
 
     <div class="main-content active" id="miningTab">
@@ -257,8 +254,8 @@
                     <div class="wallet-balance-usd" id="walletBalanceUsd">≈ $0.00</div>
                 </div>
                 <div class="wallet-actions">
-                    <button class="wallet-action-btn withdraw" onclick="openWithdrawPopup()">📤 Withdraw</button>
-                    <button class="wallet-action-btn swap" onclick="showToast('🔄 Swap coming soon!')">🔄 Swap</button>
+                    <button class="wallet-action-btn withdraw" onclick="handleWithdraw()">📤 Withdraw</button>
+                    <button class="wallet-action-btn swap" onclick="openSwapPopup()">🔄 Swap</button>
                 </div>
                 <div class="wallet-section-title"><span>Tokens</span></div>
                 <div class="wallet-token-list" id="walletTokenList"></div>
@@ -266,7 +263,7 @@
         </div>
         <div class="settings-subpage" id="referralPage"><div class="settings-back" onclick="hideSettingsSubpage()">← Back</div><div class="section-title">👥 Referral</div><div class="ref-stats"><div class="ref-stat"><div class="ref-stat-value" id="refTotalInvites">0</div><div class="ref-stat-label">Total Invites</div></div><div class="ref-stat"><div class="ref-stat-value" id="refEarned">0</div><div class="ref-stat-label">Coins Earned</div></div></div><div class="ref-link-box"><div style="font-weight:600;">🔗 Referral Link</div><div class="ref-link" id="refLinkDisplay">Loading...</div><button class="btn-pop" onclick="copyRefLink()" style="margin-top:8px;">📋 Copy</button></div><div id="refRewardsInSettings"></div></div>
         <div class="settings-subpage" id="voucherRedeemPage"><div class="settings-back" onclick="hideSettingsSubpage()">← Back</div><div class="section-title">🎟️ Redeem</div><div class="voucher-input-section"><div class="voucher-input-row"><input type="text" class="voucher-input" id="voucherCodeInput" placeholder="Your voucher code..."><button class="voucher-btn" onclick="redeemVoucher()">Redeem</button></div></div><div class="section-title" style="margin-top:20px;">📋 Your Vouchers</div><div id="allVouchersList"></div></div>
-        <div class="settings-subpage" id="supportPage"><div class="settings-back" onclick="hideSettingsSubpage()">← Back</div><div style="text-align:center;padding:16px;"><h2>🆘 Support</h2><p style="color:var(--text2);margin:8px 0 20px;">Need help?</p><div class="card" style="text-align:left;"><div class="card-name">📧 Email</div><p style="color:var(--text2);" id="supportEmailDisplay">support@earnify.com</p></div><div class="card" style="text-align:left;"><div class="card-name">💬 Telegram</div><button class="btn-sm" id="supportTelegramBtn" style="margin-top:8px;">Open Support</button></div><div class="card" style="text-align:left;"><div class="card-name">📖 FAQ</div><p style="color:var(--text2);font-size:12px;" id="supportFaqDisplay">Tap, tasks, daily check-in, referrals!</p></div></div></div>
+        <div class="settings-subpage" id="supportPage"><div class="settings-back" onclick="hideSettingsSubpage()">← Back</div><div style="text-align:center;padding:16px;"><h2>🆘 Support</h2><p style="color:var(--text2);margin:8px 0 20px;">Need help?</p><div class="card" style="text-align:left;"><div class="card-name">📧 Email</div><p style="color:var(--text2);" id="supportEmailDisplay">support@earnify.com</p></div><div class="card" style="text-align:left;"><div class="card-name">💬 Telegram</div><button class="btn-sm" id="supportTelegramBtn" style="margin-top:8px;">Open Support</button></div><div class="card" style="text-align:left;"><div class="card-name">📖 FAQ</div><p style="color:var(--text2);font-size:12px;" id="supportFaqDisplay">Tap, tasks, daily check-in, referrals!</p></div><div id="supportItemsContainer"></div></div></div>
     </div>
 
     <div class="main-content" id="leaderboardTab"><div class="lb-bar"><button class="lb-tab active" data-lb="toprefer">Top Refer</button><button class="lb-tab" data-lb="topearning">Top Earning</button></div><div class="lb-content active" id="topreferContent"><div class="top3" id="topRefer3"></div><div id="topReferList"></div></div><div class="lb-content" id="topearningContent"><div class="top3" id="topEarning3"></div><div id="topEarningList"></div></div></div>
@@ -293,33 +290,26 @@
         let visitTaskData = null, visitSec = 0, visitInt = null;
         let dailyPage = 0;
         const DAYS_PER_PAGE = 30;
-        let selectedWithdrawMethod = null;
         let walletConnected = false;
         let walletAddress = null;
+        let swapDirection = 'earnifyToTon'; // 'earnifyToTon' or 'tonToEarnify'
 
         function toast(m, e) { const t = document.getElementById('toast'); t.className = 'toast' + (e ? ' err' : ''); t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
         function isNewDay(d) { if (!d) return true; const n = new Date(), l = new Date(d); return n.getDate() !== l.getDate() || n.getMonth() !== l.getMonth() || n.getFullYear() !== l.getFullYear(); }
         async function addBal(amt) { if (!amt || amt <= 0) return; amt = Math.floor(amt); user.balance += amt; user.totalEarned = (user.totalEarned || 0) + amt; const nl = getLeague(); if (nl && nl.name !== user.league) { user.league = nl.name; toast(`🎉 ${nl.name}!`); } if (user.id) await db.collection('users').doc(user.id).set({ balance: user.balance, totalEarned: user.totalEarned, league: user.league }, { merge: true }); updateUI(); }
         function getLeague() { if (!config.leagues || !config.leagues.length) return { name: 'Silver', icon: '🥈', minBalance: 0 }; let c = config.leagues[0]; for (const l of config.leagues) if (user.balance >= l.minBalance) c = l; return c; }
         function formatUSD(coins, price) { return (coins * (price || 0.000005)).toFixed(2); }
-        function calculateTonAmount(earnifyAmount) { const earnifyPrice = config.earnifyPrice || 0.000005; const tonPrice = config.tonPrice || 1.36; const usdValue = earnifyAmount * earnifyPrice; return (usdValue / tonPrice).toFixed(6); }
+        function earnifyToTon(earnifyAmount) { const ep = config.earnifyPrice || 0.000005; const tp = config.tonPrice || 1.36; return (earnifyAmount * ep) / tp; }
+        function tonToEarnify(tonAmount) { const ep = config.earnifyPrice || 0.000005; const tp = config.tonPrice || 1.36; return (tonAmount * tp) / ep; }
 
         async function initUser() {
             if (tg.initDataUnsafe?.user) {
                 const uid = tg.initDataUnsafe.user.id.toString();
                 const ref = db.collection('users').doc(uid);
                 const doc = await ref.get();
-                if (!doc.exists) {
-                    const nu = { tgId: uid, firstName: tg.initDataUnsafe.user.first_name, lastName: tg.initDataUnsafe.user.last_name||'', username: tg.initDataUnsafe.user.username||'', balance: 0, totalEarned: 0, tonBalance: 0, league: 'Silver', completedTasks: [], referralCount: 0, referralCode: 'REF'+Math.random().toString(36).substr(2,6).toUpperCase(), referralClaims: {}, dailyStreak: 0, dailyClaimedToday: false, lastDailyClaim: null, leagueClaimed: false, vouchersRedeemed: [], voucherCards: {}, totalAds: 0, todayAds: 0, totalWithdraw: 0, walletConnected: false, walletAddress: null };
-                    await ref.set(nu);
-                    user = { ...nu, id: uid };
-                } else { user = { ...doc.data(), id: uid }; }
+                if (!doc.exists) { const nu = { tgId: uid, firstName: tg.initDataUnsafe.user.first_name, lastName: tg.initDataUnsafe.user.last_name||'', username: tg.initDataUnsafe.user.username||'', balance: 0, totalEarned: 0, tonBalance: 0, league: 'Silver', completedTasks: [], referralCount: 0, referralCode: 'REF'+Math.random().toString(36).substr(2,6).toUpperCase(), referralClaims: {}, dailyStreak: 0, dailyClaimedToday: false, lastDailyClaim: null, leagueClaimed: false, vouchersRedeemed: [], voucherCards: {}, totalAds: 0, todayAds: 0, totalWithdraw: 0, walletConnected: false, walletAddress: null }; await ref.set(nu); user = { ...nu, id: uid }; } else { user = { ...doc.data(), id: uid }; }
                 if (isNewDay(user.lastDailyClaim)) { user.dailyClaimedToday = false; await ref.update({ dailyClaimedToday: false }); }
-            } else {
-                const uid = 'browser_'+Date.now();
-                user = { id: uid, firstName: 'Guest', balance: 0, totalEarned: 0, tonBalance: 0, league: 'Silver', completedTasks: [], referralCount: 0, referralClaims: {}, dailyStreak: 0, dailyClaimedToday: false, lastDailyClaim: null, leagueClaimed: false, vouchersRedeemed: [], voucherCards: {}, totalAds: 0, todayAds: 0, totalWithdraw: 0, walletConnected: false, walletAddress: null };
-                await db.collection('users').doc(uid).set(user);
-            }
+            } else { const uid = 'browser_'+Date.now(); user = { id: uid, firstName: 'Guest', balance: 0, totalEarned: 0, tonBalance: 0, league: 'Silver', completedTasks: [], referralCount: 0, referralClaims: {}, dailyStreak: 0, dailyClaimedToday: false, lastDailyClaim: null, leagueClaimed: false, vouchersRedeemed: [], voucherCards: {}, totalAds: 0, todayAds: 0, totalWithdraw: 0, walletConnected: false, walletAddress: null }; await db.collection('users').doc(uid).set(user); }
             walletConnected = user.walletConnected || false;
             walletAddress = user.walletAddress || null;
             updateUI();
@@ -334,10 +324,7 @@
                 AD_THRESH = config.adClickThreshold || 30;
                 VISIT_REQ = config.visitRequiredSeconds || 30;
                 TOTAL_DAYS = config.totalDays || 90;
-            } else {
-                config = { dailyRewards: Array.from({length:90},(_,i)=>20*(Math.floor(i/10)+1)), referralRewards: [], leagues: [], specialTasks: [], vouchers: {}, supportItems: [], supportEmail:'support@earnify.com', supportTelegram:'https://t.me/earnify', supportFaq:'Tap, tasks, daily check-in, referrals!', earnifyPrice:0.000005, tonPrice:1.36, wdMethods:[{name:'TON Wallet',minWithdraw:1,minRefer:0,icon:'💎'}] };
-                await db.collection('config').doc('app').set(config);
-            }
+            } else { config = { dailyRewards: Array.from({length:90},(_,i)=>20*(Math.floor(i/10)+1)), referralRewards: [], leagues: [], specialTasks: [], vouchers: {}, supportItems: [], supportEmail:'support@earnify.com', supportTelegram:'https://t.me/earnify', supportFaq:'Tap, tasks, daily check-in, referrals!', earnifyPrice:0.000005, tonPrice:1.36, wdMethods:[{name:'TON Wallet',minWithdraw:1,minRefer:0,icon:'💎'}] }; await db.collection('config').doc('app').set(config); }
             updateUI();
         }
 
@@ -348,14 +335,11 @@
             const tonBal = user.tonBalance || 0;
             const earnifyPrice = config.earnifyPrice || 0.000005;
             const tonPrice = config.tonPrice || 1.36;
-            const earnifyUsd = formatUSD(bal, earnifyPrice);
-            const tonUsd = formatUSD(tonBal, tonPrice);
-
             document.getElementById('userAvatar').textContent = fl;
             document.getElementById('userName').textContent = user.firstName || 'User';
             document.getElementById('balanceDisplay').textContent = bal.toLocaleString();
             document.getElementById('walletBalance').textContent = bal.toLocaleString();
-            document.getElementById('walletBalanceUsd').textContent = `≈ $${earnifyUsd}`;
+            document.getElementById('walletBalanceUsd').textContent = `≈ $${formatUSD(bal, earnifyPrice)}`;
             document.getElementById('vpAvatar').textContent = fl;
             document.getElementById('vpName').textContent = user.firstName;
             document.getElementById('vpTgId').textContent = user.tgId || user.id;
@@ -373,11 +357,23 @@
             document.getElementById('supportEmailDisplay').textContent = config.supportEmail || 'support@earnify.com';
             document.getElementById('supportTelegramBtn').onclick = () => window.open(config.supportTelegram || 'https://t.me/earnify', '_blank');
             document.getElementById('supportFaqDisplay').textContent = config.supportFaq || 'Tap, tasks, daily check-in, referrals!';
+            renderSupportItems();
             document.getElementById('dailyStreakDays').textContent = user.dailyStreak||0;
             document.getElementById('dailyFooterStreak').textContent = user.dailyStreak||0;
-
             renderWalletTokens();
             renderTasks(); renderLeagues(); renderRefs(); renderRefInSettings(); renderDaily(); renderAllVouchers(); renderLB();
+        }
+
+        function renderSupportItems() {
+            const c = document.getElementById('supportItemsContainer');
+            if (!c) return;
+            const items = config.supportItems || [];
+            if (items.length === 0) { c.innerHTML = ''; return; }
+            c.innerHTML = '<div class="section-title" style="margin-top:16px;">📋 Support Links</div>' + items.map(item => `
+                <div class="card" style="text-align:left;cursor:pointer;" onclick="window.open('${item.link}','_blank')">
+                    <div class="card-row"><div class="card-left">${item.photoLink ? `<img src="${item.photoLink}" style="width:40px;height:40px;border-radius:50%;">` : '<div class="card-icon">🔗</div>'}<div><div class="card-name">${item.name}</div><div style="font-size:11px;color:var(--gold);">Open Link →</div></div></div></div>
+                </div>
+            `).join('');
         }
 
         function renderWalletTokens() {
@@ -388,69 +384,72 @@
             const bal = user.balance || 0;
             const tonBal = user.tonBalance || 0;
             c.innerHTML = `
-                <div class="wallet-token-item">
-                    <div class="wallet-token-icon earnify">⚡</div>
-                    <div class="wallet-token-info"><div class="wallet-token-name">EARNIFY</div><div class="wallet-token-symbol">Main Token</div></div>
-                    <div class="wallet-token-balance"><div class="wallet-token-amount">${bal.toLocaleString()}</div><div class="wallet-token-usd">≈ $${formatUSD(bal, earnifyPrice)}</div></div>
-                </div>
-                <div class="wallet-token-item">
-                    <div class="wallet-token-icon ton">💎</div>
-                    <div class="wallet-token-info"><div class="wallet-token-name">TON</div><div class="wallet-token-symbol">Toncoin ${walletConnected ? '<span class="wallet-connected-badge">✓ Connected</span>' : ''}</div></div>
-                    <div class="wallet-token-balance"><div class="wallet-token-amount">${tonBal.toFixed(6)}</div><div class="wallet-token-usd">≈ $${formatUSD(tonBal, tonPrice)}</div></div>
-                </div>
+                <div class="wallet-token-item"><div class="wallet-token-icon earnify">⚡</div><div class="wallet-token-info"><div class="wallet-token-name">EARNIFY</div><div class="wallet-token-symbol">Main Token</div></div><div class="wallet-token-balance"><div class="wallet-token-amount">${bal.toLocaleString()}</div><div class="wallet-token-usd">≈ $${formatUSD(bal, earnifyPrice)}</div></div></div>
+                <div class="wallet-token-item"><div class="wallet-token-icon ton">💎</div><div class="wallet-token-info"><div class="wallet-token-name">TON</div><div class="wallet-token-symbol">Toncoin ${walletConnected ? '<span style="background:var(--success);color:white;padding:2px 8px;border-radius:6px;font-size:10px;">✓ Connected</span>' : ''}</div></div><div class="wallet-token-balance"><div class="wallet-token-amount">${tonBal.toFixed(6)}</div><div class="wallet-token-usd">≈ $${formatUSD(tonBal, tonPrice)}</div></div></div>
             `;
         }
 
-        function openWithdrawPopup() {
-            if (!walletConnected) {
-                document.getElementById('walletConnectPopup').classList.add('show');
-                return;
-            }
-            const methods = config.wdMethods || [{name:'TON Wallet',minWithdraw:1,minRefer:0,icon:'💎'}];
-            const methodsList = document.getElementById('withdrawMethodsList');
-            methodsList.innerHTML = methods.map((m, i) => {
-                const disabled = user.balance < (m.minWithdraw || 1) || (user.referralCount || 0) < (m.minRefer || 0);
-                return `<div class="withdraw-method-card ${i===0?'selected':''}" onclick="${disabled?'':`selectWithdrawMethod(${i})`}" style="${disabled?'opacity:0.5;cursor:not-allowed;':''}">
-                    <div class="withdraw-method-icon">${m.icon||'💎'}</div>
-                    <div style="flex:1;"><div style="font-weight:600;">${m.name}</div><div style="font-size:11px;color:var(--text2);">Min: ${m.minWithdraw||1} EARNIFY | Refs: ${m.minRefer||0}</div></div>
-                </div>`;
-            }).join('');
-            selectedWithdrawMethod = 0;
-            document.getElementById('withdrawPopupMsg').textContent = `Your balance: ${(user.balance||0).toLocaleString()} EARNIFY ≈ ${calculateTonAmount(user.balance||0)} TON`;
-            document.getElementById('withdrawPopup').classList.add('show');
+        function openSwapPopup() {
+            swapDirection = 'earnifyToTon';
+            updateSwapUI();
+            document.getElementById('swapPopup').classList.add('show');
         }
 
-        function selectWithdrawMethod(index) {
-            selectedWithdrawMethod = index;
-            document.querySelectorAll('.withdraw-method-card').forEach((c, i) => c.classList.toggle('selected', i === index));
-            const method = (config.wdMethods || [{name:'TON Wallet',minWithdraw:1}])[index];
-            if (method && user.balance >= (method.minWithdraw||1)) {
-                processWithdraw(method);
-            }
+        function toggleSwapDirection() {
+            swapDirection = swapDirection === 'earnifyToTon' ? 'tonToEarnify' : 'earnifyToTon';
+            updateSwapUI();
         }
 
-        async function processWithdraw(method) {
-            const amount = user.balance;
-            const tonAmount = calculateTonAmount(amount);
-            if (!walletAddress) {
-                toast('❌ Wallet not connected!', true);
-                return;
+        function updateSwapUI() {
+            const ep = config.earnifyPrice || 0.000005;
+            const tp = config.tonPrice || 1.36;
+            document.getElementById('swapFromLabel').textContent = swapDirection === 'earnifyToTon' ? 'EARNIFY' : 'TON';
+            document.getElementById('swapToLabel').textContent = swapDirection === 'earnifyToTon' ? 'TON' : 'EARNIFY';
+            document.getElementById('swapRateDisplay').textContent = swapDirection === 'earnifyToTon' ? `Rate: 1 EARNIFY = ${(ep/tp).toFixed(8)} TON` : `Rate: 1 TON = ${(tp/ep).toFixed(2)} EARNIFY`;
+            document.getElementById('swapAmountInput').value = '0';
+            document.getElementById('swapResultMsg').textContent = 'You will receive: 0 ' + (swapDirection === 'earnifyToTon' ? 'TON' : 'EARNIFY');
+            document.getElementById('swapAmountInput').oninput = function() {
+                const amt = parseFloat(this.value) || 0;
+                const result = swapDirection === 'earnifyToTon' ? earnifyToTon(amt) : tonToEarnify(amt);
+                document.getElementById('swapResultMsg').textContent = `You will receive: ${result.toFixed(6)} ${swapDirection === 'earnifyToTon' ? 'TON' : 'EARNIFY'}`;
+            };
+        }
+
+        async function executeSwap() {
+            const amt = parseFloat(document.getElementById('swapAmountInput').value) || 0;
+            if (amt <= 0) { toast('Enter amount!', true); return; }
+            if (swapDirection === 'earnifyToTon') {
+                if (amt > user.balance) { toast('Not enough EARNIFY!', true); return; }
+                const tonAmt = earnifyToTon(amt);
+                user.balance -= amt;
+                user.tonBalance = (user.tonBalance || 0) + tonAmt;
+                await db.collection('users').doc(user.id).update({ balance: user.balance, tonBalance: user.tonBalance });
+                toast(`✅ Swapped ${amt.toLocaleString()} EARNIFY → ${tonAmt.toFixed(6)} TON!`);
+            } else {
+                if (amt > (user.tonBalance || 0)) { toast('Not enough TON!', true); return; }
+                const earnifyAmt = Math.floor(tonToEarnify(amt));
+                user.tonBalance -= amt;
+                user.balance += earnifyAmt;
+                await db.collection('users').doc(user.id).update({ balance: user.balance, tonBalance: user.tonBalance });
+                toast(`✅ Swapped ${amt.toFixed(6)} TON → ${earnifyAmt.toLocaleString()} EARNIFY!`);
             }
-            user.tonBalance = (user.tonBalance || 0) + parseFloat(tonAmount);
-            user.totalWithdraw = (user.totalWithdraw || 0) + amount;
-            user.balance = 0;
-            await db.collection('users').doc(user.id).update({
-                balance: 0,
-                tonBalance: user.tonBalance,
-                totalWithdraw: user.totalWithdraw
-            });
-            document.getElementById('withdrawPopup').classList.remove('show');
-            toast(`✅ Withdrawn ${amount.toLocaleString()} EARNIFY → ${tonAmount} TON!`);
+            document.getElementById('swapPopup').classList.remove('show');
             updateUI();
         }
 
-        function closeWithdrawPopup() {
-            document.getElementById('withdrawPopup').classList.remove('show');
+        function closeSwapPopup() { document.getElementById('swapPopup').classList.remove('show'); }
+
+        function handleWithdraw() {
+            if (!walletConnected) { document.getElementById('walletConnectPopup').classList.add('show'); return; }
+            const amt = user.balance;
+            if (amt <= 0) { toast('No balance!', true); return; }
+            const tonAmt = earnifyToTon(amt);
+            user.tonBalance = (user.tonBalance || 0) + tonAmt;
+            user.totalWithdraw = (user.totalWithdraw || 0) + amt;
+            user.balance = 0;
+            db.collection('users').doc(user.id).update({ balance: 0, tonBalance: user.tonBalance, totalWithdraw: user.totalWithdraw });
+            toast(`✅ Withdrawn ${amt.toLocaleString()} EARNIFY → ${tonAmt.toFixed(6)} TON!`);
+            updateUI();
         }
 
         function connectTelegramWallet() {
@@ -463,15 +462,10 @@
                 document.getElementById('walletConnectPopup').classList.remove('show');
                 toast('✅ Wallet Connected!');
                 updateUI();
-                setTimeout(() => openWithdrawPopup(), 500);
-            } else {
-                toast('❌ Open in Telegram!', true);
-            }
+            } else { toast('❌ Open in Telegram!', true); }
         }
 
-        function closeWalletConnectPopup() {
-            document.getElementById('walletConnectPopup').classList.remove('show');
-        }
+        function closeWalletConnectPopup() { document.getElementById('walletConnectPopup').classList.remove('show'); }
 
         function renderTasks() { const c = document.getElementById('taskList'); if (!c) return; const tasks = config.specialTasks || []; c.innerHTML = tasks.map(t => { const done = user.completedTasks?.includes(t.id); const isVisit = t.type === 'visit'; const btnLabel = isVisit ? 'Visit' : 'Join'; const btnClass = isVisit ? 'visit' : 'join'; const extra = t.voucherReward && t.reward ? `💰 ${t.reward} + 🎟️` : (t.voucherReward ? '🎟️' : `💰 ${t.reward}`); return `<div class="ucard"><div class="ucard-info"><div class="ucard-icon">${isVisit?'👁️':'🔵'}</div><div><div class="ucard-name">${t.name}</div><div class="ucard-sub">${extra}</div></div></div><button class="btn-sm ${done?'claimed':btnClass}" ${done?'disabled':''} onclick="${done?'':isVisit?`startVisitTask('${t.id}',${t.reward||0},'${t.link||''}',${t.voucherReward||false})`:`completeTask('${t.id}',${t.reward||0},'${t.link||''}',${t.voucherReward||false})`}">${done?'✅ Done':btnLabel}</button></div>`; }).join('') || '<p style="color:var(--text2);">No tasks available.</p>'; }
         function renderLeagues() { const c = document.getElementById('leagueList'); if (!c) return; const leagues = config.leagues || []; const cl = getLeague(); c.innerHTML = leagues.map(l => { const bal = user.balance, prog = l.minBalance > 0 ? Math.min(100, Math.floor((bal / l.minBalance) * 100)) : 100; const can = bal >= l.minBalance && !user.leagueClaimed; const claimed = user.leagueClaimed; let txt = 'Locked', cls = 'locked'; if (claimed) { txt = 'Claimed'; cls = 'claimed'; } else if (can) { txt = 'Claim'; cls = ''; } return `<div class="card"><div class="card-row"><div class="card-left"><div class="card-icon">${l.icon||'🏆'}</div><div><div class="card-name">${l.name}</div><div class="card-coins">🪙 ${(l.reward||0).toLocaleString()} | Min: ${(l.minBalance||0).toLocaleString()}</div></div></div><button class="btn-sm ${cls}" ${!can||claimed?'disabled':''} onclick="showAd('league')">${txt}</button></div><div class="progress"><div class="progress-bar" style="width:${prog}%"></div></div><div style="font-size:10px;color:var(--text2);margin-top:4px;">${bal.toLocaleString()} / ${(l.minBalance||0).toLocaleString()}</div></div>`; }).join('') || '<p style="color:var(--text2);">No leagues configured.</p>'; }
@@ -479,12 +473,12 @@
         function renderRefInSettings() { const c = document.getElementById('refRewardsInSettings'); if (!c) return; const rewards = config.referralRewards || []; const rc = user.referralCount || 0; c.innerHTML = rewards.map(r => { const ok = rc >= r.count, claimed = user.referralClaims?.[r.count]; let txt = 'Locked', cls = 'locked'; if (claimed) { txt = 'Claimed'; cls = 'claimed'; } else if (ok) { txt = 'Claim'; cls = ''; } return `<div class="card"><div class="card-row"><div class="card-left"><div class="card-icon">👥</div><div><div class="card-name">Invite ${r.count}</div><div class="card-coins">🪙 ${(r.reward||0).toLocaleString()}</div></div></div><button class="btn-sm ${cls}" ${!ok||claimed?'disabled':''} onclick="showAdRef(${r.count},${r.reward||0})">${txt}</button></div>`; }).join('') || '<p style="color:var(--text2);">No rewards.</p>'; }
         function renderDaily() { const grid = document.getElementById('dailyGrid'); if (!grid) return; const rewards = config.dailyRewards || []; const start = dailyPage * DAYS_PER_PAGE, end = Math.min(start + DAYS_PER_PAGE, TOTAL_DAYS); const pageDays = []; for (let i = start; i < end; i++) pageDays.push({ day: i + 1, reward: rewards[i] || 0 }); document.getElementById('dailyPageInfo').textContent = `Days ${start+1}-${end}`; document.getElementById('dailyPrevBtn').disabled = dailyPage === 0; document.getElementById('dailyNextBtn').disabled = end >= TOTAL_DAYS; grid.innerHTML = pageDays.map(d => { const isClaimed = d.day <= (user.dailyStreak || 0); const isToday = d.day === (user.dailyStreak || 0) + 1 && !user.dailyClaimedToday; const isVoucher = d.day % 7 === 0; let cls = 'daily-box'; if (isClaimed) cls += ' claimed'; else if (isToday) cls += isVoucher ? ' voucher-box' : ' today'; else cls += ' locked'; const showReward = isClaimed ? `+${d.reward}` : (isVoucher && isToday ? '🎟️' : '?'); return `<div class="${cls}" onclick="${isToday && !isClaimed ? `claimDailyClick(${d.day})` : ''}">${isVoucher && !isClaimed ? '<div class="voucher-badge">V</div>' : ''}<div class="daily-box-num">${d.day===7?'🎁':'Day '+d.day}</div><div class="daily-box-reward">${showReward}</div>${isClaimed?'<div class="daily-check">✅</div>':''}</div>`; }).join(''); }
         function changeDailyPage(dir) { dailyPage = Math.max(0, Math.min(Math.ceil(TOTAL_DAYS/DAYS_PER_PAGE)-1, dailyPage + dir)); renderDaily(); }
-        async function claimDailyClick(day) { if (user.dailyClaimedToday) { toast('Claimed today!', true); return; } if (day !== (user.dailyStreak || 0) + 1) { toast('In order!', true); return; } const reward = config.dailyRewards[day - 1] || 0; if (day % 7 === 0) { const code = 'VC' + Math.random().toString(36).substr(2, 8).toUpperCase(); const vRew = Math.floor(Math.random() * (10000 - 100 + 1)) + 100; if (!config.vouchers) config.vouchers = {}; config.vouchers[code] = { min: 100, max: 10000, used: false, ownerId: user.id }; if (!user.voucherCards) user.voucherCards = {}; user.voucherCards[code] = { min: 100, max: 10000, used: false }; await db.collection('config').doc('app').update({ vouchers: config.vouchers }); await db.collection('users').doc(user.id).update({ voucherCards: user.voucherCards }); toast(`🎟️ Voucher: ${code}`); } user.dailyStreak = day; user.dailyClaimedToday = true; user.lastDailyClaim = new Date().toISOString(); await addBal(reward); if (user.dailyStreak >= TOTAL_DAYS) { user.dailyStreak = 0; toast('🏆 Complete!'); } await db.collection('users').doc(user.id).update({ dailyStreak: user.dailyStreak, dailyClaimedToday: true, lastDailyClaim: user.lastDailyClaim, balance: user.balance, totalEarned: user.totalEarned }); updateUI(); }
+        async function claimDailyClick(day) { if (user.dailyClaimedToday) { toast('Claimed today!', true); return; } if (day !== (user.dailyStreak || 0) + 1) { toast('In order!', true); return; } const reward = config.dailyRewards[day - 1] || 0; if (day % 7 === 0) { const code = 'VC' + Math.random().toString(36).substr(2, 8).toUpperCase(); if (!config.vouchers) config.vouchers = {}; config.vouchers[code] = { min: 100, max: 10000, used: false, ownerId: user.id }; if (!user.voucherCards) user.voucherCards = {}; user.voucherCards[code] = { min: 100, max: 10000, used: false }; await db.collection('config').doc('app').update({ vouchers: config.vouchers }); await db.collection('users').doc(user.id).update({ voucherCards: user.voucherCards }); toast(`🎟️ Voucher: ${code}`); } user.dailyStreak = day; user.dailyClaimedToday = true; user.lastDailyClaim = new Date().toISOString(); await addBal(reward); if (user.dailyStreak >= TOTAL_DAYS) { user.dailyStreak = 0; toast('🏆 Complete!'); } await db.collection('users').doc(user.id).update({ dailyStreak: user.dailyStreak, dailyClaimedToday: true, lastDailyClaim: user.lastDailyClaim, balance: user.balance, totalEarned: user.totalEarned }); updateUI(); }
         function renderAllVouchers() { const c = document.getElementById('allVouchersList'); if (!c) return; c.innerHTML = Object.entries(user.voucherCards||{}).length > 0 ? Object.entries(user.voucherCards||{}).map(([code, v]) => `<div class="voucher-list-item"><div><div class="voucher-code-text">${code}</div></div><div class="voucher-used">${v.used ? 'Used' : 'Active'}</div></div>`).join('') : '<p style="color:var(--text2);">No vouchers yet.</p>'; }
         async function redeemVoucher() { const code = document.getElementById('voucherCodeInput').value.trim().toUpperCase(); if (!code) { toast('Enter code!', true); return; } const voucher = config.vouchers?.[code]; if (!voucher) { toast('Invalid!', true); return; } if (voucher.used) { toast('Used!', true); return; } if (voucher.ownerId && voucher.ownerId !== user.id) { toast('❌ Not yours!', true); return; } if (user.vouchersRedeemed?.includes(code)) { toast('Redeemed!', true); return; } const reward = Math.floor(Math.random() * (voucher.max - voucher.min + 1)) + voucher.min; voucher.used = true; if (!user.vouchersRedeemed) user.vouchersRedeemed = []; user.vouchersRedeemed.push(code); if (user.voucherCards?.[code]) user.voucherCards[code].used = true; await db.collection('config').doc('app').update({ vouchers: config.vouchers }); await addBal(reward); await db.collection('users').doc(user.id).update({ vouchersRedeemed: user.vouchersRedeemed, voucherCards: user.voucherCards }); toast(`🎟️ +${reward} coins!`); document.getElementById('voucherCodeInput').value = ''; updateUI(); }
         function showSettingsSubpage(p) { document.getElementById('settingsMainPage').style.display = 'none'; document.querySelectorAll('.settings-subpage').forEach(x => x.classList.remove('active')); document.getElementById(p + 'Page').classList.add('active'); updateUI(); }
         function hideSettingsSubpage() { document.querySelectorAll('.settings-subpage').forEach(x => x.classList.remove('active')); document.getElementById('settingsMainPage').style.display = 'block'; updateUI(); }
-        async function completeTask(id, reward, link, vReward) { if (link) window.open(link, '_blank'); if (!user.completedTasks) user.completedTasks = []; if (user.completedTasks.includes(id)) { toast('Done!', true); return; } user.completedTasks.push(id); if (reward > 0) await addBal(reward); if (vReward) { const code = 'TSK' + Math.random().toString(36).substr(2, 8).toUpperCase(); const vr = Math.floor(Math.random() * (10000 - 100 + 1)) + 100; if (!config.vouchers) config.vouchers = {}; config.vouchers[code] = { min: 100, max: 10000, used: false, ownerId: user.id }; if (!user.voucherCards) user.voucherCards = {}; user.voucherCards[code] = { min: 100, max: 10000, used: false }; await db.collection('config').doc('app').update({ vouchers: config.vouchers }); await db.collection('users').doc(user.id).update({ voucherCards: user.voucherCards }); toast(`🎟️ Voucher: ${code}`); } await db.collection('users').doc(user.id).update({ completedTasks: user.completedTasks }); updateUI(); }
+        async function completeTask(id, reward, link, vReward) { if (link) window.open(link, '_blank'); if (!user.completedTasks) user.completedTasks = []; if (user.completedTasks.includes(id)) { toast('Done!', true); return; } user.completedTasks.push(id); if (reward > 0) await addBal(reward); if (vReward) { const code = 'TSK' + Math.random().toString(36).substr(2, 8).toUpperCase(); if (!config.vouchers) config.vouchers = {}; config.vouchers[code] = { min: 100, max: 10000, used: false, ownerId: user.id }; if (!user.voucherCards) user.voucherCards = {}; user.voucherCards[code] = { min: 100, max: 10000, used: false }; await db.collection('config').doc('app').update({ vouchers: config.vouchers }); await db.collection('users').doc(user.id).update({ voucherCards: user.voucherCards }); toast(`🎟️ Voucher: ${code}`); } await db.collection('users').doc(user.id).update({ completedTasks: user.completedTasks }); updateUI(); }
         function startVisitTask(id, reward, link, vReward) { if (!link) { completeTask(id, reward, '', vReward); return; } visitTaskData = { id, reward, link, vReward }; document.getElementById('visitWarn').classList.add('show'); document.getElementById('btnVisitGo').onclick = function() { document.getElementById('visitWarn').classList.remove('show'); window.open(link, '_blank'); visitSec = 0; visitInt = setInterval(() => { visitSec++; }, 1000); window.addEventListener('focus', checkVisitFocus); }; }
         function checkVisitFocus() { if (!visitTaskData) return; clearInterval(visitInt); window.removeEventListener('focus', checkVisitFocus); if (visitSec >= VISIT_REQ) { completeTask(visitTaskData.id, visitTaskData.reward, '', visitTaskData.vReward); visitTaskData = null; } else { document.getElementById('visitFail').classList.add('show'); } }
         function retryVisit() { document.getElementById('visitFail').classList.remove('show'); if(visitTaskData){window.open(visitTaskData.link,'_blank');visitSec=0;visitInt=setInterval(()=>{visitSec++;},1000);window.addEventListener('focus',checkVisitFocus);} }
